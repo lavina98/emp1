@@ -1,0 +1,5 @@
+page-upload-resume {
+    .img.loaded + ion-spinner{
+        display: none;
+    }
+}

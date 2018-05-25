@@ -1,0 +1,124 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Update Profile</ion-title>
+  </ion-navbar>
+</ion-header>
+<style>
+p,h1,h2{
+  color:black;
+}
+</style>
+<ion-content>
+<div class="cont">
+  <div *ngFor="let item of items">
+      <ion-row class="item" style="margin: 10px;margin-left:7px;width:96%">
+        <ion-col width-30>
+      <a class="item-avatar" style="width:100%">
+        <img *ngIf="this.social_pic == false" src="https://www.forehotels.com/public/emp/avatar/{{item.profile_pic}}" onError="this.src='https://www.forehotels.com/public/assets/img/male.png';" style="border-radius:8px; max-height:200px;">
+        <img *ngIf="this.social_pic == true" src="{{item.profile_pic}}" onError="this.src='https://www.forehotels.com/public/assets/img/male.png';" style="border-radius:8px; max-height:200px;">
+      </a>
+        </ion-col>
+        <ion-col width-70>
+      <h1 style="white-space:pre-wrap">{{item.name}}</h1>
+      <p>{{item.city_name}}</p>
+      <p style="white-space:pre-wrap">{{item.designation}}</p>
+      <button ion-button (click)="updateProfilePic()">Update Profile Pic</button>
+        </ion-col>
+      </ion-row>
+  <ion-row>
+    <ion-col width-60>
+    <ion-item>
+      <ion-icon name="contact" item-left large></ion-icon>
+      <h1>Basic Information</h1>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="person" item-left large></ion-icon>
+      <p>Gender</p>
+      <h2>{{item.gender}}</h2>
+  </ion-item>
+    <ion-item>
+      <ion-icon name="school" item-left large></ion-icon>
+      <p>Education</p>
+      <h2 style="white-space:pre-wrap">{{item.qualification}}</h2>
+    <ion-icon item-right (click)="education()" name="open" ></ion-icon>
+    </ion-item>
+  <ion-item>
+      <ion-icon name="phone-portrait" item-left large></ion-icon>
+      <p>Mobile Number</p>
+      <h2>{{item.contact_no}} </h2>
+        <ion-icon item-right (click)="mobile()" name="open"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="mail" item-left large></ion-icon>
+      <p>Email</p>
+      <h2>{{item.email}} </h2>
+      <button clear item-right>
+    </button>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="pin" item-left large></ion-icon>
+      <p>City</p>
+      <h2 *ngFor="let city of user_cities">{{city.city_name}} </h2>
+        <ion-icon item-right (click)="updateCities()" name="open"></ion-icon>
+    </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col width-60>
+    <ion-item>
+      <ion-icon name="contact" item-left large></ion-icon>
+      <h1>Credentials</h1>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="document" item-left large></ion-icon>
+      <p>CV</p>
+      <h2 style="white-space:pre-wrap">{{item.resume}}</h2>
+        <ion-icon item-right (click)="resumeOptions(this.view)" name="open"></ion-icon>
+      <div *ngIf="this.view == true">
+          <button ion-button clear (click)="openResume(item.resume)">View Resume</button>
+          <button ion-button clear (click)="uploadResume()">Update Resume</button>
+          <div *ngIf="this.progress!=null" >
+          <p style="text-align:center">Uploading File</p>
+          <div class="progress-outer">
+              <div class="progress-inner" [style.width]="this.progress + '%'">
+                  {{this.progress}}%
+              </div>
+          </div>
+        </div>
+        <div *ngIf="this.completed == true">
+          <br><h2 style="text-align:center">Successfully Uploaded CV!</h2>
+        </div>
+      </div>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="briefcase" item-left large></ion-icon>
+      <p>Experience</p>
+      <h2>{{item.experience}} Years </h2>
+        <ion-icon item-right (click)="exp()" name="open"></ion-icon>
+    </ion-item>
+  <ion-item>
+      <ion-icon name="person-add" item-left large></ion-icon>
+      <p>Designation</p>
+      <h2 style="white-space:pre-wrap">{{item.designation}}</h2>
+        <ion-icon item-right (click)="designation()" name="open"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="wine" item-left large></ion-icon>
+      <p>Current/Previous Organization</p>
+      <h2 style="white-space:pre-wrap">{{item.org}} </h2>
+        <ion-icon item-right (click)="org()" name="open"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="bowtie" item-left large></ion-icon>
+      <p>Special Skills</p>
+      <h2 style="white-space:pre-wrap">{{item.special_skills}} </h2>
+        <ion-icon item-right (click)="skills()" name="open"></ion-icon>
+    </ion-item>
+    <div>
+    <button ion-button full class="login__submit" (click)="updatePassword()">Change Password</button>
+    </div>
+    </ion-col>
+  </ion-row>
+    </div>
+  </div>
+</ion-content>

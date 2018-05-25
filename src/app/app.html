@@ -1,0 +1,39 @@
+<!-- <ion-menu [content]="content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        {{p.title}}
+      </button>
+    </ion-list>
+  </ion-content>
+
+</ion-menu> -->
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<!-- <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav> -->
+
+<ion-menu *ngIf="this.loggedIn != false" id="myMenu" [content]="content">
+<div class="menu">
+
+  <div class="info" padding-left *ngFor="let item of items">
+    <img *ngIf="this.social_pic == false" src="https://www.forehotels.com/public/emp/avatar/{{item.profile_pic}}" onError="this.src='https://www.forehotels.com/public/assets/img/male.png';" style="max-width:50px !important;margin-top:6%;border-radius:50px;max-height:300px">
+    <img *ngIf="this.social_pic == true" src="{{item.profile_pic}}" onError="this.src='https://www.forehotels.com/public/assets/img/male.png';" style="max-width:50px !important;margin-top:6%;border-radius:50px;max-height:300px"><br>
+
+    <h1 style="color:#e2e1e1">{{item.name}}</h1>
+    <h3 style="color:#e2e1e1">{{item.designation}}</h3>
+  </div>
+  <ul style="margin-top:18%">
+    <li (click)="dashboard()"><ion-icon name="home" style="margin-right:16px;font-size:20px;"></ion-icon>Dashboard</li>
+    <li *ngFor="let p of pages" (click)=openPage(p)><ion-icon name="{{p.icon}}" style="margin-right:16px;font-size:20px;"></ion-icon>{{p.title}}</li>
+    <li (click)="logout()"><i style="font-size:20px;" class="fa fa-sign-out"></i>Logout</li>
+  </ul>
+</div>
+</ion-menu>
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

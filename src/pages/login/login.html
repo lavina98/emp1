@@ -1,0 +1,106 @@
+<style type="text/css">
+.bgimg{
+  background: url("assets/img/bg-img.jpg");
+  background-size:cover;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+.inputs{
+   background-color: rgba(0, 0, 0, 0.21);
+   border-radius: 30px;
+}
+  .inputlabel{
+    font-size: 17px;
+    font-weight: bold;
+  }
+.toppad{
+      position: relative;
+    top: 10%;
+}
+.imglogo{
+    position: relative;
+    top: 4rem;
+    max-width: none;
+}
+.maincolor{
+  color: #1396e2;
+}
+.text-input-md {
+    padding-left: 10px;
+  }
+.whitec{
+  color: white !important;
+}
+::-webkit-input-placeholder { 
+  color: #FFFFFF;
+  opacity:  1;
+}
+::-moz-placeholder { 
+  color: #FFFFFF;
+  opacity:  1;
+}
+:-ms-input-placeholder { 
+  color: #FFFFFF;
+  opacity:  1;
+}
+:-moz-placeholder {
+  color: #FFFFFF;
+  opacity:  1;
+}
+
+</style>
+<ion-content>
+      <ion-row class="logo-row">
+          <ion-col></ion-col>
+          <ion-col width-67>
+            <img class="imglogo" src="https://www.forehotels.com/public/assets/img/logo1.png"/>
+          </ion-col>
+          <ion-col></ion-col>
+        </ion-row>
+  <form class="toppad" [formGroup]="registrationForm" (ngSubmit)="loginForm()">			
+        <ion-row>
+        <ion-col>
+          <ion-list inset>
+            <ion-list no-lines>
+                <ion-label class="inputlabel"> Email</ion-label>
+                <ion-input class="inputs" type="email" placeholder="Email" name="email" formControlName="email" required></ion-input>     
+            </ion-list>
+
+            <ion-list no-lines>
+                <ion-label class="inputlabel"> Password</ion-label>
+              <ion-input class="inputs" type="password" placeholder="Password" name="password" formControlName="password" required></ion-input>
+            </ion-list>            
+          </ion-list>
+        </ion-col>
+      </ion-row>      
+
+        <ion-list no-lines style="text-align: center;padding-left: 7%;padding-right: 7%;">           
+              <button style="height: 4.6rem;" type="submit" [disabled]="!registrationForm.valid" ion-button full round>
+                Login              
+              </button>
+        </ion-list>
+      <ion-list>
+    <p class="whitec" style="text-align: center;" (click)="forgotPassword()">Forgot Password </p>
+      <br>
+        <p class="whitec" style="text-align: center;" (click)="registration()">New here? Create an account</p>         
+        </ion-list>     
+    </form> 
+      
+        <ion-list style="margin-top: 60px;"> 
+      <h6 class="whitec" style="text-align:center;padding-top: 20px;">- OR -</h6>
+        <ion-row>
+          <ion-col width-50>
+            <button ion-button icon-left full (click)="doFbLogin()" round style="background-color: #3b5998;margin-bottom:5px;height: 2.8em;"><ion-icon name="logo-facebook"></ion-icon>Login</button>
+          </ion-col>
+          <ion-col width-50>
+            <button ion-button icon-left full color="danger" (click)="doGoogleLogin()" round style="height: 2.8em;"><ion-icon name="logo-google"></ion-icon>Login</button>
+          </ion-col>
+        </ion-row>
+        </ion-list> 
+  <div class="bgimg">
+  </div>
+</ion-content>

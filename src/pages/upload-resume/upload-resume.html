@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Upload Resume</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+<ion-list style="text-align: center;">
+  <ion-list (click)="uploadPicture()" >
+    <h5>Click here to change Picture</h5>
+    <img *ngIf="this.picture != null" src="{{this.picture}}" />    
+    <p *ngIf="this.view_picture != null">{{this.view_picture}}</p>
+  </ion-list>
+  <hr><br>
+    <ion-list style="text-align: center;" (click)="uploadResume()">
+    <h5>Click Here to Upload Resume</h5>          
+    <img src="assets/img/cloud-computing.png" />
+    <p>{{this.view_resume}}</p>
+  </ion-list>
+  <p>-OR-</p>
+    <h5 style="background-color: #f2a900;
+    color: white;
+    border: solid 1px #222;
+    box-shadow: 1px 1px 1px 1px #1396e2;
+    padding: 2%;" (click)="buildResume()">Click Here to create CV</h5>  
+</ion-list>
+<button ion-button full style="font-size: 2rem" (click)="clickRegister()">Register</button>
+</ion-content>

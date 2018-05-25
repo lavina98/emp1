@@ -1,0 +1,97 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+
+
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+@font-face {
+  font-family: "Montserrat";
+  src: url("../assets/Montserrat-Regular.ttf");
+  src: url("../assets/Montserrat-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.statusbar {
+  color: #ffffff !important;
+}
+.toolbar-background {
+  background-color: #295786 !important; 
+  color: #ffffff;
+}
+
+.toolbar-title {
+  color: #ffffff !important;
+}
+
+.bar-button-default-md, .bar-button-clear-md-default, .bar-button-md-default {
+  color: #ffffff !important;
+}
+
+.bar-button-default-ios, .bar-button-default.bar-button-ios-default, .bar-button-clear-ios-default {
+  color: #ffffff !important;
+}
+.menu {
+  width: 330px;
+  height: 100%;
+  overflow: hidden;
+  //box-shadow: 0px 10px 50px rgba(0,0,0,.6);
+  color: rgba(255, 255, 255, .9);
+  font-weight: 200;
+  position: relative;
+  z-index: 1;
+}
+.menu:before {
+  content: "";
+  display: block;
+  width: 98%;
+  height: 103%;
+  background:#073855;
+  background-size: cover;
+  position: absolute;
+  left: -5%;
+  right: 0;
+  top:-1%;
+  z-index: -1;
+  filter: blur(0px);
+}
+.info {
+  height: 100px;
+}
+.menu ul {
+  height: 400px;
+  margin: 0;
+  padding: 0;
+}
+.menu ul:hover {
+  cursor: pointer;
+}
+.menu ul li {
+  font-size: 13px;
+  display: block;
+  height: 50px;
+  background: #fff;
+  background: rgba(0,0,0,0);
+  line-height: 50px;
+  padding-left: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+.menu ul li i {
+  margin-right: 16px;
+}
+

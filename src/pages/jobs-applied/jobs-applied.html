@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Jobs Applied</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+<div class="cont">
+  <div *ngIf="count === 0"><h2 style="text-align:center">You have not applied for any jobs yet</h2></div>
+  <div class="" *ngFor="let item of items">
+  <ion-row class="item" style="margin: 10px;margin-left:7px;width:96%">
+     <ion-col width-30>
+    <a class="item-avatar" style="width:100%">
+      <img src="https://www.forehotels.com/public/hotel/avatar/{{item.profile_pic}}" onError="this.src='https://www.forehotels.com/public/assets/img/download1.jpg';" style="margin-top:8%;width:50%;border-radius:6px;margin-left:10%">
+    </a>
+      </ion-col>
+      <ion-col width-70 style="margin-left: -14%">
+   <h2>{{item.post_name}}</h2>
+    <h3> {{item.hname}}</h3>
+      <button ion-button full style="border-radius:50px" (click)="jobdetail(item.hj_id)">Read More</button>
+      </ion-col>
+    </ion-row>
+</div>
+</div>
+</ion-content>

@@ -1,0 +1,18 @@
+<ion-content>
+ 
+    <ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()"></ion-searchbar>
+ 
+    <div *ngIf="searching" class="spinner-container">
+        <ion-spinner></ion-spinner>
+    </div>
+ 
+    <ion-list>
+        <ion-item *ngFor="let item of items" (click)="onClick(item.c_id)">
+       <ion-label style="white-space:pre-wrap">{{item.city_name}}</ion-label>
+       <ion-checkbox (ionChange)="updateCity($event, item.c_id)" [checked]="user_city.indexOf(item.c_id) >= 0" ></ion-checkbox>   
+          </ion-item>
+    </ion-list>
+ <ion-item id="footer">
+          <button ion-button id="footerbtn" (click)="apply()">Apply</button>
+       </ion-item>
+</ion-content>      

@@ -1,0 +1,99 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Job Detail</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<style>
+   ion-row{
+    height:100%;
+  }
+</style>
+<ion-content>
+  
+  <div class="cont" padding-top>
+      <ion-item *ngFor="let item of items">
+    <h1 style="text-align:center">{{item.pname}}</h1>
+    <p style="text-align:center">{{item.name}}, {{item.city_name}}</p>
+  
+  <img src="https://www.forehotels.com/public/hotel/avatar/{{item.profile_pic}}" onError="this.src='https://www.forehotels.com/public/assets/img/download1.jpg';" width="100px" height="100px" style="margin-left:33%;border-radius:5px">
+ <ion-row>
+  <ion-col width-100>
+  <ion-item>
+    <h1 style="font-size: 2.4rem;">Job Description</h1>
+  </ion-item>
+  <ion-item> 
+  <p style="white-space:pre-wrap;color: black">{{item.job_desc}}</p>
+  </ion-item>
+  </ion-col>
+ </ion-row>
+     <ion-row>
+  <ion-col width-100>
+  <ion-item>
+    <h1 style="white-space:pre-wrap;font-size: 2.4rem">Desired Candidate Profile</h1>
+  </ion-item>
+  <ion-item>
+    <ion-icon name="briefcase" item-left large></ion-icon>
+    <h2 style="white-space:pre-wrap">Experience Required  :  {{item.min_experience}}-{{item.max_experience}} Years</h2>
+  </ion-item>
+  <ion-item>
+    <ion-icon name="school" item-left large></ion-icon>
+    <h2 style="white-space:pre-wrap">Education  :  {{item.education}}</h2>
+  </ion-item>
+  <ion-item>
+    <ion-icon name="cash" item-left large></ion-icon>
+    <div *ngIf="!item.salary"><h2  style="white-space:pre-wrap">Salary Range  :  <i class="fa fa-inr" aria-hidden="true"></i> {{this.salary["0"]}} - {{this.salary[1]}} / Month</h2></div>
+    <div *ngIf="item.salary"><h2  style="white-space:pre-wrap">Wages  :  <i class="fa fa-inr" aria-hidden="true"></i> {{item.salary}} / Day</h2></div>    
+    <div *ngIf="item.date_of_requirement"><h2  style="white-space:pre-wrap">Date & Time of requirement  :  {{item.date_of_requirement}}</h2></div> 
+    <div *ngIf="item.no_of_heads"><h2  style="white-space:pre-wrap">Number of heads  :  {{item.no_of_heads}}</h2></div>   
+  </ion-item>
+  <ion-item>
+    <ion-icon name="play" item-left large></ion-icon>
+    <h2  style="white-space:pre-wrap">Role  :  {{item.role}}</h2>
+  </ion-item>
+  </ion-col>
+   </ion-row>
+   <ion-row>
+  <ion-col width-100>
+  <ion-item>
+    <h1 style="font-size: 2.4rem">Key Skills</h1>
+  </ion-item>
+
+  <ion-item>
+    <ion-icon name="heart" item-left large></ion-icon>
+    <p style="white-space:pre-wrap;color: black">{{item.key_skils}}</p>
+  </ion-item>
+  </ion-col>
+   </ion-row>
+   <ion-row>
+  <ion-col width-100>
+  <ion-item>
+    <h1 style="font-size: 2.4rem;">Benefits</h1>
+  </ion-item>
+
+  <ion-item>
+    <ion-icon name="person-add" item-left large></ion-icon>
+    <p *ngIf="this.item.tips == 'Yes'" style="white-space:pre-wrap;color: black">Tips</p>
+    <p *ngIf="this.item.service == 'Yes'" style="white-space:pre-wrap;color: black">Service Charge</p>
+    <p *ngIf="this.item.incentives == 'Yes'" style="white-space:pre-wrap;color: black">Incentives</p>
+    <p *ngIf="this.item.room == 'Yes'" style="white-space:pre-wrap;color: black">Staff Room Available</p>
+    <p *ngIf="this.item.pf == 'Yes'" style="white-space:pre-wrap;color: black">Provident Fund & ESIC</p>
+  </ion-item>
+  </ion-col>
+   </ion-row>
+  <button *ngIf="this.view == true" class="login__submit" style="font-size: 15px" (click)=applyjob()>Apply</button>
+
+  </ion-item>
+    </div>
+    <ion-fab right bottom>
+    <button ion-fab color="white"><ion-icon name="share"></ion-icon></button>
+    <ion-fab-list side="top">
+      <button ion-fab style="color:#3b5998" (click)="facebookShare()"><ion-icon name="logo-facebook"></ion-icon></button>
+      <button ion-fab style="color:#0084b4" (click)="twitterShare()"><ion-icon name="logo-twitter"></ion-icon></button>
+      <button ion-fab style="color:#0077B5" (click)="linkedinShare()"><ion-icon name="logo-linkedin"></ion-icon></button>
+      <button ion-fab style="color:#34af23" (click)="whatsappShare()"><ion-icon name="logo-whatsapp"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
+  
+</ion-content>

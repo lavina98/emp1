@@ -1,0 +1,147 @@
+<style>
+.circle {
+    font-size:10px;
+    background-color: #073855 !important;
+    width: 10em;
+    height: 10em;
+  }
+  .loader {
+	position: absolute;
+	top: 59%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-mos-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	text-align:center;
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor:default;
+}
+.circle{
+	position:absolute;
+	top:50%;
+	left:50%;
+	text-align:center;
+}
+.badge.badge-assertive, .tabs .tab-item .badge.badge-assertive {
+    background-color: #363636;
+    color: #fff;
+}
+.badge.badge-assertive1, .tabs .tab-item .badge.badge-assertive1 {
+    background-color: #1396e2;
+    color: #fff;
+}
+ .badge {
+    position: absolute;
+    top: 4%;
+    right: 33%;
+    right: calc(50% - 26px);
+    padding: 1px 6px;
+    height: auto;
+    font-size: 12px;
+    line-height: 16px;
+}
+.badge {
+    background-color: transparent;
+    color: #AAA;
+    z-index: 1;
+    display: inline-block;
+    padding: 3px 8px;
+    min-width: 10px;
+    border-radius: 10px;
+    vertical-align: baseline;
+    text-align: center;
+    white-space: nowrap;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+}
+.badge-container {
+    position: relative;
+}
+.customavtar{
+	border-radius: 50%;
+    margin-top: 2%;
+    height: 130px;
+    border: 3px solid #ffffff;
+    width: 130px;
+}
+</style>
+
+<ion-content>
+	<div class="cont">
+		<div style="background-color: #1396e2;height: 30%;">				
+			<div  *ngFor="let item of profile">
+				<h1 style="text-align:center;padding-top: 15%;margin-top:0%;color:white">{{item.name}}</h1>
+				<p style="text-align:center;color:#ffffff">{{item.designation}}</p>
+						
+			</div>
+			<div class="item-avatar" (click)="updateProfilePic()" style="position: absolute;z-index: 999;width:100%;text-align:center">
+				<img class="customavtar" *ngIf="this.social_pic == false" src="https://www.forehotels.com/public/emp/avatar/{{this.picss}}" onError="this.src='https://www.forehotels.com/public/assets/img/male.png';">
+				<img class="customavtar" *ngIf="this.social_pic == true" src="{{this.picss}}" onError="this.src='https://www.forehotels.com/public/assets/img/male.png';">
+			</div> 
+		</div>
+
+		<ion-grid style="background-color: #363636;padding: 25% 0% 0% 0%">          
+			<ion-row *ngFor="let i of rows">
+				<ion-col style="text-align: center;border-right: 0.3px solid #a2a9b4;border-bottom: 0.3px solid #a2a9b4;" *ngFor="let p of pages | slice:(i*3):(i+1)*3" (click)="openPage(p)">
+				 <img src="assets/icon/{{p.icon}}"/><span class="badge badge-assertive1">{{p.count}}</span> 
+					<p style="color:#ffffff;font-size: 12px;white-space: initial;">{{p.title}}</p>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+		<ion-grid style="background-color: #363636;padding: 3.1% 0% 12% 0%;;margin-top: -2.9%">          
+			<ion-row *ngFor="let i of rows">
+				<ion-col style="text-align: center;border-right: 0.3px solid #a2a9b4;" *ngFor="let p of pages1 | slice:(i*3):(i+1)*3" (click)="openPage(p)">
+				 <img style="padding-top:10%" src="assets/icon/{{p.icon}}"/> 
+					<p style="color:#ffffff;font-size: 12px;white-space: initial;">{{p.title}}</p>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+
+		<ion-fab left top>
+			<ion-icon (click)="Openmenu()" style="font-size:2.4em;color:#ffffff !important" name="menu"></ion-icon>
+		</ion-fab>
+		<ion-fab right top>
+			<ion-icon (click)="search()" style="font-size:2.4em;color:#ffffff !important" name="search"></ion-icon>
+		</ion-fab>
+		<ion-fab right middle style="top:30%;right:0%" (click)="Opennotifications()">
+			<button style="background-color:#86ccea!important;border-radius:10%;width:48px;height:48px" ion-fab>
+				<ion-icon style="color:#1396e2;font-size:3.8rem!important" name="md-information-circle">
+				</ion-icon>
+			</button>
+				<span class="badge badge-assertive" style="top:-14%;right:69%">{{this.notif_count}}</span>
+		</ion-fab>
+			<ion-item-divider style="text-align:center;font-size:18px">
+  				Scheduled Interviews
+			</ion-item-divider>			
+				<ion-row *ngIf="this.view == true">
+					<ion-col style="max-width: 70%;padding: 0% 0% 1% 0%;;">
+						<ion-card *ngFor="let item of interviews">
+							<ion-card-content>
+								Interview at {{item.Addr}} 
+							</ion-card-content>
+						</ion-card>
+					</ion-col>
+					<ion-col style="max-width: 30%;padding: 0% 0% 1% 0%;color:#1396e2">
+						<ion-card *ngFor="let item of interviews">
+							<ion-card-content>
+								{{item.IDate}}
+							</ion-card-content>
+						</ion-card>
+					</ion-col>
+				</ion-row>
+				<ion-card *ngIf="this.view != true">
+				<ion-card-content style="padding:8px 16px">
+					 No interview Scheduled for today
+				</ion-card-content>
+			</ion-card>
+			
+	</div>
+</ion-content>

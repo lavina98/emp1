@@ -1,0 +1,39 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Refer and earn</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<style>
+img{
+  height: 20vh !important;
+  width: auto !important;
+  margin: auto !important;
+  display: block !important;
+}
+h2,h1,p,h4{
+  color: black
+}
+</style>
+
+<ion-content>
+  <div class="cont">
+    <ion-card>
+      <ion-item>
+<h1 style="text-align:center;white-space: pre-wrap"><b>Candidate joins, you earn Rs.500</b></h1>
+<p style="text-align:center">How it works?</p><br>
+<h4 style="padding-left:5px;white-space:pre-wrap;font-size:small;line-height: 1.4"><img src="assets/img/share1.png"/><br>1. <b>Share Your Referral Code</b> with your friends<br><img src="assets/img/share2.png"/><br>2. <b>Candidate enters yours referral code</b> during registration<br><img src="assets/img/share3.png"/><br>3. We <b>schedule interview</b> of your candidate<br><img src="assets/img/share.png"/><br>4. Candidate gets <b>selected</b><br><img src="assets/img/share5.png"/><br>5. If candidate <b>joins and works for one month</b> you earn Rs.500</h4>
+      </ion-item></ion-card>
+<img src="assets/img/earn_money.png" style="width:182px !important;height:15vh !important"/>
+<ion-card>
+  <ion-item>  
+<h2 style="text-align:center">Share your referral code</h2>
+<h1 style="text-align:center"><b>{{this.code}}</b></h1>
+<p style="text-align: center">Start sharing now!</p>
+<button ion-button round full (click)="Share()">Share</button>
+<button ion-button round full (click)="checkReferral()">Check your Referral Status</button>
+  </ion-item>
+</ion-card>
+  </div>
+</ion-content>

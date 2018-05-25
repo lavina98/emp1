@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Search Jobs</ion-title>
+  </ion-navbar>
+</ion-header>
+<style>
+p{
+  color:black;
+}
+</style>
+<ion-content>
+<div class="cont">
+<div *ngIf="count == 0"><h1 style="text-align: center">No Matches Found</h1></div>
+<ion-list [virtualScroll]="items" [approxItemHeight]=" '40px' ">
+  <ion-item *virtualItem="let item">
+    <ion-thumbnail item-left>
+      <img src="https://www.forehotels.com/public/hotel/avatar/{{item.profile_pic}}" onError="this.src='https://www.forehotels.com/public/assets/img/download1.jpg';" style="border-radius:6px"><br />
+      <p *ngIf="item.hc_cat_id == 1" style="text-align:center"><ion-icon name="ios-home"></ion-icon>  {{item.cat_name}}</p>
+      <p *ngIf="item.hc_cat_id == 2" style="text-align:center"><ion-icon name="md-pizza"></ion-icon>  {{item.cat_name}}</p>
+      <p *ngIf="item.hc_cat_id == 3" style="text-align:center"><ion-icon name="ios-wine"></ion-icon>  {{item.cat_name}}</p>
+      <p *ngIf="item.hc_cat_id == 4" style="text-align:center"><ion-icon name="md-restaurant"></ion-icon>  {{item.cat_name}}</p>
+      <p *ngIf="item.hc_cat_id == 5" style="text-align:center"><ion-icon name="ios-football"></ion-icon>  {{item.cat_name}}</p>
+      <p *ngIf="item.hc_cat_id == 6" style="text-align:center"><ion-icon name="ios-boat"></ion-icon>  {{item.cat_name}}</p>
+      <p *ngIf="item.hc_cat_id == 7" style="text-align:center"><ion-icon name="md-plane"></ion-icon>  {{item.cat_name}}</p>
+      <p *ngIf="item.hc_cat_id == 8" style="text-align:center"><ion-icon name="md-wine"></ion-icon>  {{item.cat_name}}</p>
+      <p *ngIf="item.hc_cat_id == 9" style="text-align:center"><ion-icon name="ios-cafe"></ion-icon>  {{item.cat_name}}</p>
+      <p *ngIf="item.hc_cat_id == 10" style="text-align:center"><ion-icon name="md-beer"></ion-icon>  {{item.cat_name}}</p>
+      <p *ngIf="item.hc_cat_id == 11" style="text-align:center"><ion-icon name="md-umbrella"></ion-icon>  {{item.cat_name}}</p>
+    </ion-thumbnail>
+    <h2 style="white-space:pre-wrap; font-size:1.8rem">{{item.pname}}</h2>
+    <h3 style="white-space:pre-wrap">{{item.name}}</h3>
+    <div *ngIf="!item.salary"><p><ion-icon name="md-cash"></ion-icon>  <i class="fa fa-inr" aria-hidden="true"></i> {{item.salary_range}}</p></div>
+    <div *ngIf="item.salary"><p><ion-icon name="md-cash"></ion-icon>   <i class="fa fa-inr" aria-hidden="true"></i> {{item.salary}} / Day</p></div>
+    <p><ion-icon name="briefcase"></ion-icon>  {{item.min_experience}}-{{item.max_experience}} Years Of Experience</p>
+    <p><ion-icon name="pin"></ion-icon>  {{item.city_name}}<p>
+    <button ion-button full style="border-radius:50px"  (click)="jobdetail(item.hj_id)">Read More</button>
+  </ion-item>
+</ion-list>
+</div>
+	<ion-fab right bottom>
+    <button ion-fab (click)="presentProfileModal()" >
+   <ion-icon style="color:#fff" name="ios-funnel"></ion-icon>
+    </button>
+	</ion-fab>
+</ion-content>

@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Catering Jobs</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+ 
+<div class="cont">
+  <div *ngIf="count === 0"><h1 style="text-align: center">No Catering Jobs Found</h1></div>   
+  <ion-list [virtualScroll]="items">
+  <ion-item *virtualItem="let item">
+  <ion-thumbnail item-left >
+      <img src="https://www.forehotels.com/public/hotel/avatar/{{item.profile_pic}}" onError="this.src='https://www.forehotels.com/public/assets/img/download1.jpg';" style="border-radius:6px"><br />
+    </ion-thumbnail>
+    <h2 style="white-space:pre-wrap; font-size:1.8rem">{{item.pname}}</h2>
+    <h3 style="white-space:pre-wrap">{{item.name}}</h3>
+    <p><ion-icon name="md-cash"></ion-icon>  <i class="fa fa-inr" aria-hidden="true"></i> {{item.salary}} /Per day</p>
+    <p><ion-icon name="briefcase"></ion-icon>  {{item.min_experience}}-{{item.max_experience}} Years Of Experience</p>
+    <p><ion-icon name="pin"></ion-icon>  {{item.city_name}}<p>
+    <button ion-button full style="border-radius:50px"  (click)="jobdetail(item.hj_id)">Read More</button>
+  </ion-item>
+</ion-list>
+</div>
+</ion-content>

@@ -1,0 +1,63 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title>
+		Other Details
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content> 
+ <ion-list> 
+  <ion-card *ngIf="this.view1==true" style="box-shadow: 0 4px 10px rgba(19, 150, 226, 0.6);">
+          <ion-card-header>  
+  <ion-list style="margin: 0px 0 0px;"  >                
+  <ion-label style="margin-left: 14px;font-size: 14px;font-weight: 800;" [ngStyle]="{'color': color }">Total Number of Experience</ion-label>
+  </ion-list>
+          </ion-card-header>     
+       <ion-card-content>
+      <ion-list style="margin-top: -16px;">                                    
+        <button ion-button style="color: black;text-transform: none;" color="light" (click)="presentPopoverExp($event)" clear icon-right>
+          Select Your Total Experience &nbsp;&nbsp;{{this.total_exp}} 
+        <ion-icon style="color: black;" name="ios-arrow-down-outline"></ion-icon>          
+      </button>
+        </ion-list>              
+        <ion-list>                                                        
+              <ion-label style="margin-left: 14px;font-size:14px;font-weight:bold;" Stacked [ngStyle]="{'color': color }">Current/Previous Company</ion-label>
+                <div style="display:flex">
+                <ion-input style="margin-left: 7px;" type="text" [value]="org" [(ngModel)]="org" name="org" placeholder="Enter Company Name"></ion-input>  
+                <ion-icon style="font-size: 2.5em;color:#32db64" name="ios-arrow-dropright-circle-outline" (click)="enableView()"></ion-icon>
+                </div>                     
+        </ion-list>
+          </ion-card-content>
+    </ion-card>
+  <div *ngIf="this.view == true">
+    <ion-card style="box-shadow: 0 4px 10px rgba(19, 150, 226, 0.6);">               
+       <ion-card-content>
+            <ion-list style="margin-top: -16px;">                                    
+          <ion-item>
+            <ion-label style="font-size: 11px;" color=primary>Are you open for Catering Job?</ion-label>
+            <ion-select [(ngModel)]="catering" name="catering">
+              <ion-option value="Yes" selected="true">Yes</ion-option>
+              <ion-option value="No">No</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label style="font-size: 11px;" color=primary>Are you open for Internship?</ion-label>
+            <ion-select [(ngModel)]="internship" name="internship">
+              <ion-option value="Yes">Yes</ion-option>
+              <ion-option value="No" selected="true">No</ion-option>
+            </ion-select>
+          </ion-item>
+            </ion-list>              
+          <ion-list>                                                        
+              <ion-label style="margin-left: 14px;font-size:14px;" Stacked color=primary>Reference (Optional)</ion-label>
+              <ion-input style="margin-left: 7px;" type="text" [value]="reference" [(ngModel)]="reference" name="reference" placeholder="Enter reference name if any"></ion-input>
+        </ion-list>
+          </ion-card-content>
+    </ion-card>
+  </div>
+ </ion-list>
+<ion-item id="footer" *ngIf="this.view==true">
+    <button ion-button id="footerbtn" (click)="moveNext()">Next</button>
+    </ion-item>
+</ion-content> 

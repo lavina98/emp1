@@ -1,0 +1,56 @@
+<style>
+h2,p{
+  color: black;
+}
+</style>
+<ion-header>
+  <ion-navbar>
+    <ion-title>Scheduled Interview</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+<div class="cont" *ngFor="let item of items">
+<ion-card>
+  <ion-fab right top>
+    <button ion-fab (click)="goToMap()">
+      <ion-icon name="pin"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-item>
+    <ion-icon name="home" item-left large></ion-icon>
+    <h2>Hotel Name</h2>
+    <p>{{item.name}}</p>
+  </ion-item>
+  <ion-item>
+    <ion-icon name="person" item-left large></ion-icon>
+    <h2>HR/Manager Name</h2>
+    <p>{{item.hr_name}}</p>
+  </ion-item>
+  <ion-item>
+    <ion-icon name="call" item-left large ></ion-icon>
+    <h2>HR/Manager Contact Number</h2>
+    <p>{{item.hr_number}}</p>
+  </ion-item>
+  <ion-item>
+    <ion-icon name="briefcase" item-left large ></ion-icon>
+    <h2>For Post</h2>
+    <p>{{item.pname}}</p><button ion-button (click)="goToJobDetail(item.hj_id)">Read & Apply</button>
+  </ion-item>
+  <ion-item>
+    <ion-icon name="pin" item-left large ></ion-icon>
+    <h2>Interview Location</h2>
+    <p style="white-space: pre-wrap">{{item.interview_address}}</p>
+  </ion-item>
+  <ion-item>
+    <ion-icon name="calendar" item-left large ></ion-icon>
+    <h2>Interview Date & Time</h2>
+    <p style="white-space: pre-wrap">{{this.date | date: 'medium'}}</p>
+  </ion-item>  
+  <ion-fab right bottom>
+    <button ion-fab (click)="createEvent()">
+      <ion-icon name="calendar"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-card>
+</div>
+</ion-content>

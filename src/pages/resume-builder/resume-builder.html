@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Resume Builder</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <h3>Please fill in the rest of details to create your resume</h3>
+  <form [formGroup]="resumeForm">
+  <ion-list>
+  <ion-item>
+    <ion-label floating>Full Name</ion-label>
+    <ion-input type="text" value="{{this.name}}"></ion-input>
+  </ion-item>
+    <ion-item>
+    <ion-label floating>Personal Profile</ion-label>
+    <ion-input type="text" formControlName="personal_profile" value="A bright, talented and hard working individual with a bubbly, friendly personality and the ability to work as part of a team. Possessing excellent communication & hospitality skills and a proven ability to ensure that all customer expectations are met."></ion-input>
+  </ion-item>
+    <ion-item>
+    <ion-label floating>Email</ion-label>
+    <ion-input type="text" value="{{this.email}}"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Contact Number</ion-label>
+    <ion-input type="text" value="{{this.number}}"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Address</ion-label>
+    <ion-input type="text" formControlName="address" required></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Qualification</ion-label>
+    <ion-input type="text" value="{{this.qualification}}"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Designation</ion-label>
+    <ion-input type="text" value="{{this.pname}}"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Area of Expertise</ion-label>
+    <ion-input type="text" formControlName="interest" required value="Good knowledge of food & beverage"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Key Skills & Competenices</ion-label>
+    <ion-input type="text" formControlName="skills" value="Communication Skills, Customer Service, Well Presented"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Total Years of Experience</ion-label>
+    <ion-input type="text" value="{{this.experience}}"></ion-input>
+  </ion-item>
+  <div style="display: flex;">
+      <ion-item>
+        <ion-label floating>Organization</ion-label>
+        <ion-input type="text" formControlName="org" value="{{this.org}}"></ion-input>
+      </ion-item>
+      <button  *ngIf="this.view1 == true" style="margin-top: 10%;background-color:#32db64" ion-button (click)="addInput()">
+          <ion-icon name="add-circle"></ion-icon>
+      </button>
+  </div>
+    <p *ngIf="this.view1== true" style="text-align:center">Click ' + ' to add Job profile</p>
+    <div *ngIf="this.view == 1">
+     <div style="display: flex;" *ngFor="let input of inputs;let i = index">
+      <ion-col style="width:10%">
+        <ion-item>
+         <ion-label floating>Exp.</ion-label>
+        <ion-input type="number" [(ngModel)]="input.exp" (ionChange)="updateExp($event.value)" exp="" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-item> 
+      </ion-col>
+      <ion-col style="width:90%">  
+      <ion-item>
+        <ion-label floating>Company Name</ion-label>
+        <ion-input type="text" [(ngModel)]="input.org1" org1="" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-item>
+      </ion-col>      
+      <button color="danger" style="margin-top: 10%;" ion-button *ngIf="i != this.inputs.length" (click)="removeInput(i)">
+            <ion-icon name="md-remove"></ion-icon>          
+      </button> 
+  </div>
+    </div> 
+  <ion-item>
+    <ion-label floating>What Languages You can Speak?</ion-label>
+    <ion-input type="text" formControlName="language" value="Hindi, English"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>What are your hobbies?</ion-label>
+    <ion-input type="text" formControlName="hobbies"></ion-input>
+  </ion-item>
+  </ion-list>
+  <br>
+  <button ion-button type="submit" (click)="register()" block>Register</button>
+   </form>
+</ion-content>
