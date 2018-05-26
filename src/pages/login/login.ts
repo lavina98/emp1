@@ -94,7 +94,7 @@ export class LoginPage {
       });
       let options = new RequestOptions({ headers: headers });
       this.http
-          .post('http://localhost:3000/api/auth', body, options)
+          .post('http://forehotels.com:3000/api/auth', body, options)
           .subscribe(
               data => {
                 this.login = data.json();
@@ -113,7 +113,7 @@ export class LoginPage {
                 });
                 let options = new RequestOptions({ headers: headers });
                 this.http
-                    .put('http://localhost:3000/api/device_id', body, options)
+                    .put('http://forehotels.com:3000/api/device_id', body, options)
                     .subscribe(
                         data => {
                           this.device_details = data.json();
@@ -191,7 +191,7 @@ export class LoginPage {
 //           });
 //           let options = new RequestOptions({ headers: headers });
 //           http
-//               .post('http://localhost:3000/api/social_auth', body, options)
+//               .post('http://forehotels.com:3000/api/social_auth', body, options)
 //               .subscribe(
 //                   data => {
 //                     let login = data.json();
@@ -299,7 +299,7 @@ export class LoginPage {
           });
           let options = new RequestOptions({ headers: headers });
           http
-              .post('http://localhost:3000/api/social_auth', body, options)
+              .post('http://forehotels.com:3000/api/social_auth', body, options)
               .subscribe(
                   data => {
                     let login = data.json();
@@ -318,7 +318,7 @@ export class LoginPage {
                     });
                     let options = new RequestOptions({ headers: headers });
                     http
-                        .put('http://localhost:3000/api/device_id', body, options)
+                        .put('http://forehotels.com:3000/api/device_id', body, options)
                         .subscribe(
                             data => {
                               let device_details = data.json();
