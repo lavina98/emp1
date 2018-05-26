@@ -65,11 +65,6 @@ export class LoginPage {
       this.hash = hash
     });
   }
-  ionViewDidLoad() {
-    this.navBar.backButtonClick = (e:UIEvent)=>{     
-     this.navCtrl.push(HomePage)
-    }
-  }
   registration(){
     this.navCtrl.push(RegisterPage);
   }
