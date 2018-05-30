@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, NavParams, AlertController, Platform } from 'ionic-angular';
+import { NavController, LoadingController, NavParams, AlertController, Platform, ToastController } from 'ionic-angular';
 import { Validators, FormBuilder } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { LoginPage } from '../login/login'
@@ -11,6 +11,7 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { Toast } from '@ionic-native/toast';
 // import { Facebook, FacebookLoginResponse  } from '@ionic-native/facebook'
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
+import { t } from '@angular/core/src/render3';
 @Component({
   selector: 'page-register',
   templateUrl: 'register.html'
@@ -45,6 +46,7 @@ export class RegisterPage {
               public network: NetworkServiceProvider,
               private googleplus: GooglePlus,
               private nativestorage: NativeStorage,
+              private t:ToastController
               // private facebook: Facebook
              ) {
               this.http = http  
@@ -90,6 +92,7 @@ doGoogleLogin(){
   if(this.network.noConnection()){
         this.network.showNetworkAlert()
     }else{
+      let u;
         let nav = this.navCtrl;
         let env = this;
         let loading = this.loadingCtrl.create({
@@ -103,25 +106,87 @@ doGoogleLogin(){
           'webClientId': '1040945361550-od0us71pl5b6fbt722414j04hnpi77ml.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
           'offline': true
         })
-        .then(function (user) {
-          loading.dismiss();
-          console.log(user);
-
-          env.nativestorage.setItem('user', {
-            name: user.displayName,
-            email: user.email,
-            picture: user.imageUrl
-          })
-          .then(function(){
-            env.googlesingup(user.displayName,user.email,user.imageUrl)
-          }, function (error) {
-            console.log(error);
-          })
-        }, function (error) {
-          loading.dismiss();
-        });
+      .then((res) =>{ console.log(res)
+        let tst=this.t.create(
+          {
+              message:'login',
+              duration:3000
+          }
+        );
+        u=res;
+        loading.dismiss();
+        tst.present();
+        env.nativestorage.setItem('user', {
+              name: res.displayName,
+              email: res.email,
+              picture: res.imageUrl
+            })
+        .then(
+          () => {console.log('Stored item!'),
+          this.storage.get('user').then((user)=>{console.log(JSON.parse(u));},
+          error => console.error('Error storing item', error)
+        );  
+      }
+    )
+      .catch((err) => {console.error(err)
+                      let tst=this.t.create(
+                        {
+                            message:'no login',
+                            duration:3000
+                        }
+                      );
+                      loading.dismiss();
+                      tst.present();}
+              );
+        // this.googleplus.login({
+          // 'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
+          // 'webClientId': '1040945361550-od0us71pl5b6fbt722414j04hnpi77ml.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+          // 'offline': true
+        // })
+        // .then(function (user) {
+        //   loading.dismiss();
+        //   let l1= this.loadingCtrl.create({
+        //     spinner:'bubbles',
+        //     content: user
+        //   });
+        //  l1.present();
+    
+        //   env.nativestorage.setItem('user', {
+        //     name: user.displayName,
+        //     email: user.email,
+        //     picture: user.imageUrl
+        //   })
+        //   .then(
+        //     ()=>{
+        //     env.googlesingup(user.displayName,user.email,user.imageUrl)
+        //   },
+        //     (error) =>{
+        //     console.log(error);
+        //   })
+        // }, 
+        // (error)=> {
+        //   let tst=this.t.create(
+        //     {
+        //         message:'no login',
+        //         duration:3000
+        //     }
+        //   );
+        //   tst.present();
+        // })
+        // .catch((err)=>{
+        //           console.log(err);
+                  // let tst=this.t.create(
+                  //   {
+                  //       message:'no login',
+                  //       duration:3000
+                  //   }
+                  // );
+                  // tst.present();
+        // });
+        console.log('hey');
         this.storage.get('user').then((user)=>{console.log('2'+user);})
  }
+      )};
 }
 googlesingup(googleName,googleEmail,picture){
    let loader = this.loadingCtrl.create({
