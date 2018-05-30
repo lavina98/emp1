@@ -19,7 +19,7 @@ import { InternationalPlacementPage } from '../pages/international-placement/int
 import { JobsAppliedPage } from '../pages/jobs-applied/jobs-applied';
 import { CateringJobsPage } from '../pages/catering-jobs/catering-jobs';
 import { ProfilePicPage } from '../pages/profile-pic/profile-pic';
-import { WorkExperiencePage,DesignationPage } from '../pages/work-experience/work-experience';
+import { WorkExperiencePage,DesignationPage} from '../pages/work-experience/work-experience';
 import { OtherDetailPage, PopoverPageExp } from '../pages/other-detail/other-detail';
 import { NotificationsPage } from '../pages/notifications/notifications';
 import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
@@ -102,7 +102,7 @@ import { TermsConditionsPage } from '../pages/terms-conditions/terms-conditions'
     UploadResumePage,
     ResumeBuilderPage,
     UrgentNeedPage,
-    PopoverPageExp
+    PopoverPageExp,
   ],
   imports: [
     BrowserModule,
@@ -147,7 +147,7 @@ import { TermsConditionsPage } from '../pages/terms-conditions/terms-conditions'
     CityPage,
     UploadResumePage,
     ResumeBuilderPage,
-    UrgentNeedPage
+    UrgentNeedPage,
   ],
   providers: [
               Toast,

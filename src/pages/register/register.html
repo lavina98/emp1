@@ -13,21 +13,9 @@
 	</ion-navbar>
 </ion-header>
  <ion-content padding>
-  <ion-list-header class="socialheader" no-lines>
-Create account faster using
-  </ion-list-header>
-<ion-grid>
-  <ion-row>
-      <ion-col style="width:50%"  >  
-          <button ion-button icon-left (click)="doFbLogin()" style="background-color: #3b5998;" round><ion-icon name="logo-facebook"></ion-icon>Facebook</button>
-      </ion-col>
-        <ion-col style="width:50%">
-            <button ion-button icon-left  color="danger" (click)="doGoogleLogin()" round><ion-icon name="logo-google"></ion-icon>Google</button>
-        </ion-col>
-  </ion-row>
-</ion-grid>
-  <div *ngIf="this.view == true">  
+<div>  
   <!-- <div>    -->
+    
   <form [formGroup]="registrationForm" (ngSubmit)="loginForm(registrationForm.value)">
     <ion-list> 
   <ion-item>   
@@ -78,4 +66,19 @@ Create account faster using
 <button ion-button type="submit" [disabled]="!registrationForm.valid" block>Send Confirmation Code</button>
    </form>
 </div>
- </ion-content>
+
+
+  <ion-list-header class="socialheader" no-lines>
+Create account faster using
+  </ion-list-header>
+<ion-grid>
+  <ion-row>
+      <ion-col style="width:50%"  >  
+          <button ion-button icon-left (click)="doFbLogin()" style="background-color: #3b5998;" round><ion-icon name="logo-facebook"></ion-icon>Facebook</button>
+      </ion-col>
+        <ion-col style="width:50%">
+            <button ion-button icon-left  color="danger" (click)="doGoogleLogin()" round><ion-icon name="logo-google"></ion-icon>Google</button>
+        </ion-col>
+  </ion-row>
+</ion-grid>
+</ion-content>

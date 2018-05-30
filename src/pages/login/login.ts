@@ -61,7 +61,8 @@ export class LoginPage {
           this.ga.trackView("Login")
         });
     });
-    this.storage.get('Hash').then((hash) => {
+    this.storage.get('Hash')
+    .then((hash) => {
       this.hash = hash
     });
   }
@@ -265,6 +266,8 @@ export class LoginPage {
         this.network.showNetworkAlert()
     }
       else{
+        console.log('checkpt 1');
+    let data;
     let nav = this.navCtrl;
     let http = this.http;
     let env = this;
@@ -273,9 +276,11 @@ export class LoginPage {
     let storage = this.storage;
     let loadingCtrl = this.loadingCtrl;
     let alertCtrl = this.alertCtrl;
+    console.log('1'+data);
     let loading = this.loadingCtrl.create({
       content: 'Please wait...'
     });
+    console.log('2'+data);
     loading.present();
     this.googlePlus.login({
       'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
@@ -283,6 +288,9 @@ export class LoginPage {
       'offline': true
     })
     .then(function (user) {
+      data=user;
+      console.log(user);
+      console.log('here in the user part');
       loading.dismiss();
       env.nativeStorage.setItem('user', {
         name: user.displayName,
@@ -327,6 +335,7 @@ export class LoginPage {
                             setTimeout(() => {
                               nav.setRoot(DashboardPage);
                             }, 500);
+                console.log(data);
                 }
                 else {
                   let alert = alertCtrl.create({
@@ -352,12 +361,14 @@ export class LoginPage {
       })
     }, function (error) {
       loading.dismiss();
-      this.toast.show(error, '15000', 'bottom').subscribe(
-        toast => {
-          console.log(toast);
-        }
-      );
-    });
+      // this.toast.show(error, '15000', 'bottom').subscribe(
+      //   toast => {
+      //     console.log(toast);
+      //   }
+      // );
+    })
+    .catch((err)=>{console.log('error'+err);});
+    console.log('last checkpt');
    }
   }
 }

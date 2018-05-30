@@ -56,7 +56,8 @@ interviews=[]
               private ga: GoogleAnalytics) {
                
               this.http = http;
-              this.rows = Array.from(Array(Math.ceil(6/3)).keys());              
+              this.rows = Array.from(Array(Math.ceil(6/3)).keys());    
+              console.log(this.rows);          
               this.myDate = new Date().toISOString();
               this.myDate = this.myDate.split('T')
               if(this.network.noConnection()){

@@ -88,10 +88,10 @@ app_id = "a8874a29-22e2-486f-b4b3-b3d09e8167a5";
     
     this.storage.set("app_id",this.app_id) 
     this.storage.set('Hash', this.key);
-  
+    this.rootPage = IntroPage;
     this.storage.get('loggedIn').then((id) => {
        if(id == true){
-         this.rootPage = DashboardPage;
+        //  this.rootPage = DashboardPage;
          let datewa = new Date().toISOString()
          
          console.log('Date '+datewa)

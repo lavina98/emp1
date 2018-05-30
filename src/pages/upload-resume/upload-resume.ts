@@ -31,7 +31,7 @@ export class UploadResumePage {
   city:any;
   c_id:any;
   experience:any;
-  picture:any;
+  picture:any='';
   name:any;
   email:any
   gender:any
@@ -75,8 +75,8 @@ export class UploadResumePage {
             this.gender = navParams.get('gender')
             this.number = navParams.get('number') 
             this.password = navParams.get('password')            
-            this.picture = navParams.get('picture')
-            this.fbpic = this.picture.split('/')
+            // this.picture = navParams.get('picture')
+            // this.fbpic = this.picture.split('/')
             this.experience = navParams.get('experience')
             this.city = navParams.get('city')
             this.designation = navParams.get('designation')
@@ -96,15 +96,15 @@ export class UploadResumePage {
        if(this.network.noConnection()){
               this.network.showNetworkAlert()
               }else{
-                if(this.picture == null){
-                let alert = this.alertCtrl.create({
-                          title: 'Error!',
-                          subTitle: 'Kindly upload your Profile Picture to Create CV',
-                          buttons: ['OK']
-                          });
-                          alert.present();
-              }
-              else if(this.picture != null){
+              //   if(this.picture == null){
+              //   let alert = this.alertCtrl.create({
+              //             title: 'Error!',
+              //             subTitle: 'Kindly upload your Profile Picture to Create CV',
+              //             buttons: ['OK']
+              //             });
+              //             alert.present();
+              // }
+              // else if(this.picture != null){
                 this.navCtrl.push(ResumeBuilderPage, {
                         total_exp: this.total_exp,
                         education:this.education,
@@ -122,31 +122,32 @@ export class UploadResumePage {
                         picture: this.picture
                       });
                   }
-            }
+            // }
     }        
     
   clickRegister(){
   if(this.network.noConnection()){
         this.network.showNetworkAlert()
+        console.log('eroorro');
       }else{
           
-          if(this.resume == null){
-          let alert = this.alertCtrl.create({
-                    title: 'Error!',
-                    subTitle: 'Kindly upload your Resume to Register',
-                    buttons: ['OK']
-                    });
-                    alert.present();
-        }
-        if(this.picture == null){
-          let alert = this.alertCtrl.create({
-                    title: 'Error!',
-                    subTitle: 'Kindly upload your Profile Picture to Register',
-                    buttons: ['OK']
-                    });
-                    alert.present();
-        }
-        if((this.picture != null) && (this.resume != null)){
+        //   if(this.resume == null){
+        //   let alert = this.alertCtrl.create({
+        //             title: 'Error!',
+        //             subTitle: 'Kindly upload your Resume to Register',
+        //             buttons: ['OK']
+        //             });
+        //             alert.present();
+        // }
+        // if(this.picture == null){
+        //   let alert = this.alertCtrl.create({
+        //             title: 'Error!',
+        //             subTitle: 'Kindly upload your Profile Picture to Register',
+        //             buttons: ['OK']
+        //             });
+        //             alert.present();
+        // }
+        // if((this.picture != null) && (this.resume != null)){
           let loading = this.loadingCtrl.create({
             spinner: 'bubbles',
             content: 'Creating your account...'
@@ -171,21 +172,22 @@ export class UploadResumePage {
           });
           let headers = new Headers({
             'Content-Type': 'application/json',
-            'Authorization': this.hash
+            'Authorization': 'e36051cb8ca82ee0Lolzippu123456*='
           });
           let options = new RequestOptions({ headers: headers });
           this.http
               .post('http://forehotels.com:3000/api/users_employee', body, options)
               .subscribe(
                   datas => {                    
+                    console.log('1');
                     this.empid = JSON.parse(datas._body).User;
                     loading.dismiss()
-                    if(this.fbpic[0] == 'https:'){
-                      this.uploaded++
-                      } else if(this.picpath == 'file:'){
-                      this.pictureUpload(this.picture)                
-                    }
-                    this.resumeUpload(this.resume)
+                    // if(this.fbpic[0] == 'https:'){
+                    //   this.uploaded++
+                    //   } else if(this.picpath == 'file:'){
+                    //   this.pictureUpload(this.picture)                
+                    // }
+                    // this.resumeUpload(this.resume)
                     let city_body = JSON.stringify({
                           city_id:this.city,
                           user_id: this.empid
@@ -193,7 +195,8 @@ export class UploadResumePage {
             this.http.post('http://forehotels.com:3000/api/users_city', city_body, options)
               .map(res => res.json())
               .subscribe(
-                  data => {                    
+                  data => {    
+                    console.log('2');               
                     let email_body = JSON.stringify({
                         email: this.email,
                         mail: 'employee_welcome'
@@ -202,7 +205,7 @@ export class UploadResumePage {
                         .post('http://forehotels.com:3000/api/send_email', email_body, options)
                         .map(res => res.json())
                         .subscribe(
-                            data => {                              
+                            data => {   console.log('3');                           
                         });
                     let sms_body = JSON.stringify({
                         number: this.number,
@@ -212,8 +215,10 @@ export class UploadResumePage {
                         .post('http://forehotels.com:3000/api/send_sms', sms_body, options)
                         .map(res => res.json())
                         .subscribe(
-                            data => {                              
+                            data => {       console.log('4');
+                                                   
                         });
+                        this.success();
                   },
                   err => {
                     let alert = this.alertCtrl.create({
@@ -229,16 +234,17 @@ export class UploadResumePage {
                       }); 
                       alert.present();
                   });
-                  },
+                  // },
                   err => {                    
-                  });
+                  }
+                // );
           }
-      }
+              );}
   }
       
 
  success(){
-      if(this.uploaded == 2){
+      // if(this.uploaded == 2){
         let alert = this.alertCtrl.create({
                   title: 'Congrats!',
                   subTitle: 'Your Account Has been Created Successfully.',
@@ -247,7 +253,7 @@ export class UploadResumePage {
                   alert.present();
 
         this.navCtrl.setRoot(LoginPage)
-      }
+      // }
     }
 
 uploadResume(){    
@@ -396,7 +402,7 @@ uploadResume(){
               fileName: x,
               mimeType: "multipart/form-data",
               headers: {
-                authorization : this.hash
+                authorization : 'e36051cb8ca82ee0Lolzippu123456*='
               },
               params: {
                 name: file,
@@ -449,7 +455,7 @@ pictureUpload(x){
                 fileName: x,
                 mimeType: "multipart/form-data",
                 headers: {
-                  authorization : this.hash
+                  authorization : 'e36051cb8ca82ee0Lolzippu123456*='
                 },
                 params: {
                   name: file,
