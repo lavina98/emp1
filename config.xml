@@ -96,12 +96,13 @@
     <plugin name="cordova-plugin-filechooser" spec="^1.0.1" />
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.4.0" />
     <plugin name="cordova-plugin-calendar" spec="^5.1.0" />
-    <plugin name="cordova-plugin-googleplus" spec="^5.3.0">
-        <variable name="REVERSED_CLIENT_ID" value="myreversedclientid" />
-    </plugin>
     <plugin name="cordova-plugin-geolocation" spec="^4.0.1">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
     </plugin>
     <allow-navigation href="http://192.168.100.218:8100" />
     <engine name="android" spec="7.0.0" />
+    <plugin name="cordova-plugin-googleplus" spec="^5.3.0">
+        <variable name="REVERSED_CLIENT_ID" value="638112745534-0fuj7lor9c1sgqccgnkgm3dcrfah50sd.apps.googleusercontent.com" />
+    </plugin>
+    <allow-navigation href="http://192.168.100.155:8100" />
 </widget>

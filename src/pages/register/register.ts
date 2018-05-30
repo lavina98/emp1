@@ -103,7 +103,7 @@ doGoogleLogin(){
         console.log('1-------------');
         this.googleplus.login({
           'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
-          'webClientId': '1040945361550-od0us71pl5b6fbt722414j04hnpi77ml.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+          'webClientId': '638112745534-0fuj7lor9c1sgqccgnkgm3dcrfah50sd.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
           'offline': true
         })
       .then((res) =>{ console.log(res)
