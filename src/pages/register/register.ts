@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, NavParams, AlertController, Platform } from 'ionic-angular';
+import { NavController, LoadingController, NavParams, AlertController, Platform, ToastController } from 'ionic-angular';
 import { Validators, FormBuilder } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { LoginPage } from '../login/login'
@@ -45,6 +45,7 @@ export class RegisterPage {
               public network: NetworkServiceProvider,
               private googleplus: GooglePlus,
               private nativestorage: NativeStorage,
+              private t:ToastController
               // private facebook: Facebook
              ) {
               this.http = http  
@@ -100,13 +101,19 @@ doGoogleLogin(){
         console.log('1-------------');
         this.googleplus.login({
           'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
-          'webClientId': '1040945361550-od0us71pl5b6fbt722414j04hnpi77ml.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+          'webClientId': '638112745534-0fuj7lor9c1sgqccgnkgm3dcrfah50sd.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
           'offline': true
         })
         .then(function (user) {
           loading.dismiss();
           console.log(user);
-
+          let tst=this.t.create(
+            {
+              message:'Login'+user,
+              duration:3000
+            }
+          )
+          tst.present();
           env.nativestorage.setItem('user', {
             name: user.displayName,
             email: user.email,
@@ -118,6 +125,13 @@ doGoogleLogin(){
             console.log(error);
           })
         }, function (error) {
+          let tst=this.t.create(
+            {
+              message:' no Login'+error,
+              duration:3000
+            }
+          )
+          tst.present();
           loading.dismiss();
         });
         this.storage.get('user').then((user)=>{console.log('2'+user);})

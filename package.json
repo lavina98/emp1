@@ -106,7 +106,7 @@
       "cordova-plugin-x-socialsharing": {},
       "cordova-plugin-calendar": {},
       "cordova-plugin-googleplus": {
-        "REVERSED_CLIENT_ID": "myreversedclientid"
+        "REVERSED_CLIENT_ID": "638112745534-0fuj7lor9c1sgqccgnkgm3dcrfah50sd.apps.googleusercontent.com"
       },
       "cordova-plugin-geolocation": {
         "GEOLOCATION_USAGE_DESCRIPTION": "To locate you"
