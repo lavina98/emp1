@@ -9,7 +9,7 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Toast } from '@ionic-native/toast';
-// import { Facebook, FacebookLoginResponse  } from '@ionic-native/facebook'
+import { Facebook, FacebookLoginResponse  } from '@ionic-native/facebook'
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
 import { t } from '@angular/core/src/render3';
 @Component({
@@ -29,6 +29,8 @@ export class RegisterPage {
   otp:any;
   checkusers:any
   http:any
+  googleemail='';
+  googlename=' ';
   validation_messages:Array<{type:any,message:any}>
   validation_Email:Array<{type:any,message:any}>
   validation_Number:Array<{type:any,message:any}>
@@ -46,8 +48,8 @@ export class RegisterPage {
               public network: NetworkServiceProvider,
               private googleplus: GooglePlus,
               private nativestorage: NativeStorage,
-              private t:ToastController
-              // private facebook: Facebook
+              private t:ToastController,
+              private facebook: Facebook
              ) {
               this.http = http  
   this.registrationForm = this.form.group({
@@ -86,7 +88,9 @@ export class RegisterPage {
             this.ga.trackView("Register")
           });   
     });
-//   this.facebook.browserInit(this.FB_APP_ID, "v2.9");
+  // this.facebook.browserInit(this.FB_APP_ID, "v2.9");
+this.googlename=this.navParams.get('googlename');
+this.googleemail=this.navParams.get('googleemail');
  }
 doGoogleLogin(){
   if(this.network.noConnection()){
@@ -103,27 +107,34 @@ doGoogleLogin(){
         console.log('1-------------');
         this.googleplus.login({
           'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
-          'webClientId': '638112745534-0fuj7lor9c1sgqccgnkgm3dcrfah50sd.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+          'webClientId':'' ,//'638112745534-kfl95m0o49351ooqnb0gp99l579nok6v.apps.googleusercontent.com ', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
           'offline': true
         })
-      .then((res) =>{ console.log(res)
+      .then((res) =>{ console.log(JSON.stringify(res));
+        this.googleemail=res.email;
+        this.googlename=res.displayName;
+        console.log( res.displayName+'  '+res.email)
         let tst=this.t.create(
           {
               message:'login',
-              duration:3000
+              duration:30000
           }
         );
         u=res;
         loading.dismiss();
         tst.present();
         env.nativestorage.setItem('user', {
-              name: res.displayName,
-              email: res.email,
-              picture: res.imageUrl
+              dname: res.displayName,
+              email: res.email
             })
         .then(
-          () => {console.log('Stored item!'),
-          this.storage.get('user').then((user)=>{console.log(JSON.parse(u));},
+          () => {console.log('Stored item!');
+          env.storage.get('user').then((user)=>{
+            console.log(user.dname+' '+user.email);
+            this.navCtrl.push(RegisterPage,{googlename:this.googlename,
+                                            googleemail:this.googleemail})
+          },
+          
           error => console.error('Error storing item', error)
         );  
       }
@@ -183,9 +194,10 @@ doGoogleLogin(){
                   // );
                   // tst.present();
         // });
-        console.log('hey');
-        this.storage.get('user').then((user)=>{console.log('2'+user);})
  }
+ 
+ 
+ 
       )};
 }
 googlesingup(googleName,googleEmail,picture){
@@ -232,86 +244,94 @@ googlesingup(googleName,googleEmail,picture){
             }); 
     });     
 }
-// doFbLogin(){
-//  if(this.network.noConnection()){
-//         this.network.showNetworkAlert()
-//     }else{
-//         let permissions = new Array<string>();
-//           let nav = this.navCtrl;
-//           let env = this;
-//           //the permissions your facebook app needs from the user
-//           permissions = ["public_profile","email"];
-//           this.facebook.login(permissions)
-//           .then(function(response){
-//             let userId = response.authResponse.userID;
-//             let params = new Array<string>();
-//             //Getting name and gender properties
-//             env.facebook.api("/me?fields=name,gender,email", params)
-//             .then(function(user) {
-//               user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
-//               //now we have the users info, let's save it in the NativeStorage
-//               env.nativestorage.setItem('user',
-//               {
-//                 name: user.name,
-//                 gender: user.gender,
-//                 picture: user.picture,
-//                 email:user.email
-//               })
-//               .then(function(){          
-//                 env.facebookSingup(user.name,user.gender,user.email,user.picture)
-//               }, function (error) {
-//                 console.log(error);
-//               })
-//             })
-//           }, function(error){
-//             console.log(error);
-//         });
-//     }
-// }  
-// facebookSingup(facebookName,facebookGender,facebookEmail,picture){
-//      let loader = this.loadingCtrl.create({
-//      spinner: 'bubbles',
-//      content: 'Please Wait...'
-//    })
-//     loader.present()
-//      var email_checker = false;
-//     this.storage.get("Hash").then((hash)=>{   
-//       let headers = new Headers({
-//       'Content-Type': 'application/json',
-//       'Authorization': hash
-//     });     
-//     let options = new RequestOptions({ headers: headers });
-//     this.http.get("http://forehotels.com:3000/api/employee", options)
-//             .subscribe(data =>{
-//             this.checkusers=JSON.parse(data._body).Users;//Bind data to items object
-//             for(let item of this.checkusers ){
-//                 if(item.email == facebookEmail){
-//                 email_checker = true;
-//                 }
-//               }
-//             if(email_checker == true){
-//                 loader.dismiss()
-//                   let alert = this.alerCtrl.create({
-//                   message: 'This email already exists',
-//                   buttons: [{
-//                       text: 'Go to Login',
-//                       handler: () => {
-//                         this.navCtrl.push(LoginPage)
-//                       }
-//                     }]
-//                 });
-//                   alert.present();
-//               }else{
-//                   loader.dismiss()
-//                   this.name =  facebookName
-//                   this.gender = facebookGender
-//                   this.email = facebookEmail
-//                   this.picture = picture
-//                   this.view = true;  
-//               }  
-//             }); 
-//     });
-// }
+
+
+doFbLogin(){
+ if(this.network.noConnection()){
+        this.network.showNetworkAlert()
+    }else{
+        let permissions = new Array<string>();
+          let nav = this.navCtrl;
+          let env = this;
+          //the permissions your facebook app needs from the user
+          permissions = ["public_profile","email"];
+          this.facebook.login(permissions)
+          .then(function(response){
+            let userId = response.authResponse.userID;
+            let params = new Array<string>();
+            //Getting name and gender properties
+            env.facebook.api("/me?fields=name,gender,email", params)
+            .then(function(user) {
+              user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
+              //now we have the users info, let's save it in the NativeStorage
+              env.nativestorage.setItem('user',
+              {
+                name: user.name,
+                gender: user.gender,
+                picture: user.picture,
+                email:user.email
+              })
+              .then(function(){          
+                env.facebookSingup(user.name,user.gender,user.email,user.picture)
+              }, function (error) {
+                console.log(error);
+              })
+            })
+          }, function(error){
+            console.log(error);
+        });
+    }
+}  
+
+
+
+facebookSingup(facebookName,facebookGender,facebookEmail,picture){
+     let loader = this.loadingCtrl.create({
+     spinner: 'bubbles',
+     content: 'Please Wait...'
+   })
+    loader.present()
+     var email_checker = false;
+    this.storage.get("Hash").then((hash)=>{   
+      let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': hash
+    });     
+    let options = new RequestOptions({ headers: headers });
+    this.http.get("http://forehotels.com:3000/api/employee", options)
+            .subscribe(data =>{
+            this.checkusers=JSON.parse(data._body).Users;//Bind data to items object
+            for(let item of this.checkusers ){
+                if(item.email == facebookEmail){
+                email_checker = true;
+                }
+              }
+            if(email_checker == true){
+                loader.dismiss()
+                  let alert = this.alerCtrl.create({
+                  message: 'This email already exists',
+                  buttons: [{
+                      text: 'Go to Login',
+                      handler: () => {
+                        this.navCtrl.push(LoginPage)
+                      }
+                    }]
+                });
+                  alert.present();
+              }else{
+                  loader.dismiss()
+                  this.name =  facebookName
+                  this.gender = facebookGender
+                  this.email = facebookEmail
+                  this.picture = picture
+                  this.view = true;  
+              }  
+            }); 
+    });
+}
+
+
+
 loginForm(){
     if(this.network.noConnection()){
         this.network.showNetworkAlert()
@@ -321,6 +341,7 @@ loginForm(){
                   number: this.items.number,
                   text: "Welcome "+this.items.name+", Your OTP is "+this.otp+ ". Please Verify to register on ForeHotels"
                   })
+      
                   let headers = new Headers({
                     'Content-Type': 'application/json',
                     'Authorization': "e36051cb8ca82ee0Lolzippu123456*="
@@ -330,8 +351,8 @@ loginForm(){
                 //         .subscribe(data =>{
                 // })
             this.navCtrl.push(OtpPage,{
-            name:this.items.name,
-            email:this.items.email,
+            name:this.googlename,
+            email:this.googleemail,
             number:this.items.number,
             gender:this.items.gender,
             password:this.items.password,

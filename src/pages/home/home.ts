@@ -47,6 +47,6 @@ export class HomePage {
       this.navCtrl.push(LoginPage);
     }
     goToVerify(){
-      this.navCtrl.push(RegisterPage);
+      this.navCtrl.push(RegisterPage,{googlename:'',googleemail:''});
     }
 }
