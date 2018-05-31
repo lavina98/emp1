@@ -185,6 +185,14 @@ doGoogleLogin(){
         // });
         console.log('hey');
         this.storage.get('user').then((user)=>{console.log('2'+user);})
+        let tpt=this.t.create(
+          {
+              message:'logiaassrn',
+              duration:3000
+          }
+        );loading.dismiss();
+        tpt.present();
+
  }
       )};
 }
