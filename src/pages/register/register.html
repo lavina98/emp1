@@ -20,7 +20,7 @@
     <ion-list> 
   <ion-item>   
     <ion-label floating>Full Name</ion-label>
-    <ion-input type="text" [formControl]="registrationForm.controls['name']" value="{{this.name}}" required></ion-input>
+    <ion-input type="text" [formControl]="registrationForm.controls['name']" value="{{this.googlename}}" required></ion-input>
   </ion-item>
   <div *ngFor="let validation of validation_messages" class="error-box">
     <div style="text-align: center;color:#f53d3d" color="danger" *ngIf="registrationForm.controls['name'].hasError(validation.type) && registrationForm.controls['name'].touched">
@@ -29,7 +29,7 @@
   </div>
    <ion-item>
     <ion-label floating>Email</ion-label>
-    <ion-input type="email" [formControl]="registrationForm.controls['email']" value="{{this.email}}" required></ion-input>
+    <ion-input type="email" [formControl]="registrationForm.controls['email']" value="{{this.googleemail}}" required></ion-input>
   </ion-item>
   <div *ngFor="let validation of validation_Email" class="error-box">
     <div style="text-align: center;color:#f53d3d" color="danger" *ngIf="registrationForm.controls['email'].hasError(validation.type) && registrationForm.controls['email'].touched">
@@ -63,7 +63,7 @@
   </div>
     </ion-list>
    <br>
-<button ion-button type="submit" [disabled]="!registrationForm.valid" block>Send Confirmation Code</button>
+<button ion-button type="submit"  block>Send Confirmation Code</button>
    </form>
 </div>
 

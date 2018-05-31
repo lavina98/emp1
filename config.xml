@@ -100,9 +100,8 @@
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
     </plugin>
     <allow-navigation href="http://192.168.100.218:8100" />
-    <engine name="android" spec="7.0.0" />
     <plugin name="cordova-plugin-googleplus" spec="^5.3.0">
-        <variable name="REVERSED_CLIENT_ID" value="638112745534-0fuj7lor9c1sgqccgnkgm3dcrfah50sd.apps.googleusercontent.com" />
+        <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.638112745534-kfl95m0o49351ooqnb0gp99l579nok6v" />
     </plugin>
-    <allow-navigation href="http://192.168.100.155:8100" />
+    <engine name="android" spec="7.0.0" />
 </widget>
