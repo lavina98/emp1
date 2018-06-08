@@ -99,9 +99,13 @@
     <plugin name="cordova-plugin-geolocation" spec="^4.0.1">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
     </plugin>
-    <allow-navigation href="http://192.168.100.218:8100" />
     <plugin name="cordova-plugin-googleplus" spec="^5.3.0">
         <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.638112745534-kfl95m0o49351ooqnb0gp99l579nok6v" />
     </plugin>
+    <plugin name="cordova-plugin-googlemaps" spec="dummy">
+        <variable name="API_KEY_FOR_ANDROID" value="(API_KEY_FOR_ANDROID)" />
+        <variable name="API_KEY_FOR_IOS" value="(API_KEY_FOR_IOS)" />
+    </plugin>
+    <allow-navigation href="http://192.168.100.218:8100" />
     <engine name="android" spec="7.0.0" />
 </widget>

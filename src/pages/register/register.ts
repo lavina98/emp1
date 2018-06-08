@@ -9,7 +9,7 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Toast } from '@ionic-native/toast';
-import { Facebook, FacebookLoginResponse  } from '@ionic-native/facebook'
+//import { Facebook, FacebookLoginResponse  } from '@ionic-native/facebook'
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
 import { t } from '@angular/core/src/render3';
 @Component({
@@ -49,7 +49,7 @@ export class RegisterPage {
               private googleplus: GooglePlus,
               private nativestorage: NativeStorage,
               private t:ToastController,
-              private facebook: Facebook
+              //private facebook: Facebook
              ) {
               this.http = http  
   this.registrationForm = this.form.group({
@@ -246,89 +246,89 @@ googlesingup(googleName,googleEmail,picture){
 }
 
 
-doFbLogin(){
- if(this.network.noConnection()){
-        this.network.showNetworkAlert()
-    }else{
-        let permissions = new Array<string>();
-          let nav = this.navCtrl;
-          let env = this;
-          //the permissions your facebook app needs from the user
-          permissions = ["public_profile","email"];
-          this.facebook.login(permissions)
-          .then(function(response){
-            let userId = response.authResponse.userID;
-            let params = new Array<string>();
-            //Getting name and gender properties
-            env.facebook.api("/me?fields=name,gender,email", params)
-            .then(function(user) {
-              user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
-              //now we have the users info, let's save it in the NativeStorage
-              env.nativestorage.setItem('user',
-              {
-                name: user.name,
-                gender: user.gender,
-                picture: user.picture,
-                email:user.email
-              })
-              .then(function(){          
-                env.facebookSingup(user.name,user.gender,user.email,user.picture)
-              }, function (error) {
-                console.log(error);
-              })
-            })
-          }, function(error){
-            console.log(error);
-        });
-    }
-}  
+// doFbLogin(){
+//  if(this.network.noConnection()){
+//         this.network.showNetworkAlert()
+//     }else{
+//         let permissions = new Array<string>();
+//           let nav = this.navCtrl;
+//           let env = this;
+//           //the permissions your facebook app needs from the user
+//           permissions = ["public_profile","email"];
+//           this.facebook.login(permissions)
+//           .then(function(response){
+//             let userId = response.authResponse.userID;
+//             let params = new Array<string>();
+//             //Getting name and gender properties
+//             env.facebook.api("/me?fields=name,gender,email", params)
+//             .then(function(user) {
+//               user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
+//               //now we have the users info, let's save it in the NativeStorage
+//               env.nativestorage.setItem('user',
+//               {
+//                 name: user.name,
+//                 gender: user.gender,
+//                 picture: user.picture,
+//                 email:user.email
+//               })
+//               .then(function(){          
+//                 env.facebookSingup(user.name,user.gender,user.email,user.picture)
+//               }, function (error) {
+//                 console.log(error);
+//               })
+//             })
+//           }, function(error){
+//             console.log(error);
+//         });
+//     }
+// }  
 
 
 
-facebookSingup(facebookName,facebookGender,facebookEmail,picture){
-     let loader = this.loadingCtrl.create({
-     spinner: 'bubbles',
-     content: 'Please Wait...'
-   })
-    loader.present()
-     var email_checker = false;
-    this.storage.get("Hash").then((hash)=>{   
-      let headers = new Headers({
-      'Content-Type': 'application/json',
-      'Authorization': hash
-    });     
-    let options = new RequestOptions({ headers: headers });
-    this.http.get("http://forehotels.com:3000/api/employee", options)
-            .subscribe(data =>{
-            this.checkusers=JSON.parse(data._body).Users;//Bind data to items object
-            for(let item of this.checkusers ){
-                if(item.email == facebookEmail){
-                email_checker = true;
-                }
-              }
-            if(email_checker == true){
-                loader.dismiss()
-                  let alert = this.alerCtrl.create({
-                  message: 'This email already exists',
-                  buttons: [{
-                      text: 'Go to Login',
-                      handler: () => {
-                        this.navCtrl.push(LoginPage)
-                      }
-                    }]
-                });
-                  alert.present();
-              }else{
-                  loader.dismiss()
-                  this.name =  facebookName
-                  this.gender = facebookGender
-                  this.email = facebookEmail
-                  this.picture = picture
-                  this.view = true;  
-              }  
-            }); 
-    });
-}
+// facebookSingup(facebookName,facebookGender,facebookEmail,picture){
+//      let loader = this.loadingCtrl.create({
+//      spinner: 'bubbles',
+//      content: 'Please Wait...'
+//    })
+//     loader.present()
+//      var email_checker = false;
+//     this.storage.get("Hash").then((hash)=>{   
+//       let headers = new Headers({
+//       'Content-Type': 'application/json',
+//       'Authorization': hash
+//     });     
+//     let options = new RequestOptions({ headers: headers });
+//     this.http.get("http://forehotels.com:3000/api/employee", options)
+//             .subscribe(data =>{
+//             this.checkusers=JSON.parse(data._body).Users;//Bind data to items object
+//             for(let item of this.checkusers ){
+//                 if(item.email == facebookEmail){
+//                 email_checker = true;
+//                 }
+//               }
+//             if(email_checker == true){
+//                 loader.dismiss()
+//                   let alert = this.alerCtrl.create({
+//                   message: 'This email already exists',
+//                   buttons: [{
+//                       text: 'Go to Login',
+//                       handler: () => {
+//                         this.navCtrl.push(LoginPage)
+//                       }
+//                     }]
+//                 });
+//                   alert.present();
+//               }else{
+//                   loader.dismiss()
+//                   this.name =  facebookName
+//                   this.gender = facebookGender
+//                   this.email = facebookEmail
+//                   this.picture = picture
+//                   this.view = true;  
+//               }  
+//             }); 
+//     });
+// }
 
 
 

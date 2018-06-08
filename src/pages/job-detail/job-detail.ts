@@ -75,7 +75,9 @@ view:boolean = true;
                       .subscribe(data =>{
                     this.items=JSON.parse(data._body).Jobs;
                     this.salary = this.items["0"].salary_range.split(",");
-                    let hotelId = this.items["0"].user_id
+                    let hotelId = this.items["0"].user_id;
+                    let desc = this.items["0"].job_desc;
+                    
                     this.http.get("http://forehotels.com:3000/api/package/"+hotelId, options)
                         .subscribe(data =>{
                       this.DeviceId = JSON.parse(data._body).Jobs;

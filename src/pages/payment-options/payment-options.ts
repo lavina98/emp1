@@ -251,21 +251,21 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
                       'Authorization': this.hash
                     });
                     let options = new RequestOptions({ headers: headers });
-                        // this.http
-                        // .post('http://forehotels.com:3000/api/ip', body, options)
-                        // .map(res => res.json())
-                        // .subscribe(
-                        //     data => {
-                        //     },
-                        //     err => {
-                        //       console.log("ERROR!: ", err);
-                        //     }
-                        // );
+                        this.http
+                        .post('http://forehotels.com:3000/api/ip', body, options)
+                        .map(res => res.json())
+                        .subscribe(
+                            data => {
+                            },
+                            err => {
+                              console.log("ERROR!: ", err);
+                            }
+                        );
                          body = JSON.stringify({
                           amount:1
                         });
                         this.http
-                        .post('http://localhost:3000/api/createPayment', body, options)
+                        .post('http://www.forehotels.com:3000/api/createPayment', body, options)
                          .map(res => res.json())
                         .subscribe(
                            (data) => { console.log(JSON.parse(data))}
@@ -282,7 +282,7 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
                           });
 
                           loading.present();
-                            //this.goToPay(loading, data.type);
+                            this.goToPay(loading, data.type);
                           }
                     }
                   }
