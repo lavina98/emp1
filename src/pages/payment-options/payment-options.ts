@@ -174,20 +174,6 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
          mode:"Net Banking"
         });
         this.data.push({
-          title:"",
-          img: "assets/img/netbanking.png",
-          img1: "",
-          img2: "",
-          icon: 'ios-arrow-down-outline',
-          img_wallet:"",
-          img_select:"",
-          text1:"",
-          text2:"",
-          text3:"",
-          type:"paypal",
-          mode:"Net Banking"
-         });
-        this.data.push({
          title:"",
          img: "assets/img/upi.png",
          img1: "",
@@ -262,24 +248,14 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
                               console.log("ERROR!: ", err);
                             }
                         );
-                         body = JSON.stringify({
-                          amount:1
-                        });
-                   
-                          if((data.type == 'paytm') || (data.type == 'paypal') || (data.type == 'instamojo')){
+
+                          if((data.type == 'paytm') || (data.type == 'payu') || (data.type == 'instamojo')){
                             let loading = this.loadCtrl.create({
                             spinner: 'dots',
                             content: 'Connecting to Payment Gateway. Kindly Wait...'
                           });
 
                           loading.present();
-                         let t=this.tst.create(
-                           {
-                              message:'1',
-                              duration:3000
-                           }
-                         )
-                         t.present();
                             this.goToPay(loading, data.type);
                           }
                     }

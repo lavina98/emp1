@@ -38,7 +38,7 @@ import { City } from '../providers/city';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { FileChooser } from '@ionic-native/file-chooser';
-import {Facebook,FacebookLoginResponse} from '@ionic-native/facebook'
+//import {Facebook,FacebookLoginResponse} from '@ionic-native/facebook'
 // import { GoogleMaps,
 //          GoogleMap,
 //          GoogleMapsEvent,
@@ -177,7 +177,7 @@ import { TermsConditionsPage } from '../pages/terms-conditions/terms-conditions'
       HeaderColor,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     BackButtonProvider,
-    Facebook
+   
 
   ]
 })
