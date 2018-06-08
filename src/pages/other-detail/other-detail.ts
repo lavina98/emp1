@@ -66,6 +66,16 @@ total_exp
         else if(this.exp == 'experienced'){
             this.view1 = true
         }
+        console.log('Other Detail page');
+        console.log(this.name);
+       console.log(this.email);
+       console.log(this.gender);
+       console.log(this.number);
+       console.log(this.password);
+       console.log(this.picture);
+       console.log(this.exp);
+       console.log(this.designation);
+       console.log(this.education); 
         
 }
 

@@ -82,7 +82,7 @@ export class LoginPage {
     if(this.network.noConnection()){
         this.network.showNetworkAlert()
     }
-      else{
+    else{
     this.items = this.registrationForm.value; 
     let body = JSON.stringify({
       email: this.items.email,

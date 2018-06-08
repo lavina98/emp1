@@ -25,6 +25,13 @@ export class WorkExperiencePage {
               this.number = navParams.get('number') 
               this.password = navParams.get('password')
               this.picture = navParams.get('picture')
+        console.log('work exp page');
+         console.log(this.name);
+        console.log(this.email);
+        console.log(this.gender);
+        console.log(this.number);
+        console.log(this.password);
+        console.log(this.picture);
 }
 
  moveNext(item){
@@ -185,7 +192,15 @@ export class DesignationPage{
               this.number = navParams.get('number')
               this.picture = navParams.get('picture')
               this.password = navParams.get('password')
-              this.exp = navParams.get('exp')              
+              this.exp = navParams.get('exp')  
+              console.log('designation  page');
+         console.log(this.name);
+        console.log(this.email);
+        console.log(this.gender);
+        console.log(this.number);
+        console.log(this.password);
+        console.log(this.picture);
+        console.log(this.exp);            
               if(this.network.noConnection()){
                   this.network.showNetworkAlert()
                   }else{
