@@ -293,7 +293,6 @@ googlesingup(googleName,googleEmail,picture){
 // }  
 
 
-
 // facebookSingup(facebookName,facebookGender,facebookEmail,picture){
 //      let loader = this.loadingCtrl.create({
 //      spinner: 'bubbles',
@@ -338,7 +337,6 @@ googlesingup(googleName,googleEmail,picture){
 //             }); 
 //     });
 // }
-
 
 
 loginForm(f:any){
