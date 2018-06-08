@@ -347,9 +347,9 @@ loginForm(){
                     'Authorization': "e36051cb8ca82ee0Lolzippu123456*="
                   });
                   let options = new RequestOptions({ headers: headers });
-                //   this.http.post("http://forehotels.com:3000/api/send_sms", body, options)
-                //         .subscribe(data =>{
-                // })
+                  this.http.post("http://forehotels.com:3000/api/send_sms", body, options)
+                        .subscribe(data =>{
+                })
             this.navCtrl.push(OtpPage,{
             name:this.googlename,
             email:this.googleemail,

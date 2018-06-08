@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, LoadingController, Platform } from 'ionic-angular';
+import { NavController, AlertController, LoadingController, Platform, ToastController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -31,7 +31,8 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
               private toast: Toast,
               private alertCtrl: AlertController,
               private ga: GoogleAnalytics,
-              private iab: InAppBrowser) {
+              private iab: InAppBrowser,
+              private tst:ToastController) {
         this.http = http;
         this.storage.get('Hash').then((hash) => {
           this.hash = hash;
@@ -251,30 +252,20 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
                       'Authorization': this.hash
                     });
                     let options = new RequestOptions({ headers: headers });
-                        // this.http
-                        // .post('http://forehotels.com:3000/api/ip', body, options)
-                        // .map(res => res.json())
-                        // .subscribe(
-                        //     data => {
-                        //     },
-                        //     err => {
-                        //       console.log("ERROR!: ", err);
-                        //     }
-                        // );
-                         body = JSON.stringify({
-                          amount:1
-                        });
                         this.http
-                        .post('http://localhost:3000/api/createPayment', body, options)
-                         .map(res => res.json())
+                        .post('http://forehotels.com:3000/api/ip', body, options)
+                        .map(res => res.json())
                         .subscribe(
-                           (data) => { console.log(JSON.parse(data))}
-                            ,
+                            data => {
+                            },
                             err => {
                               console.log("ERROR!: ", err);
                             }
                         );
-
+                         body = JSON.stringify({
+                          amount:1
+                        });
+                   
                           if((data.type == 'paytm') || (data.type == 'paypal') || (data.type == 'instamojo')){
                             let loading = this.loadCtrl.create({
                             spinner: 'dots',
@@ -282,7 +273,14 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
                           });
 
                           loading.present();
-                            //this.goToPay(loading, data.type);
+                         let t=this.tst.create(
+                           {
+                              message:'1',
+                              duration:3000
+                           }
+                         )
+                         t.present();
+                            this.goToPay(loading, data.type);
                           }
                     }
                   }
@@ -294,10 +292,18 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
 
   goToPay(loading, gateway){
     if(this.network.noConnection()){
+      let t=this.tst.create(
+        {
+           message:'2',
+           duration:3000
+        }
+      )
+      t.present();
         this.network.showNetworkAlert()
     }
       else{
-        loading.dismiss()
+        console.log('3');
+        loading.dismiss();
         if(gateway == 'paytm'){
           var options = {
             user_id: this.user.id,
@@ -327,7 +333,7 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
           let value = options[key];
           formHtml+='<input type="hidden" id="'+key+'" name="'+key+'" value="'+value+'" />';
         }
-        let url = "https://www.forehotels.com/payment/app"
+        let url = "https://www.forehotels.com/payment"
         let payScript = "var form = document.getElementById('ts-app-payment-form-redirect');";
         payScript += "form.innerHTML = '" + formHtml + "';";
         payScript += "form.action = '" + url + "';";

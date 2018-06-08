@@ -75,8 +75,8 @@ export class UploadResumePage {
             this.gender = navParams.get('gender')
             this.number = navParams.get('number') 
             this.password = navParams.get('password')            
-            // this.picture = navParams.get('picture')
-            // this.fbpic = this.picture.split('/')
+            this.picture = navParams.get('picture')
+            this.fbpic = this.picture.split('/')
             this.experience = navParams.get('experience')
             this.city = navParams.get('city')
             this.designation = navParams.get('designation')
@@ -96,15 +96,15 @@ export class UploadResumePage {
        if(this.network.noConnection()){
               this.network.showNetworkAlert()
               }else{
-              //   if(this.picture == null){
-              //   let alert = this.alertCtrl.create({
-              //             title: 'Error!',
-              //             subTitle: 'Kindly upload your Profile Picture to Create CV',
-              //             buttons: ['OK']
-              //             });
-              //             alert.present();
-              // }
-              // else if(this.picture != null){
+                if(this.picture == null){
+                let alert = this.alertCtrl.create({
+                          title: 'Error!',
+                          subTitle: 'Kindly upload your Profile Picture to Create CV',
+                          buttons: ['OK']
+                          });
+                          alert.present();
+              }
+              else if(this.picture != null){
                 this.navCtrl.push(ResumeBuilderPage, {
                         total_exp: this.total_exp,
                         education:this.education,
@@ -122,7 +122,7 @@ export class UploadResumePage {
                         picture: this.picture
                       });
                   }
-            // }
+            }
     }        
     
   clickRegister(){
@@ -131,23 +131,23 @@ export class UploadResumePage {
         console.log('eroorro');
       }else{
           
-        //   if(this.resume == null){
-        //   let alert = this.alertCtrl.create({
-        //             title: 'Error!',
-        //             subTitle: 'Kindly upload your Resume to Register',
-        //             buttons: ['OK']
-        //             });
-        //             alert.present();
-        // }
-        // if(this.picture == null){
-        //   let alert = this.alertCtrl.create({
-        //             title: 'Error!',
-        //             subTitle: 'Kindly upload your Profile Picture to Register',
-        //             buttons: ['OK']
-        //             });
-        //             alert.present();
-        // }
-        // if((this.picture != null) && (this.resume != null)){
+          if(this.resume == null){
+          let alert = this.alertCtrl.create({
+                    title: 'Error!',
+                    subTitle: 'Kindly upload your Resume to Register',
+                    buttons: ['OK']
+                    });
+                    alert.present();
+        }
+        if(this.picture == null){
+          let alert = this.alertCtrl.create({
+                    title: 'Error!',
+                    subTitle: 'Kindly upload your Profile Picture to Register',
+                    buttons: ['OK']
+                    });
+                    alert.present();
+        }
+        if((this.picture != null) && (this.resume != null)){
           let loading = this.loadingCtrl.create({
             spinner: 'bubbles',
             content: 'Creating your account...'
@@ -182,12 +182,12 @@ export class UploadResumePage {
                     console.log('1');
                     this.empid = JSON.parse(datas._body).User;
                     loading.dismiss()
-                    // if(this.fbpic[0] == 'https:'){
-                    //   this.uploaded++
-                    //   } else if(this.picpath == 'file:'){
-                    //   this.pictureUpload(this.picture)                
-                    // }
-                    // this.resumeUpload(this.resume)
+                    if(this.fbpic[0] == 'https:'){
+                      this.uploaded++
+                      } else if(this.picpath == 'file:'){
+                      this.pictureUpload(this.picture)                
+                    }
+                    this.resumeUpload(this.resume)
                     let city_body = JSON.stringify({
                           city_id:this.city,
                           user_id: this.empid
@@ -234,17 +234,17 @@ export class UploadResumePage {
                       }); 
                       alert.present();
                   });
-                  // },
+                  }),
                   err => {                    
                   }
-                // );
-          }
-              );}
-  }
+                }
+              }
+            }
+      
       
 
  success(){
-      // if(this.uploaded == 2){
+      if(this.uploaded == 2){
         let alert = this.alertCtrl.create({
                   title: 'Congrats!',
                   subTitle: 'Your Account Has been Created Successfully.',
@@ -253,7 +253,7 @@ export class UploadResumePage {
                   alert.present();
 
         this.navCtrl.setRoot(LoginPage)
-      // }
+      }
     }
 
 uploadResume(){    
