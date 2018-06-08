@@ -173,20 +173,6 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
          mode:"Net Banking"
         });
         this.data.push({
-          title:"",
-          img: "assets/img/netbanking.png",
-          img1: "",
-          img2: "",
-          icon: 'ios-arrow-down-outline',
-          img_wallet:"",
-          img_select:"",
-          text1:"",
-          text2:"",
-          text3:"",
-          type:"paypal",
-          mode:"Net Banking"
-         });
-        this.data.push({
          title:"",
          img: "assets/img/upi.png",
          img1: "",
@@ -251,38 +237,25 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
                       'Authorization': this.hash
                     });
                     let options = new RequestOptions({ headers: headers });
-                        // this.http
-                        // .post('http://forehotels.com:3000/api/ip', body, options)
-                        // .map(res => res.json())
-                        // .subscribe(
-                        //     data => {
-                        //     },
-                        //     err => {
-                        //       console.log("ERROR!: ", err);
-                        //     }
-                        // );
-                         body = JSON.stringify({
-                          amount:1
-                        });
                         this.http
-                        .post('http://localhost:3000/api/createPayment', body, options)
-                         .map(res => res.json())
+                        .post('http://forehotels.com:3000/api/ip', body, options)
+                        .map(res => res.json())
                         .subscribe(
-                           (data) => { console.log(JSON.parse(data))}
-                            ,
+                            data => {
+                            },
                             err => {
                               console.log("ERROR!: ", err);
                             }
                         );
 
-                          if((data.type == 'paytm') || (data.type == 'paypal') || (data.type == 'instamojo')){
+                          if((data.type == 'paytm') || (data.type == 'payu') || (data.type == 'instamojo')){
                             let loading = this.loadCtrl.create({
                             spinner: 'dots',
                             content: 'Connecting to Payment Gateway. Kindly Wait...'
                           });
 
                           loading.present();
-                            //this.goToPay(loading, data.type);
+                            this.goToPay(loading, data.type);
                           }
                     }
                   }
