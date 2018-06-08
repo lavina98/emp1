@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, LoadingController, Platform } from 'ionic-angular';
+import { NavController, AlertController, LoadingController, Platform, ToastController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -31,7 +31,8 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
               private toast: Toast,
               private alertCtrl: AlertController,
               private ga: GoogleAnalytics,
-              private iab: InAppBrowser) {
+              private iab: InAppBrowser,
+              private tst:ToastController) {
         this.http = http;
         this.storage.get('Hash').then((hash) => {
           this.hash = hash;
@@ -267,10 +268,18 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
 
   goToPay(loading, gateway){
     if(this.network.noConnection()){
+      let t=this.tst.create(
+        {
+           message:'2',
+           duration:3000
+        }
+      )
+      t.present();
         this.network.showNetworkAlert()
     }
       else{
-        loading.dismiss()
+        console.log('3');
+        loading.dismiss();
         if(gateway == 'paytm'){
           var options = {
             user_id: this.user.id,
@@ -300,7 +309,7 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
           let value = options[key];
           formHtml+='<input type="hidden" id="'+key+'" name="'+key+'" value="'+value+'" />';
         }
-        let url = "https://www.forehotels.com/payment/app"
+        let url = "https://www.forehotels.com/payment"
         let payScript = "var form = document.getElementById('ts-app-payment-form-redirect');";
         payScript += "form.innerHTML = '" + formHtml + "';";
         payScript += "form.action = '" + url + "';";
