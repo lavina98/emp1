@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, LoadingController, Platform} from 'ionic-angular';
+import { Component, OnInit } from '@angular/core';
+import { NavController, NavParams, AlertController, LoadingController, Platform, ToastController} from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { FileChooser, } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path'
@@ -16,7 +16,7 @@ import { Diagnostic } from '@ionic-native/diagnostic';
   selector: 'page-upload-resume',
   templateUrl: 'upload-resume.html'
 })
-export class UploadResumePage {
+export class UploadResumePage implements OnInit {
   resume:any
   options:any;
   completed:any;
@@ -63,7 +63,8 @@ export class UploadResumePage {
               public navParams: NavParams,
               public alertCtrl: AlertController,
               private network: NetworkServiceProvider, 
-              public loadingCtrl: LoadingController) {
+              public loadingCtrl: LoadingController,
+              public toastCtrl:ToastController) {
         let loader = this.loadingCtrl.create({
               spinner: 'bubbles',
               content: 'Please Wait...'
@@ -76,7 +77,7 @@ export class UploadResumePage {
             this.number = navParams.get('number') 
             this.password = navParams.get('password')            
             this.picture = navParams.get('picture')
-            this.fbpic = this.picture.split('/')
+            // this.fbpic = this.picture.split('/')
             this.experience = navParams.get('experience')
             this.city = navParams.get('city')
             this.designation = navParams.get('designation')
@@ -91,7 +92,23 @@ export class UploadResumePage {
             this.hash = 'e36051cb8ca82ee0Lolzippu123456*=';
             this.uploaded = 0;
   }
-
+  ngOnInit()
+  {
+    console.log('Upload resume page');
+        console.log(this.name);
+       console.log(this.email);
+       console.log(this.gender);
+       console.log(this.number);
+       console.log(this.password);
+       console.log(this.picture);
+       console.log(this.total_exp);
+       console.log(this.designation);
+       console.log(this.education); 
+       console.log(this.org); 
+       console.log(this.internship); 
+       console.log(this.catering); 
+       console.log(this.referrer); 
+  }
   buildResume(){
        if(this.network.noConnection()){
               this.network.showNetworkAlert()
@@ -125,126 +142,127 @@ export class UploadResumePage {
             }
     }        
     
-  clickRegister(){
-  if(this.network.noConnection()){
-        this.network.showNetworkAlert()
-        console.log('eroorro');
-      }else{
-          
-          if(this.resume == null){
-          let alert = this.alertCtrl.create({
-                    title: 'Error!',
-                    subTitle: 'Kindly upload your Resume to Register',
-                    buttons: ['OK']
-                    });
-                    alert.present();
-        }
-        if(this.picture == null){
-          let alert = this.alertCtrl.create({
-                    title: 'Error!',
-                    subTitle: 'Kindly upload your Profile Picture to Register',
-                    buttons: ['OK']
-                    });
-                    alert.present();
-        }
-        if((this.picture != null) && (this.resume != null)){
-          let loading = this.loadingCtrl.create({
-            spinner: 'bubbles',
-            content: 'Creating your account...'
-          });
-          loading.present();
-        let body = JSON.stringify({
-            name: this.name,
-            password: this.password,
-            contact_no: this.number,
-            user_type: 2,
-            region: 'India',
-            email: this.email,
-            gender: this.gender,
-            profile_pic: this.picture,
-            experience: this.total_exp,
-            designation: this.designation,
-            qualification: this.education,
-            org: this.org,
-            internship: this.internship,
-            catering: this.catering,
-            referrer: this.referrer
-          });
-          let headers = new Headers({
-            'Content-Type': 'application/json',
-            'Authorization': 'e36051cb8ca82ee0Lolzippu123456*='
-          });
-          let options = new RequestOptions({ headers: headers });
-          this.http
-              .post('http://forehotels.com:3000/api/users_employee', body, options)
-              .subscribe(
-                  datas => {                    
-                    console.log('1');
-                    this.empid = JSON.parse(datas._body).User;
-                    loading.dismiss()
-                    if(this.fbpic[0] == 'https:'){
-                      this.uploaded++
-                      } else if(this.picpath == 'file:'){
-                      this.pictureUpload(this.picture)                
-                    }
-                    this.resumeUpload(this.resume)
-                    let city_body = JSON.stringify({
-                          city_id:this.city,
-                          user_id: this.empid
-                        });                        
-            this.http.post('http://forehotels.com:3000/api/users_city', city_body, options)
-              .map(res => res.json())
-              .subscribe(
-                  data => {    
-                    console.log('2');               
-                    let email_body = JSON.stringify({
-                        email: this.email,
-                        mail: 'employee_welcome'
-                            });
-                        this.http
-                        .post('http://forehotels.com:3000/api/send_email', email_body, options)
-                        .map(res => res.json())
-                        .subscribe(
-                            data => {   console.log('3');                           
+    clickRegister(){
+      if(this.network.noConnection()){
+            this.network.showNetworkAlert()
+            console.log('eroorro');
+          }else{
+              
+              if(this.resume == null){
+              let alert = this.alertCtrl.create({
+                        title: 'Error!',
+                        subTitle: 'Kindly upload your Resume to Register',
+                        buttons: ['OK']
                         });
-                    let sms_body = JSON.stringify({
-                        number: this.number,
-                        text: 'Hello '+this.name+', Welcome to Forehotels. Use the Forehotels App regularly for latest Job openings'
-                            });
-                        this.http
-                        .post('http://forehotels.com:3000/api/send_sms', sms_body, options)
-                        .map(res => res.json())
-                        .subscribe(
-                            data => {       console.log('4');
-                                                   
-                        });
-                        this.success();
-                  },
-                  err => {
-                    let alert = this.alertCtrl.create({
-                        title: '!Oops Sorry Something went wrong :(',
-                        subTitle:'Try Again..!',
-                        buttons: [{
-                          text: "Dismiss",
-                          role: 'cancel',
-                          handler: ()=>{
-                            this.navCtrl.push(RegisterPage)
-                          }
-                        }],                  
-                      }); 
-                      alert.present();
-                  });
-                  }),
-                  err => {                    
-                  }
-                }
-              }
+                        alert.present();
             }
-      
+            if(this.picture == null){
+              let alert = this.alertCtrl.create({
+                        title: 'Error!',
+                        subTitle: 'Kindly upload your Profile Picture to Register',
+                        buttons: ['OK']
+                        });
+                        alert.present();
+            }
+            if((this.picture != null) && (this.resume != null)){
+              let loading = this.loadingCtrl.create({
+                spinner: 'bubbles',
+                content: 'Creating your account...'
+              });
+              loading.present();
+            let body = JSON.stringify({
+                name: this.name,
+                password: this.password,
+                contact_no: this.number,
+                user_type: 2,
+                region: 'India',
+                email: this.email,
+                gender: this.gender,
+                profile_pic: this.picture,
+                experience: this.total_exp,
+                designation: this.designation,
+                qualification: this.education,
+                org: this.org,
+                internship: this.internship,
+                catering: this.catering,
+                referrer: this.referrer
+              });
+              let headers = new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': 'e36051cb8ca82ee0Lolzippu123456*='
+              });
+              let options = new RequestOptions({ headers: headers });
+              this.http
+                  .post('http://forehotels.com:3000/api/users_employee', body, options)
+                  .subscribe(
+                      datas => {                    
+                        console.log('1');
+                        this.empid = JSON.parse(datas._body).User;
+                        loading.dismiss()
+                        // if(this.fbpic[0] == 'https:'){
+                        //   this.uploaded++
+                          // } 
+                           if(this.picpath == 'file:'){
+                          this.pictureUpload(this.picture)                
+                        }
+                        this.resumeUpload(this.resume)
+                        let city_body = JSON.stringify({
+                              city_id:this.city,
+                              user_id: this.empid
+                            });                        
+                this.http.post('http://forehotels.com:3000/api/users_city', city_body, options)
+                  .map(res => res.json())
+                  .subscribe(
+                      data => {    
+                        console.log('2');               
+                        let email_body = JSON.stringify({
+                            email: this.email,
+                            mail: 'employee_welcome'
+                                });
+                            this.http
+                            .post('http://forehotels.com:3000/api/send_email', email_body, options)
+                            .map(res => res.json())
+                            .subscribe(
+                                data => {   console.log('3');                           
+                            });
+                        let sms_body = JSON.stringify({
+                            number: this.number,
+                            text: 'Hello '+this.name+', Welcome to Forehotels. Use the Forehotels App regularly for latest Job openings'
+                                });
+                            this.http
+                            .post('http://forehotels.com:3000/api/send_sms', sms_body, options)
+                            .map(res => res.json())
+                            .subscribe(
+                                data => {       console.log('4');
+                                                       
+                            });
+                            this.success();
+                      },
+                      err => {
+                        let alert = this.alertCtrl.create({
+                            title: '!Oops Sorry Something went wrong :(',
+                            subTitle:'Try Again..!',
+                            buttons: [{
+                              text: "Dismiss",
+                              role: 'cancel',
+                              handler: ()=>{
+                                this.navCtrl.push(RegisterPage)
+                              }
+                            }],                  
+                          }); 
+                          alert.present();
+                      });
+                      },
+                      err => {                    
+                      }
+                    );
+              }
+          }
+      }
       
 
  success(){
-      if(this.uploaded == 2){
+      // if(this.uploaded == 2){
         let alert = this.alertCtrl.create({
                   title: 'Congrats!',
                   subTitle: 'Your Account Has been Created Successfully.',
@@ -253,20 +271,29 @@ export class UploadResumePage {
                   alert.present();
 
         this.navCtrl.setRoot(LoginPage)
-      }
+      // }
     }
 
 uploadResume(){    
+  this.diagnostic.getExternalStorageAuthorizationStatus().then(
+    (status)=>{
+      let t=this.toastCtrl.create({
+        message: status,
+        duration:3000
+      })
+
+    }
+  );
     this.diagnostic.requestExternalStorageAuthorization().then((status)=>{
-    if(status == "GRANTED"){
+    // if(status == "GRANTED"){
              this.filemanager()             
-          }else{
-             let alert = this.alertCtrl.create({                              
-                              subTitle: "Please Click on Allow to access File",
-                              buttons: ['Dismiss']
-                            });
-                            alert.present();
-            }        
+          // }else{
+          //    let alert = this.alertCtrl.create({                              
+          //                     subTitle: "Please Click on Allow to access File",
+          //                     buttons: ['Dismiss']
+          //                   });
+          //                   alert.present();
+          //   }        
         }).catch((e)=>{
             this.toast.show(e, '5000', 'bottom').subscribe(
                 toast => {
@@ -320,9 +347,18 @@ uploadResume(){
   }
   
   uploadPicture(){
-      this.fbpic[0] = 'None';  
+      // this.fbpic[0] = 'None';  
+      this.diagnostic.getExternalStorageAuthorizationStatus().then(
+        (status)=>{
+          let t=this.toastCtrl.create({
+            message: status,
+            duration:3000
+          })
+    
+        }
+      );
       this.diagnostic.requestExternalStorageAuthorization().then((status)=>{            
-        if(status == "GRANTED"){
+        // if(status == "GRANTED"){
           this.fc.open()
           .then(
             uri => {
@@ -340,13 +376,14 @@ uploadResume(){
                 this.picturepicup(uri)               
             }
           });
-        }else{
-            let alert = this.alertCtrl.create({                              
-                              subTitle: "Please Click on Allow to access Picture",
-                              buttons: ['Dismiss']
-                            });
-                            alert.present();
-                  }  
+        // }
+        // }else{
+        //     let alert = this.alertCtrl.create({                              
+        //                       subTitle: "Please Click on Allow to access Picture",
+        //                       buttons: ['Dismiss']
+        //                     });
+        //                     alert.present();
+        //           }  
               }).catch((e)=>{
             this.toast.show(e, '5000', 'bottom').subscribe(
                 toast => {

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController, LoadingController, NavParams, AlertController, Platform, ToastController } from 'ionic-angular';
-import { Validators, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder, NgForm } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { LoginPage } from '../login/login'
 import { Http, Headers, RequestOptions } from '@angular/http';
@@ -16,7 +16,7 @@ import { t } from '@angular/core/src/render3';
   selector: 'page-register',
   templateUrl: 'register.html'
 })
-export class RegisterPage {
+export class RegisterPage implements OnInit{
   todo = {}
   FB_APP_ID: number = 986922888110799;
   name:any;
@@ -91,6 +91,15 @@ export class RegisterPage {
   // this.facebook.browserInit(this.FB_APP_ID, "v2.9");
 this.googlename=this.navParams.get('googlename');
 this.googleemail=this.navParams.get('googleemail');
+ }
+ ngOnInit()
+ {
+
+ }
+ m(f:any)
+ {
+   console.log('hey');
+   console.log(f);
  }
 doGoogleLogin(){
   if(this.network.noConnection()){
@@ -332,14 +341,14 @@ facebookSingup(facebookName,facebookGender,facebookEmail,picture){
 
 
 
-loginForm(){
+loginForm(f:any){
+  console.log(f);
     if(this.network.noConnection()){
         this.network.showNetworkAlert()
     }else{
-        this.items = this.registrationForm.value
         let body = JSON.stringify({
-                  number: this.items.number,
-                  text: "Welcome "+this.items.name+", Your OTP is "+this.otp+ ". Please Verify to register on ForeHotels"
+                  number: f.value.number,
+                  text: "Welcome "+f.value.name+", Your OTP is "+this.otp+ ". Please Verify to register on ForeHotels"
                   })
       
                   let headers = new Headers({
@@ -350,12 +359,13 @@ loginForm(){
                   this.http.post("http://forehotels.com:3000/api/send_sms", body, options)
                         .subscribe(data =>{
                 })
+                console.log(this.googlename);
             this.navCtrl.push(OtpPage,{
-            name:this.googlename,
-            email:this.googleemail,
-            number:this.items.number,
-            gender:this.items.gender,
-            password:this.items.password,
+            name:f.value.name,
+            email:f.value.email,
+            number:f.value.number,
+            gender:f.value.gender,
+            password:f.value.password,
             picture:this.picture,
             otp:this.otp
           },{animate:true,animation:'transition',duration:500,direction:'forward'})
@@ -373,14 +383,14 @@ loginForm(){
     </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <form [formGroup]="OTPForm" (ngSubmit)="success()">
+  <form #f="ngForm" (ngSubmit)="success(f)">
         <ion-list>
             <ion-item>
             <ion-label color="primary" floating>Enter OTP Number Here</ion-label>
-            <ion-input type="number" formControlName="OtpNumber" required></ion-input>
+            <ion-input type="number"  placeHolder="Enter OTP" name="otp" required ngModel></ion-input>
             </ion-item>
         </ion-list>
-         <button ion-button round full type="submit" [disabled]="!OTPForm.valid">
+         <button ion-button round full type="submit" [disabled]="!f.valid">
          Proceed             
         </button> 
   </form>
@@ -388,7 +398,7 @@ loginForm(){
 `
 })  
 
-export class OtpPage {
+export class OtpPage implements OnInit {
   otp: any;
   OTPForm: any;
   otpNum: any;
@@ -399,12 +409,26 @@ export class OtpPage {
   number:any
   password:any
   picture:any
+  http:any;
+  ngOnInit()
+  {
+       console.log('otp page');
 
+        console.log('otp is'+this.otp);
+        console.log(this.name);
+        console.log(this.email);
+        console.log(this.gender);
+        console.log(this.number);
+        console.log(this.password);
+        console.log(this.picture);
+
+  }
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
               public from: FormBuilder, 
               public network: NetworkServiceProvider,
-              public alertCtrl:AlertController) {
+              public alertCtrl:AlertController,
+              http: Http,) {
               this.name = navParams.get('name')
               this.email = navParams.get('email')
               this.gender = navParams.get('gender')
@@ -412,17 +436,19 @@ export class OtpPage {
               this.password = navParams.get('password')
               this.picture = navParams.get('picture')
               this.otp = navParams.get('otp')
-              this.OTPForm = this.from.group({
-                "OtpNumber":[this.otp,Validators.required],
-              })
+              // console.log(this.name);
+              // this.OTPForm = this.from.group({
+              //   "OtpNumber":[this.otp,Validators.required],
+              // })
   }
 
-success(){
+success(f:NgForm){
     if(this.network.noConnection()){
         this.network.showNetworkAlert()
     }else{
-          this.items = this.OTPForm.value
-          this.otpNum = this.items.OtpNumber    
+     
+        console.log(f);
+          this.otpNum = f.value.otp;    
           if(this.otpNum == this.otp){
             this.navCtrl.push(WorkExperiencePage,{        
               name:this.name,
@@ -442,6 +468,29 @@ success(){
                   role: 'cancel',
                   handler: () => {
                     console.log('Cancel clicked');
+                    let val=Math.floor(100000 + Math.random() * 900000);
+                    let body = JSON.stringify({
+                      number: this.number,
+                      text: "Welcome "+this.items.name+", Your OTP is "+val+ ". Please Verify to register on ForeHotels"
+                      })
+          
+                      let headers = new Headers({
+                        'Content-Type': 'application/json',
+                        'Authorization': "e36051cb8ca82ee0Lolzippu123456*="
+                      });
+                      let options = new RequestOptions({ headers: headers });
+                      this.http.post("http://forehotels.com:3000/api/send_sms", body, options)
+                            .subscribe(data =>{
+                    });
+                    this.navCtrl.push(OtpPage,{
+                      name:this.name,
+                      email:this.email,
+                      number:this.number,
+                      gender:this.gender,
+                      password:this.password,
+                      picture:this.picture,
+                      otp: val,     
+                    },{animate:true,animation:'transition',duration:500,direction:'forward'})
                   }
                   },
                   { text: 'Go To Login',

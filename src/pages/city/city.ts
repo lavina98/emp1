@@ -53,6 +53,16 @@ export class CityPage {
         this.exp = navParams.get('exp')
         this.loader = navParams.get('loader')
         this.designation = navParams.get('designation') 
+        console.log('City  page');
+        console.log(this.name);
+       console.log(this.email);
+       console.log(this.gender);
+       console.log(this.number);
+       console.log(this.password);
+       console.log(this.picture);
+       console.log(this.exp);
+       console.log(this.loader);
+       console.log(this.designation);          
     }
       ionViewDidLoad() {
         this.setFilteredItems(); 
@@ -91,6 +101,7 @@ export class CityPage {
           let data = {
             user_city:  this.user_city
           }
+          console.log('--------------user city-------'+data.user_city);
           this.navCtrl.push(EducationPage, {
                 data: data.user_city,
                 exp:this.exp,
@@ -174,6 +185,15 @@ export class EducationPage{
         this.exp = navParams.get('exp')
         this.city = navParams.get('data')
         this.designation = navParams.get('designation')
+        console.log('Eduacation  page');
+        console.log(this.name);
+       console.log(this.email);
+       console.log(this.gender);
+       console.log(this.number);
+       console.log(this.password);
+       console.log(this.picture);
+       console.log(this.exp);
+       console.log(this.designation); 
   }
 
     selectvalue(item){
