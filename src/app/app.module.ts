@@ -66,6 +66,7 @@ import { BackButtonProvider } from '../providers/back-button/back-button';
 import { AboutUsPage } from '../pages/about-us/about-us';
 import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy';
 import { TermsConditionsPage } from '../pages/terms-conditions/terms-conditions';
+import { MymanagerPage } from "../pages/mymanager/mymanager";
 @NgModule({
   declarations: [
     MyApp,
@@ -104,6 +105,7 @@ import { TermsConditionsPage } from '../pages/terms-conditions/terms-conditions'
     ResumeBuilderPage,
     UrgentNeedPage,
     PopoverPageExp,
+    MymanagerPage,
   ],
   imports: [
     BrowserModule,
@@ -149,6 +151,7 @@ import { TermsConditionsPage } from '../pages/terms-conditions/terms-conditions'
     UploadResumePage,
     ResumeBuilderPage,
     UrgentNeedPage,
+    MymanagerPage,
   ],
   providers: [
               Toast,

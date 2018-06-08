@@ -14,6 +14,8 @@ import { ReferAFriendPage } from '../refer-a-friend/refer-a-friend'
 import { DatePipe } from '@angular/common';	
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
 import { ProfilePicPage } from '../profile-pic/profile-pic';
+import { UrgentNeedPage } from '../urgent-need/urgent-need';
+import { MymanagerPage } from "../mymanager/mymanager";
 @Component({
   selector: 'page-dashboard',
   templateUrl: 'dashboard.html'
@@ -40,6 +42,7 @@ picss:any
 counter= []
 pages: Array<{title:String,icon:any;component:any,count:any}>
 pages1: Array<{title:String,icon:any;component:any}>
+pages2: Array<{title:String,icon:any;component:any}>
 rows:any
 notifications:any
 myDate: any;
@@ -195,6 +198,11 @@ interviews=[]
          this.pages1=[{title:'International Placement',icon:'ip.png',component:InternationalPlacementPage},
                    {title:'Update Profile',icon:'update.png',component:UpdateProfilePage},
                    {title:'Refer N Earn',icon:'share.png',component:ReferAFriendPage}]
+
+                   
+        this.pages2=[{title:'My Manager',icon:'ip.png',component:MymanagerPage},
+                   {title:'Urgent Need',icon:'update.png',component:UrgentNeedPage},
+                   {title:'Notification',icon:'share.png',component:NotificationsPage}]
     }
   Openmenu(){
      this.menu.open();
