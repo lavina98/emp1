@@ -1,84 +1,81 @@
 <style>
-.socialheader{
-  text-align: center;
-    padding: 0px;
-    margin: 0px;
-}  
-</style>
-<ion-header>
-	<ion-navbar>
-		<ion-title>
-			Basic Detail
-		</ion-title>
-	</ion-navbar>
-</ion-header>
- <ion-content padding>
-<div>  
-  <!-- <div>    -->
-    
-  <form [formGroup]="registrationForm" (ngSubmit)="loginForm(registrationForm.value)">
-    <ion-list> 
-  <ion-item>   
-    <ion-label floating>Full Name</ion-label>
-    <ion-input type="text" [formControl]="registrationForm.controls['name']" value="{{this.googlename}}" required></ion-input>
-  </ion-item>
-  <div *ngFor="let validation of validation_messages" class="error-box">
-    <div style="text-align: center;color:#f53d3d" color="danger" *ngIf="registrationForm.controls['name'].hasError(validation.type) && registrationForm.controls['name'].touched">
-      {{validation.message}}
-    </div>
-  </div>
-   <ion-item>
-    <ion-label floating>Email</ion-label>
-    <ion-input type="email" [formControl]="registrationForm.controls['email']" value="{{this.googleemail}}" required></ion-input>
-  </ion-item>
-  <div *ngFor="let validation of validation_Email" class="error-box">
-    <div style="text-align: center;color:#f53d3d" color="danger" *ngIf="registrationForm.controls['email'].hasError(validation.type) && registrationForm.controls['email'].touched">
-      {{validation.message}}
-    </div>
-  </div>
-    <ion-item>
-    <ion-label>Gender</ion-label>
-    <ion-select formControlName="gender" [(ngModel)]="gender" required>
-      <ion-option value="male">Male</ion-option>
-      <ion-option value="female">Female</ion-option>
-    </ion-select>
-  </ion-item>
-  <ion-item>
-    <ion-label floating>Phone Number</ion-label>
-    <ion-input type="number" [formControl]="registrationForm.controls['number']" required></ion-input>
-  </ion-item>
-  <div *ngFor="let validation of validation_Number" class="error-box">
-    <div style="text-align: center;color:#f53d3d" color="danger" *ngIf="registrationForm.controls['number'].hasError(validation.type) && registrationForm.controls['number'].touched">
-      {{validation.message}}
-    </div>
-  </div>
-   <ion-item>
-    <ion-label floating>Set Password</ion-label>
-    <ion-input type="password" [formControl]="registrationForm.controls['password']"></ion-input>
-   </ion-item> 
-  <div *ngFor="let validation of validation_Password" class="error-box">
-    <div style="text-align: center;color:#f53d3d" color="danger" *ngIf="registrationForm.controls['password'].hasError(validation.type) && registrationForm.controls['password'].touched">
-      {{validation.message}}
-    </div>
-  </div>
-    </ion-list>
-   <br>
-<button ion-button type="submit"  block>Send Confirmation Code</button>
-   </form>
-</div>
-
-
-  <ion-list-header class="socialheader" no-lines>
-Create account faster using
-  </ion-list-header>
-<ion-grid>
-  <ion-row>
-      <ion-col style="width:50%"  >  
-          <button ion-button icon-left (click)="doFbLogin()" style="background-color: #3b5998;" round><ion-icon name="logo-facebook"></ion-icon>Facebook</button>
-      </ion-col>
-        <ion-col style="width:50%">
-            <button ion-button icon-left  color="danger" (click)="doGoogleLogin()" round><ion-icon name="logo-google"></ion-icon>Google</button>
+  .socialheader{
+    text-align: center;
+      padding: 0px;
+      margin: 0px;
+  }  
+  </style>
+  <ion-header>
+    <ion-navbar>
+      <ion-title>
+        Basic Detail
+      </ion-title>
+    </ion-navbar>
+  </ion-header>
+   <ion-content padding>
+    <ion-list-header class="socialheader" no-lines>
+  Create account faster using
+    </ion-list-header>
+  <ion-grid>
+    <ion-row>
+        <ion-col style="width:50%"  >  
+            <button ion-button icon-left (click)="doFbLogin()" style="background-color: #3b5998;" round><ion-icon name="logo-facebook"></ion-icon>Facebook</button>
         </ion-col>
-  </ion-row>
-</ion-grid>
-</ion-content>
+          <ion-col style="width:50%">
+              <button ion-button icon-left  color="danger" (click)="doGoogleLogin()" round><ion-icon name="logo-google"></ion-icon>Google</button>
+          </ion-col>
+    </ion-row>
+  </ion-grid>
+    <div *ngIf="this.view == true">  
+    <!-- <div>    -->
+    <form [formGroup]="registrationForm" (ngSubmit)="loginForm(registrationForm.value)">
+      <ion-list> 
+    <ion-item>   
+      <ion-label floating>Full Name</ion-label>
+      <ion-input type="text" [formControl]="registrationForm.controls['name']" value="{{this.name}}" required></ion-input>
+    </ion-item>
+    <div *ngFor="let validation of validation_messages" class="error-box">
+      <div style="text-align: center;color:#f53d3d" color="danger" *ngIf="registrationForm.controls['name'].hasError(validation.type) && registrationForm.controls['name'].touched">
+        {{validation.message}}
+      </div>
+    </div>
+     <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input type="email" [formControl]="registrationForm.controls['email']" value="{{this.email}}" required></ion-input>
+    </ion-item>
+    <div *ngFor="let validation of validation_Email" class="error-box">
+      <div style="text-align: center;color:#f53d3d" color="danger" *ngIf="registrationForm.controls['email'].hasError(validation.type) && registrationForm.controls['email'].touched">
+        {{validation.message}}
+      </div>
+    </div>
+      <ion-item>
+      <ion-label>Gender</ion-label>
+      <ion-select formControlName="gender" [(ngModel)]="gender" required>
+        <ion-option value="male">Male</ion-option>
+        <ion-option value="female">Female</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Phone Number</ion-label>
+      <ion-input type="number" [formControl]="registrationForm.controls['number']" required></ion-input>
+    </ion-item>
+    <div *ngFor="let validation of validation_Number" class="error-box">
+      <div style="text-align: center;color:#f53d3d" color="danger" *ngIf="registrationForm.controls['number'].hasError(validation.type) && registrationForm.controls['number'].touched">
+        {{validation.message}}
+      </div>
+    </div>
+     <ion-item>
+      <ion-label floating>Set Password</ion-label>
+      <ion-input type="password" [formControl]="registrationForm.controls['password']"></ion-input>
+     </ion-item> 
+    <div *ngFor="let validation of validation_Password" class="error-box">
+      <div style="text-align: center;color:#f53d3d" color="danger" *ngIf="registrationForm.controls['password'].hasError(validation.type) && registrationForm.controls['password'].touched">
+        {{validation.message}}
+      </div>
+    </div>
+      </ion-list>
+     <br>
+  <button ion-button type="submit" [disabled]="!registrationForm.valid" block>Send Confirmation Code</button>
+     </form>
+  </div>
+   </ion-content>
