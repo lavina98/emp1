@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController, MenuController, LoadingController, Platform } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Storage } from '@ionic/storage';
@@ -20,10 +20,17 @@ import { MymanagerPage } from "../mymanager/mymanager";
   selector: 'page-dashboard',
   templateUrl: 'dashboard.html'
 })
-export class DashboardPage {
-  ionViewDidEnter(){
-    this.loadData()
+export class DashboardPage implements OnInit {
+
+  ngOnInit()
+  {
+    this.loadData();
   }
+  ionViewDidLoad()
+  {
+    this.loadData();
+  }
+ 
 view:boolean
 profile:any;
 items:any;
@@ -42,7 +49,7 @@ picss:any
 counter= []
 pages: Array<{title:String,icon:any;component:any,count:any}>
 pages1: Array<{title:String,icon:any;component:any}>
-pages2: Array<{title:String,icon:any;component:any}>
+pages2: Array<{title:String,icon:any;component:any,count:any}>
 rows:any
 notifications:any
 myDate: any;
@@ -183,14 +190,14 @@ interviews=[]
               .subscribe(data =>{
               this.ccounts = data.json();
               this.catering_jobs = this.ccounts.Catering_Jobs["0"].count;
-              this.callFunction(this.jobs,this.applied_jobs,this.catering_jobs)              
+              this.callFunction(this.jobs,this.applied_jobs,this.catering_jobs,this.notif_count)              
               },error => {});
                      
           });
         });
       } 
     }  
-  callFunction(val,val1,val2){
+  callFunction(val,val1,val2,val3){
         this.pages=[{title:'Job Openings',icon:'job_openings.png',component: SearchJobsPage,count: val},
                    {title:'Job Applied',icon:'jobapplied.png',component:JobsAppliedPage,count: val1},
                    {title:'Catering Jobs',icon:'catering.png',component:CateringJobsPage,count:val2}
@@ -200,9 +207,9 @@ interviews=[]
                    {title:'Refer N Earn',icon:'share.png',component:ReferAFriendPage}]
 
                    
-        this.pages2=[{title:'My Manager',icon:'ip.png',component:MymanagerPage},
-                   {title:'Urgent Need',icon:'update.png',component:UrgentNeedPage},
-                   {title:'Notification',icon:'share.png',component:NotificationsPage}]
+        this.pages2=[{title:'My Manager',icon:'ip.png',component:MymanagerPage,count:0},
+                   {title:'Urgent Need',icon:'update.png',component:UrgentNeedPage,count:0},
+                   {title:'Notification',icon:'share.png',component:NotificationsPage,count:val3}]
     }
   Openmenu(){
      this.menu.open();

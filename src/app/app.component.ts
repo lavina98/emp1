@@ -29,7 +29,7 @@ import { HomePage } from '../pages/home/home';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  // rootPage: any = HomePage;
+  rootPage: any = HomePage;
   // pages: Array<{title: string, component: any}>;
 
   http:any;
@@ -40,7 +40,7 @@ backPressed:boolean=true
 start_time:number;
 key:String = "e36051cb8ca82ee0Lolzippu123456*=";
 app_id = "a8874a29-22e2-486f-b4b3-b3d09e8167a5";
-  rootPage:any;
+  // rootPage:any;
   social_pic:boolean;
   pages: Array<{title: string, component: any, icon:any}>;
 
@@ -91,7 +91,7 @@ app_id = "a8874a29-22e2-486f-b4b3-b3d09e8167a5";
     this.rootPage = IntroPage;
     this.storage.get('loggedIn').then((id) => {
        if(id == true){
-        //  this.rootPage = DashboardPage;
+         this.rootPage = DashboardPage;
          let datewa = new Date().toISOString()
          
          console.log('Date '+datewa)

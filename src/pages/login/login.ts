@@ -99,6 +99,8 @@ export class LoginPage {
           .subscribe(
               data => {
                 this.login = data.json();
+                console.log( 'herererer');
+                console.log(this.login);
                 if(this.login.length > 0) {
                   this.storage.set('id', this.login["0"].id);
                   this.storage.set('loggedIn', true);
