@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, LoadingController, Platform, ToastController } from 'ionic-angular';
+import { NavController, AlertController, LoadingController, Platform, ToastController, NavParams } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -22,6 +22,7 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
   hash:any;
   user:any;
   paid:boolean;
+  val:any
   constructor(private loadCtrl: LoadingController, 
               public navCtrl: NavController, 
               http: Http, 
@@ -32,7 +33,9 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
               private alertCtrl: AlertController,
               private ga: GoogleAnalytics,
               private iab: InAppBrowser,
+              public navParams:NavParams,
               private tst:ToastController) {
+                this.val=this.navParams.get('val');
         this.http = http;
         this.storage.get('Hash').then((hash) => {
           this.hash = hash;
@@ -284,7 +287,7 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
           var options = {
             user_id: this.user.id,
             purpose: "NTK4206",
-            amount: "1500",
+            amount: this.val,
             mode: "paytm"
           };
         }
@@ -292,7 +295,7 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
           options = {
             user_id: this.user.id,
             purpose: "NTK4206",
-            amount: "1500",
+            amount:  this.val,
             mode: "payu"
           };
         }
@@ -300,7 +303,7 @@ data: Array<{title:any,img : any, img1: any,img2:any,icon:string,text1:any,text2
           options = {
             user_id: this.user.id,
             purpose: "NTK4206",
-            amount: "1500",
+            amount:  this.val,
             mode: "instamojo"
           };
         }
