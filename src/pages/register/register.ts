@@ -120,18 +120,11 @@ doGoogleLogin(){
           'offline': true
         })
       .then((res) =>{ console.log(JSON.stringify(res));
-        this.googleemail=res.email;
-        this.googlename=res.displayName;
+        this.email=res.email;
+        this.name=res.displayName;
         console.log( res.displayName+'  '+res.email)
-        let tst=this.t.create(
-          {
-              message:'login',
-              duration:30000
-          }
-        );
         u=res;
         loading.dismiss();
-        tst.present();
         env.nativestorage.setItem('user', {
               name: res.displayName,
               email: res.email
@@ -140,8 +133,8 @@ doGoogleLogin(){
           () => {console.log('Stored item!');
           env.storage.get('user').then((user)=>{
             console.log(user.name+' '+user.email);
-            this.navCtrl.push(RegisterPage,{googlename:this.googlename,
-                                            googleemail:this.googleemail})
+            this.navCtrl.push(RegisterPage,{googlename:this.name,
+                                            googleemail:this.email})
           },
           
           error => console.error('Error storing item', error)
@@ -149,14 +142,7 @@ doGoogleLogin(){
       }
     )
       .catch((err) => {console.error(err)
-                      let tst=this.t.create(
-                        {
-                            message:'no login',
-                            duration:3000
-                        }
-                      );
-                      loading.dismiss();
-                      tst.present();}
+                      loading.dismiss();}
               );
         // this.googleplus.login({
           // 'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
@@ -279,7 +265,7 @@ doFbLogin(){
                  picture: user.picture,
                  email:user.email
                })
-               .then(function(){         
+               .then(function(){          
                  env.facebookSingup(user.name,user.gender,user.email,user.picture)
                }, function (error) {
                  console.log(error);
@@ -336,7 +322,6 @@ doFbLogin(){
              }); 
      });
  }
- 
 
 loginForm(f:any){
   console.log(f);
