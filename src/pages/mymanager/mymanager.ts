@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { PaymentOptionsPage } from '../payment-options/payment-options';
 
 /**
  * Generated class for the MymanagerPage page.
@@ -22,4 +23,8 @@ export class MymanagerPage {
     console.log('ionViewDidLoad MymanagerPage');
   }
 
+  apply()
+  {
+    this.navCtrl.push(PaymentOptionsPage,{val:1000})
+  }
 }

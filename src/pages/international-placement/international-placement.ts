@@ -72,7 +72,7 @@ export class InternationalPlacementPage {
   }
     check(applied){
       if(applied == false){
-              this.navCtrl.push(PaymentOptionsPage);
+              this.navCtrl.push(PaymentOptionsPage,{val:1500});
       }
     }
 }
