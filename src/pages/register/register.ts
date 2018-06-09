@@ -89,8 +89,8 @@ export class RegisterPage implements OnInit{
           });   
     });
   // this.facebook.browserInit(this.FB_APP_ID, "v2.9");
-this.googlename=this.navParams.get('googlename');
-this.googleemail=this.navParams.get('googleemail');
+this.name=this.navParams.get('googlename');
+this.email=this.navParams.get('googleemail');
  }
  ngOnInit()
  {
@@ -120,8 +120,14 @@ doGoogleLogin(){
           'offline': true
         })
       .then((res) =>{ console.log(JSON.stringify(res));
-        this.googleemail=res.email;
-        this.googlename=res.displayName;
+        let ts=this.t.create({
+          message:JSON.stringify(res),
+          duration:30000,
+          position:'top'
+        });
+        ts.present();
+        this.email=res.email;
+        this.name=res.displayName;
         console.log( res.displayName+'  '+res.email)
         let tst=this.t.create(
           {
@@ -133,15 +139,15 @@ doGoogleLogin(){
         loading.dismiss();
         tst.present();
         env.nativestorage.setItem('user', {
-              dname: res.displayName,
+              name: res.displayName,
               email: res.email
             })
         .then(
           () => {console.log('Stored item!');
           env.storage.get('user').then((user)=>{
-            console.log(user.dname+' '+user.email);
-            this.navCtrl.push(RegisterPage,{googlename:this.googlename,
-                                            googleemail:this.googleemail})
+            console.log(user.name+' '+user.email);
+            this.navCtrl.push(RegisterPage,{googlename:this.name,
+                                            googleemail:this.email})
           },
           
           error => console.error('Error storing item', error)
