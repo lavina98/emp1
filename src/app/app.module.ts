@@ -38,7 +38,7 @@ import { City } from '../providers/city';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { FileChooser } from '@ionic-native/file-chooser';
-//import {Facebook,FacebookLoginResponse} from '@ionic-native/facebook'
+import { Facebook,FacebookLoginResponse} from '@ionic-native/facebook'
 // import { GoogleMaps,
 //          GoogleMap,
 //          GoogleMapsEvent,
@@ -54,7 +54,6 @@ import { OneSignal } from '@ionic-native/onesignal';
 import { Network } from '@ionic-native/network';
 import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts';
 import { SocialSharing } from '@ionic-native/social-sharing';
-// import { Facebook } from '@ionic-native/facebook';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Calendar } from '@ionic-native/calendar';
@@ -169,8 +168,8 @@ import { MymanagerPage } from "../pages/mymanager/mymanager";
       Network,    
       Contacts,
       SocialSharing,
-      // GoogleMaps,
-      // Facebook,
+      //GoogleMaps,
+      Facebook,
       GooglePlus,
       Diagnostic,
       Calendar,

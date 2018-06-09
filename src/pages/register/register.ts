@@ -89,8 +89,8 @@ export class RegisterPage implements OnInit{
           });   
     });
   // this.facebook.browserInit(this.FB_APP_ID, "v2.9");
-this.googlename=this.navParams.get('googlename');
-this.googleemail=this.navParams.get('googleemail');
+this.name=this.navParams.get('googlename');
+this.email=this.navParams.get('googleemail');
  }
  ngOnInit()
  {
@@ -133,13 +133,13 @@ doGoogleLogin(){
         loading.dismiss();
         tst.present();
         env.nativestorage.setItem('user', {
-              dname: res.displayName,
+              name: res.displayName,
               email: res.email
             })
         .then(
           () => {console.log('Stored item!');
           env.storage.get('user').then((user)=>{
-            console.log(user.dname+' '+user.email);
+            console.log(user.name+' '+user.email);
             this.navCtrl.push(RegisterPage,{googlename:this.googlename,
                                             googleemail:this.googleemail})
           },
@@ -279,7 +279,7 @@ doFbLogin(){
                  picture: user.picture,
                  email:user.email
                })
-               .then(function(){          
+               .then(function(){         
                  env.facebookSingup(user.name,user.gender,user.email,user.picture)
                }, function (error) {
                  console.log(error);
@@ -336,6 +336,7 @@ doFbLogin(){
              }); 
      });
  }
+ 
 
 loginForm(f:any){
   console.log(f);
