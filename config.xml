@@ -103,4 +103,9 @@
     </plugin>
     <allow-navigation href="http://192.168.100.218:8100" />
     <engine name="android" spec="~7.0.0" />
+    <plugin name="cordova-plugin-facebook4" spec="^2.1.0">
+        <variable name="APP_ID" value="986922888110799" />
+        <variable name="APP_NAME" value="Forehotels" />
+        <variable name="ANDROID_SDK_VERSION" value="4.+" />
+    </plugin>
 </widget>

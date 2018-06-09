@@ -1,0 +1,1 @@
+ionic cordova plugin add cordova-plugin-facebook4 --variable APP_ID="986922888110799" --variable APP_NAME="Forehotels"

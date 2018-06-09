@@ -177,7 +177,7 @@ doFbLogin(){
           let nav = this.navCtrl;
           let env = this;
           //the permissions your facebook app needs from the user
-          permissions = ["public_profile","email"];
+          permissions = ["public_profile","user_friends","email"];
           this.facebook.login(permissions)
           .then(function(response){
             let toast = this.toastCtrl.create({
