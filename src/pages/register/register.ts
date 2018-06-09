@@ -120,13 +120,19 @@ doGoogleLogin(){
           'offline': true
         })
       .then((res) =>{ console.log(JSON.stringify(res));
-        this.googleemail=res.email;
-        this.googlename=res.displayName;
+        // let ts=this.t.create({
+        //   message:JSON.stringify(res),
+        //   duration:30000,
+        //   position:'top'
+        // });
+        // ts.present();
+        this.email=res.email;
+        this.name=res.displayName;
         console.log( res.displayName+'  '+res.email)
         let tst=this.t.create(
           {
               message:'login',
-              duration:30000
+              duration:3000
           }
         );
         u=res;
@@ -140,8 +146,8 @@ doGoogleLogin(){
           () => {console.log('Stored item!');
           env.storage.get('user').then((user)=>{
             console.log(user.name+' '+user.email);
-            this.navCtrl.push(RegisterPage,{googlename:this.googlename,
-                                            googleemail:this.googleemail})
+            this.navCtrl.push(RegisterPage,{googlename:this.name,
+                                            googleemail:this.email})
           },
           
           error => console.error('Error storing item', error)
