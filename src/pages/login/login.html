@@ -54,30 +54,29 @@
   
   </style>
   <ion-content>
-        <ion-row class="logo-row">
-            <ion-col></ion-col>
-            <ion-col width-67>
-              <img class="imglogo" src="https://www.forehotels.com/public/assets/img/logo1.png"/>
-            </ion-col>
-            <ion-col></ion-col>
-          </ion-row>
+    <ion-row class="logo-row">
+      <ion-col></ion-col>
+      <ion-col width-67>
+        <img class="imglogo" src="https://www.forehotels.com/public/assets/img/logo1.png"/>
+      </ion-col>
+      <ion-col></ion-col>
+    </ion-row>
     <form class="toppad" [formGroup]="registrationForm" (ngSubmit)="loginForm()">			
-          <ion-row>
-          <ion-col>
-            <ion-list inset>
-              <ion-list no-lines>
-                  <ion-label class="inputlabel"> Email</ion-label>
-                  <ion-input class="inputs" type="email" placeholder="Email" name="email" formControlName="email" required></ion-input>     
-              </ion-list>
-  
-              <ion-list no-lines>
-                  <ion-label class="inputlabel"> Password</ion-label>
-                <ion-input class="inputs" type="password" placeholder="Password" name="password" formControlName="password" required></ion-input>
-              </ion-list>            
+      <ion-row>
+        <ion-col>
+          <ion-list inset>
+            <ion-list no-lines>
+              <ion-label class="inputlabel"> Email</ion-label>
+              <ion-input class="inputs" type="email" placeholder="Email" name="email" formControlName="email" required></ion-input>     
             </ion-list>
 
             <ion-list no-lines>
-                <ion-label class="inputlabel"> Password</ion-label>
+              <ion-label class="inputlabel"> Password</ion-label>
+              <ion-input class="inputs" type="password" placeholder="Password" name="password" formControlName="password" required></ion-input>
+            </ion-list>            
+
+            <ion-list no-lines>
+              <ion-label class="inputlabel"> Password</ion-label>
               <ion-input class="inputs" type="password" placeholder="Password" name="password" formControlName="password" required></ion-input>
             </ion-list>            
           </ion-list>
@@ -106,7 +105,7 @@
             <button ion-button icon-left full color="danger" (click)="doGoogleLogin()" round style="height: 2.8em;"><ion-icon name="logo-google"></ion-icon>Login</button>
           </ion-col>
         </ion-row>
-        </ion-list> -->
+        </ion-list>
   <div class="bgimg">
   </div>
 </ion-content>
