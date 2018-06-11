@@ -480,7 +480,7 @@ getDateTime() {
   </ion-toolbar>
 </ion-header>
 <ion-content>
-<div class="cont">
+
 <form [formGroup]="registrationForm" (ngSubmit)="loginForm()">
 <ion-list>
 <ion-item>
@@ -489,7 +489,7 @@ getDateTime() {
     <ion-icon name="eye" (click)="showPassword(input)"></ion-icon></ion-input>
   </ion-item>
 <ion-item>
-    <ion-label floating>Password</ion-label>
+    <ion-label floating>Enter New Password</ion-label>
     <ion-input formControlName="password" type="password"></ion-input>
   </ion-item>
 
@@ -502,7 +502,7 @@ getDateTime() {
   <button [disabled]="!registrationForm.valid" ion-button full>Update Password</button>
 </div>
 </form>
-</div>
+
 </ion-content>`
 })
 export class UpdatePasswordPage{

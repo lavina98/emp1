@@ -11,8 +11,8 @@ p{
 <ion-content>
 <div class="cont">
 <div *ngIf="count == 0"><h1 style="text-align: center">No Matches Found</h1></div>
-<ion-list [virtualScroll]="items" [approxItemHeight]=" '40px' ">
-  <ion-item *virtualItem="let item">
+<ion-list>
+  <ion-item *ngFor="let item of items">
     <ion-thumbnail item-left>
       <img src="https://www.forehotels.com/public/hotel/avatar/{{item.profile_pic}}" onError="this.src='https://www.forehotels.com/public/assets/img/download1.jpg';" style="border-radius:6px"><br />
       <p *ngIf="item.hc_cat_id == 1" style="text-align:center"><ion-icon name="ios-home"></ion-icon>  {{item.cat_name}}</p>
