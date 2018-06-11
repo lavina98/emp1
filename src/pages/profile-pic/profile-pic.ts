@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, LoadingController, Platform, Events } from 'ionic-angular';
+import { Component, OnInit } from '@angular/core';
+import { NavController, NavParams, AlertController, LoadingController, Platform, Events, ToastController } from 'ionic-angular';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
@@ -12,9 +12,12 @@ import { NetworkServiceProvider } from '../../providers/network-service/network-
   selector: 'page-profile-pic',
   templateUrl: 'profile-pic.html'
 })
-export class ProfilePicPage {
-ionViewDidEnter(){
+export class ProfilePicPage implements OnInit {
+ionViewDidLoad(){
      this.loadData()
+    }
+    ngOnInit(){
+      this.loadData();
     }
   profilePicForm:any;
   items:any;
@@ -26,6 +29,7 @@ ionViewDidEnter(){
   hash:any;
   social_pic:any;
   drive_name:any;
+  image:any;
   constructor(private loadingCtrl: LoadingController, 
               http: Http, 
               public network: NetworkServiceProvider,
@@ -39,7 +43,8 @@ ionViewDidEnter(){
               public navParams: NavParams, 
               private alertCtrl: AlertController, 
               private ga: GoogleAnalytics,
-              public events: Events
+              public events: Events,
+              public toast:ToastController
               ) {           
             this.http = http;    
     }
@@ -69,6 +74,7 @@ ionViewDidEnter(){
             });  
           }
       }
+   
   getDetails(x, loader){
      let headers = new Headers({
       'Content-Type': 'application/json',
@@ -78,6 +84,7 @@ ionViewDidEnter(){
             this.http.get(x, options)
             .subscribe(data =>{
              this.items=JSON.parse(data._body).Users;
+             this.image= 'https://www.forehotels.com/public/emp/avatar/'+this.items["0"].profile_pic;
              let img = this.items["0"].profile_pic.split("/")
              this.drive_name = this.items["0"].email.split('@')
              if(img.length > 1){
@@ -92,10 +99,20 @@ ionViewDidEnter(){
     this.filechooser.open()
       .then(
         uri => {
-          let DrivePicpath = uri.split("/") 
+          let DrivePicpath = uri.split("/");
+          let t=this.toast.create(
+            {
+              message:JSON.stringify(uri),
+              duration:3000,
+              position:'middle'
+            }
+          );
+          t.present();
+          console.log(JSON.stringify(uri));
           if(DrivePicpath[0] == 'content:'){
               let fileTransfer: FileTransferObject = this.filetransfer.create();
-                      fileTransfer.download(uri, "file:///storage/emulated/0/Download/" +this.drive_name[0]+'.jpg').then((entry) => {                        
+                      fileTransfer.download(uri, "file:///storage/emulated/0/Download/" +this.drive_name[0]+'.jpg').then((entry) => { 
+                        this.image=uri;                       
                         let tourl = entry.toURL()
                         this.profilePicUpload(tourl)
                       }, (error) => {
@@ -109,6 +126,7 @@ ionViewDidEnter(){
         }
       });
   }
+ 
   
   profilePicUpload(x){
     if(this.network.noConnection()){
@@ -158,13 +176,16 @@ ionViewDidEnter(){
       fileTransfer.upload(x, encodeURI("http://forehotels.com:3000/api/upload_employee_image"), this.options, true)
       .then((data) => {
         this.progress=null;
-        this.completed=true;
         let loader = this.loadingCtrl.create({
           content: "Fetching your Account Details. Kindly wait...",
         });
         loader.present();
         let url="http://www.forehotels.com:3000/api/employee/"+this.id;
-        this.getDetails(url, loader);
+        setTimeout(this.getDetails(url, loader),3000);
+        this.completed=true;
+       
+        
+       
       }, (err) => {
         let alert = this.alertCtrl.create({
               title: err.text(),
