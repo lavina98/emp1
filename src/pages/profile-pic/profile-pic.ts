@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, AlertController, LoadingController, Platform, Events, ToastController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, LoadingController, Platform, Events } from 'ionic-angular';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
@@ -12,13 +12,10 @@ import { NetworkServiceProvider } from '../../providers/network-service/network-
   selector: 'page-profile-pic',
   templateUrl: 'profile-pic.html'
 })
-export class ProfilePicPage implements OnInit {
-ionViewDidLoad(){
+export class ProfilePicPage {    
+  ionViewDidEnter(){
      this.loadData()
-    }
-    ngOnInit(){
-      this.loadData();
-    }
+  }
   profilePicForm:any;
   items:any;
   options:any;
@@ -44,7 +41,6 @@ ionViewDidLoad(){
               private alertCtrl: AlertController, 
               private ga: GoogleAnalytics,
               public events: Events,
-              public toast:ToastController
               ) {           
             this.http = http;    
     }
@@ -100,14 +96,6 @@ ionViewDidLoad(){
       .then(
         uri => {
           let DrivePicpath = uri.split("/");
-          let t=this.toast.create(
-            {
-              message:JSON.stringify(uri),
-              duration:3000,
-              position:'middle'
-            }
-          );
-          t.present();
           console.log(JSON.stringify(uri));
           if(DrivePicpath[0] == 'content:'){
               let fileTransfer: FileTransferObject = this.filetransfer.create();

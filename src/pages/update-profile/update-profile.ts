@@ -36,6 +36,7 @@ export class UpdateProfilePage{
   cities:any;
   city_array:any;
   del_city:any;
+  number:any;
   user_cities:any;
   social_pic:boolean;
   password:any;
@@ -101,6 +102,7 @@ getDetails(x, loader){
                   this.items=JSON.parse(data._body).Users;
                   let img = this.items["0"].profile_pic.split("/")
                   this.drive_name = this.items["0"].email.split('@')
+                  this.number = this.items["0"].contact_no
                     if(img.length > 1){
                         this.social_pic = true;
                     }

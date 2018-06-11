@@ -24,7 +24,7 @@
     <h1 style="font-size: 2.4rem;">Job Description</h1>
   </ion-item>
   <ion-item> 
-  <p style="white-space:pre-wrap;color: black">{{item.job_desc}}</p>
+  <p style="white-space:pre-wrap;color: black" [innerHTML]="item.job_desc"></p>
   </ion-item>
   </ion-col>
  </ion-row>

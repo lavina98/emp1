@@ -81,7 +81,11 @@ app_id = "a8874a29-22e2-486f-b4b3-b3d09e8167a5";
      { title:'Refer and Earn', component: ReferAFriendPage , icon : this.icons["4"]},
      { title:'About Us', component: AboutUsPage, icon : this.icons["5"]}
     ];
-
+    events.subscribe('user:profilepic', () => {
+      this.storage.get('id').then((id) => {
+        this.getprofile(id);
+      });
+    });
   }
 
     initializeApp() {
@@ -231,7 +235,23 @@ app_id = "a8874a29-22e2-486f-b4b3-b3d09e8167a5";
          this.loggedIn = false;
          } );
   }
+  getprofile(id){
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': this.key
+    });
+    let options = new RequestOptions({ headers: headers });
 
+     this.http.get("http://forehotels.com:3000/api/employee/"+id, options)
+        .subscribe(data =>{
+         this.items=JSON.parse(data._body).Users; //Bind data to items object
+         this.storage.set("user_name",this.items["0"].name)
+         let img = this.items["0"].profile_pic.split("/")
+         if(img.length > 1){
+           this.social_pic = true;
+         }
+        });
+  }
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario

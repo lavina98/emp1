@@ -67,9 +67,6 @@ export class LoginPage {
     });
   }
   ionViewDidLoad() {
-    this.navBar.backButtonClick = (e:UIEvent)=>{     
-     this.navCtrl.push(HomePage)
-    }
   }
   registration(){
     this.navCtrl.push(RegisterPage);
@@ -133,7 +130,7 @@ export class LoginPage {
                             setTimeout(() => {
                               loading.dismiss();
                               this.navCtrl.setRoot(DashboardPage);
-                            }, 2000);
+                            }, 1000);
                 }
                 else {
                   let alert = this.alertCtrl.create({

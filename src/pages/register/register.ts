@@ -120,24 +120,11 @@ doGoogleLogin(){
           'offline': true
         })
       .then((res) =>{ console.log(JSON.stringify(res));
-        // let ts=this.t.create({
-        //   message:JSON.stringify(res),
-        //   duration:30000,
-        //   position:'top'
-        // });
-        // ts.present();
         this.email=res.email;
         this.name=res.displayName;
         console.log( res.displayName+'  '+res.email)
-        let tst=this.t.create(
-          {
-              message:'login',
-              duration:3000
-          }
-        );
         u=res;
         loading.dismiss();
-        tst.present();
         env.nativestorage.setItem('user', {
               name: res.displayName,
               email: res.email
@@ -155,14 +142,7 @@ doGoogleLogin(){
       }
     )
       .catch((err) => {console.error(err)
-                      let tst=this.t.create(
-                        {
-                            message:'no login',
-                            duration:3000
-                        }
-                      );
-                      loading.dismiss();
-                      tst.present();}
+                      loading.dismiss();}
               );
         // this.googleplus.login({
           // 'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
