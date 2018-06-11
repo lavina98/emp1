@@ -12,13 +12,10 @@ import { NetworkServiceProvider } from '../../providers/network-service/network-
   selector: 'page-profile-pic',
   templateUrl: 'profile-pic.html'
 })
-export class ProfilePicPage implements OnInit {
-ionViewDidEnter(){
+export class ProfilePicPage {    
+  ionViewDidEnter(){
      this.loadData()
-    }
-    ngOnInit(){
-      this.loadData();
-    }    
+  }
   profilePicForm:any;
   items:any;
   options:any;
@@ -169,8 +166,9 @@ ionViewDidEnter(){
         });
         loader.present();
         let url="http://www.forehotels.com:3000/api/employee/"+this.id;
-        this.stateChange();
         this.getDetails(url,loader);
+        this.navCtrl.pop();
+        this.navCtrl.push(ProfilePicPage);
       }, (err) => {
         let alert = this.alertCtrl.create({
               title: err.text(),

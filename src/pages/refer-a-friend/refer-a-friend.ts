@@ -46,14 +46,14 @@ hash:any;
       this.storage.get('id').then((id) => {
       this.http.get("http://forehotels.com:3000/api/employee/"+id, options)
             .subscribe(data =>{
-             this.items=JSON.parse(data._body).Users;
-             this.code = id;
+              this.items=JSON.parse(data._body).Users;
+              this.code = id;
              });
         });
     }
 }
 Share(){
-     this.social.share("Download a perfect app for Hospitality. Enter Code '" +this.code+ "' during registration", null /*Image*/,null,  "https://play.google.com/store/apps/details?id=com.forehotels.v100" /* url */)
+     this.social.share("Download a perfect app for Hospitality. Enter Code '" +this.code+ "' during registration", null /*Image*/,null,  "https://play.google.com/store/apps/details?id=com.fore.v100" /* url */)
       .then(()=>{
       },
       ()=>{
