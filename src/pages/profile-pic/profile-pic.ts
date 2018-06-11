@@ -165,6 +165,8 @@ ionViewDidEnter(){
         loader.present();
         let url="http://www.forehotels.com:3000/api/employee/"+this.id;
         this.getDetails(url, loader);
+        this.events.publish('user:profilepic');
+
       }, (err) => {
         let alert = this.alertCtrl.create({
               title: err.text(),

@@ -9,7 +9,7 @@ import { Storage } from '@ionic/storage';
 import { DashboardPage } from '../dashboard/dashboard';
 import { RegisterPage} from '../register/register';
 import { OneSignal } from '@ionic-native/onesignal'
-// import { Facebook } from '@ionic-native/facebook'
+import { Facebook } from '@ionic-native/facebook'
 import { NativeStorage } from '@ionic-native/native-storage'
 import { Toast } from '@ionic-native/toast'
 import { GoogleAnalytics } from '@ionic-native/google-analytics'
@@ -34,7 +34,7 @@ export class LoginPage {
   hash:any;
   http:any;
   constructor(private events: Events,
-              // private fb: Facebook,
+              private fb: Facebook,
               private googlePlus: GooglePlus,
               private onesignal: OneSignal,
               private toast: Toast,
@@ -67,9 +67,6 @@ export class LoginPage {
     });
   }
   ionViewDidLoad() {
-    this.navBar.backButtonClick = (e:UIEvent)=>{     
-     this.navCtrl.push(HomePage)
-    }
   }
   registration(){
     this.navCtrl.push(RegisterPage);
@@ -133,7 +130,7 @@ export class LoginPage {
                             setTimeout(() => {
                               loading.dismiss();
                               this.navCtrl.setRoot(DashboardPage);
-                            }, 2000);
+                            }, 1000);
                 }
                 else {
                   let alert = this.alertCtrl.create({
@@ -155,113 +152,113 @@ export class LoginPage {
       this.navCtrl.push(ForgotPasswordPage);
     }
 
-//     doFbLogin(){
-//     if(this.network.noConnection()){
-//         this.network.showNetworkAlert()
-//     }
-//       else{  
-//     let permissions = new Array();
-//     let env = this;
-//     let nav = this.navCtrl;
-//     let http = this.http;
-//     let hash = this.hash;
-//     let event = this.events;
-//     let storage = this.storage;
-//     let loadingCtrl = this.loadingCtrl;
-//     let alertCtrl = this.alertCtrl;
-//     permissions = ["public_profile","email"];
-//     this.fb.login(permissions)
-//     .then(function(response){
-//       let userId = response.authResponse.userID;
-//       let params = new Array();
-//       env.fb.api("/me?fields=name,gender,email", params)
-//       .then(function(user) {
-//         user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
-//         env.nativeStorage.setItem('user',
-//         {
-//           name: user.name,
-//           gender: user.gender,
-//           picture: user.picture,
-//           email: user.email
-//         })
-//         .then(function(){
-//          let body = JSON.stringify({
-//           email: user.email,
-//           });
-//           let headers = new Headers({
-//             'Content-Type': 'application/json',
-//             'Authorization': hash
-//           });
-//           let options = new RequestOptions({ headers: headers });
-//           http
-//               .post('http://forehotels.com:3000/api/social_auth', body, options)
-//               .subscribe(
-//                   data => {
-//                     let login = data.json();
-//                     if(login.length > 0) {
-//                       storage.set('id', login["0"].id);
-//                       storage.set('loggedIn', true);
-//                       event.publish('user:loggedIn', login["0"].id);
-//                       env.onesignal.getIds().then(data => {
-//                       let body = JSON.stringify({
-//                       device_id: data.userId,
-//                       id: login["0"].id
-//                     });
-//                     let headers = new Headers({
-//                       'Content-Type': 'application/json',
-//                       'Authorization': hash
-//                     });
-//                     let options = new RequestOptions({ headers: headers });
-//                     http
-//                         .put('http://forehotels.com:3000/api/device_id', body, options)
-//                         .subscribe(
-//                             data => {
-//                               let device_details = data.json();
-//                             });
-//                     });
-
-//                   let loading = loadingCtrl.create({
-//                               spinner: 'bubbles',
-//                               content: 'Fetching your Account Details...'
-//                             });
-
-//                             loading.present();
-
-//                             setTimeout(() => {
-//                               loading.dismiss();
-//                               nav.setRoot(DashboardPage);
-//                             }, 500);
-//                 }
-//                 else {
-//                   let alert = alertCtrl.create({
-//                   title: 'Invalid Credentials!',
-//                   subTitle: 'Kindly Register via Facebook first to Login',
-//                   buttons: [
-//                       {
-//                         text: 'Retry',
-//                         handler: data => {
-//                           console.log('Cancel clicked');
-//                         }
-//                       },
-//                     ]
-//                   });
-//                   alert.present();
-//                 }
-//               },
-//               err => {
-
-//                 console.log("ERROR!: ", err);
-//               }
-//             );
-//         }, function (error) {
-//           console.log(error);
-//         })
-//       })
-//     }, function(error){
-//       console.log(error);
-//     });
-//   }
-// }
+    doFbLogin(){
+      if(this.network.noConnection()){
+          this.network.showNetworkAlert()
+      }
+        else{  
+      let permissions = new Array();
+      let env = this;
+      let nav = this.navCtrl;
+      let http = this.http;
+      let hash = this.hash;
+      let event = this.events;
+      let storage = this.storage;
+      let loadingCtrl = this.loadingCtrl;
+      let alertCtrl = this.alertCtrl;
+      permissions = ["public_profile","email"];
+      this.fb.login(permissions)
+      .then(function(response){
+        let userId = response.authResponse.userID;
+        let params = new Array();
+        env.fb.api("/me?fields=name,gender,email", params)
+        .then(function(user) {
+          user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
+          env.nativeStorage.setItem('user',
+          {
+            name: user.name,
+            gender: user.gender,
+            picture: user.picture,
+            email: user.email
+          })
+          .then(function(){
+           let body = JSON.stringify({
+            email: user.email,
+            });
+            let headers = new Headers({
+              'Content-Type': 'application/json',
+              'Authorization': hash
+            });
+            let options = new RequestOptions({ headers: headers });
+            http
+                .post('http://forehotels.com:3000/api/social_auth', body, options)
+                .subscribe(
+                    data => {
+                      let login = data.json();
+                      if(login.length > 0) {
+                        storage.set('id', login["0"].id);
+                        storage.set('loggedIn', true);
+                        event.publish('user:loggedIn', login["0"].id);
+                        env.onesignal.getIds().then(data => {
+                        let body = JSON.stringify({
+                        device_id: data.userId,
+                        id: login["0"].id
+                      });
+                      let headers = new Headers({
+                        'Content-Type': 'application/json',
+                        'Authorization': hash
+                      });
+                      let options = new RequestOptions({ headers: headers });
+                      http
+                          .put('http://forehotels.com:3000/api/device_id', body, options)
+                          .subscribe(
+                              data => {
+                                let device_details = data.json();
+                              });
+                      });
+  
+                    let loading = loadingCtrl.create({
+                                spinner: 'bubbles',
+                                content: 'Fetching your Account Details...'
+                              });
+  
+                              loading.present();
+  
+                              setTimeout(() => {
+                                loading.dismiss();
+                                nav.setRoot(DashboardPage);
+                              }, 500);
+                  }
+                  else {
+                    let alert = alertCtrl.create({
+                    title: 'Invalid Credentials!',
+                    subTitle: 'Kindly Register via Facebook first to Login',
+                    buttons: [
+                        {
+                          text: 'Retry',
+                          handler: data => {
+                            console.log('Cancel clicked');
+                          }
+                        },
+                      ]
+                    });
+                    alert.present();
+                  }
+                },
+                err => {
+  
+                  console.log("ERROR!: ", err);
+                }
+              );
+          }, function (error) {
+            console.log(error);
+          })
+        })
+      }, function(error){
+        console.log(error);
+      });
+    }
+  }
 
   doGoogleLogin(){
     if(this.network.noConnection()){
