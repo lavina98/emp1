@@ -120,19 +120,19 @@ doGoogleLogin(){
           'offline': true
         })
       .then((res) =>{ console.log(JSON.stringify(res));
-        let ts=this.t.create({
-          message:JSON.stringify(res),
-          duration:30000,
-          position:'top'
-        });
-        ts.present();
+        // let ts=this.t.create({
+        //   message:JSON.stringify(res),
+        //   duration:30000,
+        //   position:'top'
+        // });
+        // ts.present();
         this.email=res.email;
         this.name=res.displayName;
         console.log( res.displayName+'  '+res.email)
         let tst=this.t.create(
           {
               message:'login',
-              duration:30000
+              duration:3000
           }
         );
         u=res;
