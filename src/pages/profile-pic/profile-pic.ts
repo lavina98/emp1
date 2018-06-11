@@ -112,7 +112,7 @@ ionViewDidLoad(){
           if(DrivePicpath[0] == 'content:'){
               let fileTransfer: FileTransferObject = this.filetransfer.create();
                       fileTransfer.download(uri, "file:///storage/emulated/0/Download/" +this.drive_name[0]+'.jpg').then((entry) => { 
-                        this.image=uri;                       
+                                            
                         let tourl = entry.toURL()
                         this.profilePicUpload(tourl)
                       }, (error) => {
