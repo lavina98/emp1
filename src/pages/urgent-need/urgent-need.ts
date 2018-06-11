@@ -52,7 +52,7 @@ urgentNeed(){
                 });
                 let options = new RequestOptions({ headers: headers });
                   this.http
-                        .post('http://forehotels.com:3000/api/urgent_need', body, options)
+                        .post('http://www.forehotels.com:3000/api/urgent_need', body, options)
                         .map(res => res.json())
                         .subscribe(data =>{
                       let alert = this.alertCtrl.create({
