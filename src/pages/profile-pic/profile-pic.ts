@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams, AlertController, LoadingController, Platform, Events } from 'ionic-angular';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
@@ -12,10 +12,13 @@ import { NetworkServiceProvider } from '../../providers/network-service/network-
   selector: 'page-profile-pic',
   templateUrl: 'profile-pic.html'
 })
-export class ProfilePicPage {
+export class ProfilePicPage implements OnInit {
 ionViewDidEnter(){
      this.loadData()
     }
+    ngOnInit(){
+      this.loadData();
+    }    
   profilePicForm:any;
   items:any;
   options:any;
@@ -109,7 +112,9 @@ ionViewDidEnter(){
         }
       });
   }
-  
+  stateChange() {
+    setTimeout('', 3000);
+  }
   profilePicUpload(x){
     if(this.network.noConnection()){
         this.network.showNetworkAlert()
@@ -164,9 +169,8 @@ ionViewDidEnter(){
         });
         loader.present();
         let url="http://www.forehotels.com:3000/api/employee/"+this.id;
-        this.getDetails(url, loader);
-        this.events.publish('user:profilepic');
-
+        this.stateChange();
+        this.getDetails(url,loader);
       }, (err) => {
         let alert = this.alertCtrl.create({
               title: err.text(),
