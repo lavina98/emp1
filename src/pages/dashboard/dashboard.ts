@@ -207,9 +207,9 @@ interviews=[]
                    {title:'Refer N Earn',icon:'share.png',component:ReferAFriendPage}]
 
                    
-        this.pages2=[{title:'My Manager',icon:'jobapplied.png',component:MymanagerPage,count:0},
+        this.pages2=[{title:'My Manager',icon:'manager.png',component:MymanagerPage,count:0},
                    {title:'Urgent Need',icon:'share.png',component:UrgentNeedPage,count:0},
-                   {title:'Notification',icon:'update.png',component:NotificationsPage,count:val3}]
+                   {title:'Notification',icon:'notification.png',component:NotificationsPage,count:val3}]
     }
   Openmenu(){
      this.menu.open();
