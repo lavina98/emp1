@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { LoginPage } from '../login/login';
@@ -20,7 +20,9 @@ export class ForgotPasswordPage {
    hash:any;
    temppass:any;
 
-  constructor(public storage: Storage,
+  constructor(
+    public loadingCtrl: LoadingController,
+    public storage: Storage,
               http: Http,
               public network: NetworkServiceProvider,
               public navCtrl: NavController, 
@@ -50,17 +52,20 @@ export class ForgotPasswordPage {
         this.network.showNetworkAlert()
     }
       else{  
+        let contact;
     var email_checker = false;
       this.items = this.emailForm.value;
-      let body = JSON.stringify({
-      email: this.items.email,
-      mail: 'forgot_password'
-      });
+     
     let headers = new Headers({
       'Content-Type': 'application/json',
       'Authorization': this.hash
     });                 
      
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Please Wait..'
+    })
+    loading.present();
     let options = new RequestOptions({ headers: headers });
     this.http.get("http://forehotels.com:3000/api/employee", options)
             .subscribe(data =>{
@@ -68,17 +73,29 @@ export class ForgotPasswordPage {
             for(let item of this.checkusers ){
                 if(item.email == this.items.email){
                 email_checker = true;
+                contact=item.contact_no;
                 }
               }
+              console.log('1');
+              
               if(email_checker == true){
+                console.log('2');
+                let body = JSON.stringify({
+                  email: this.items.email,
+                  mail: 'forgot_password',
+                  contact_no:contact
+                  });
               this.http.post('http://forehotels.com:3000/api/send_email', body, options)
                 .map(res => res.json())
                 .subscribe(data => {
+                  console.log(data);
+                  console.log('3');
                     let alerts = this.alertCtrl.create({
                     title: 'Success',
                     subTitle: 'Mail has been Sent to your EmailId.',
                     buttons: ['OK']
                     });
+                    loading.dismiss();
                     alerts.present();
                     setTimeout(() => {
                     this.navCtrl.push(LoginPage);
@@ -86,11 +103,13 @@ export class ForgotPasswordPage {
                 });
               }
               else{
+                console.log('4');
                 let alerts = this.alertCtrl.create({
                 title: 'Oops..!!',
                 subTitle: 'This Email ID is not registered.',
                 buttons: ['OK']
                 });
+                loading.dismiss();
                 alerts.present();
               }
             },error=>{
@@ -109,7 +128,11 @@ export class ForgotPasswordPage {
       'Content-Type': 'application/json',
       'Authorization': this.hash
     });                 
-     
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Please Wait..'
+    })
+    loading.present();
 
     let body = JSON.stringify({
     contact_no: this.items.contact_no,
@@ -144,7 +167,14 @@ export class ForgotPasswordPage {
           subTitle: 'New Password has been sent to your Phone Number.',
           buttons: ['OK']
         });
-        
+        this.http
+        .post('http://www.forehotels.com:3000/api/send_sms', sms_body, options)
+        .subscribe(
+            data => {
+              console.log('2');
+              
+              },
+            err=>console.log(err));
         let pass=JSON.stringify({
           password:this.temppass,
           id:user.user_id                          
@@ -163,6 +193,7 @@ export class ForgotPasswordPage {
           err=>console.log('error')
         );
         console.log('5');
+        loading.dismiss();
           alerts.present();
            setTimeout(() => {
            this.navCtrl.push(LoginPage);
@@ -174,6 +205,7 @@ export class ForgotPasswordPage {
                 subTitle: 'This Phone Number is not registered.',
                 buttons: ['OK']
                 });
+                loading.dismiss();
                 alerts.present();
               }
             },error=>{
