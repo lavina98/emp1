@@ -18,6 +18,8 @@ export class ForgotPasswordPage {
    checkusers:any;
    checkcontact:any;
    hash:any;
+   temppass:any;
+
   constructor(public storage: Storage,
               http: Http,
               public network: NetworkServiceProvider,
@@ -102,15 +104,16 @@ export class ForgotPasswordPage {
     }
       else{
       this.items = this.smsForm.value;    //YOGESH!!!!!!!!!! THIS TAKES VALUE FROM FORM
-    
+    let user;
     let headers = new Headers({
       'Content-Type': 'application/json',
       'Authorization': this.hash
     });                 
      
+
     let body = JSON.stringify({
     contact_no: this.items.contact_no,
-    mail : 'forgot_password'
+    text : ''
      });
     let options = new RequestOptions({ headers: headers });
     this.http.get("http://forehotels.com:3000/api/employee", options)
@@ -120,24 +123,50 @@ export class ForgotPasswordPage {
              for(let item of this.checkcontact ){
                 if(item.contact_no == this.items.contact_no){
                 checker = 1;
+                user=item;
                 }
               }
+              console.log(user);
+              console.log('çhecker'+checker);
               if(checker == 1){
-             this.http
-            .post('http://forehotels.com:3000/api/send_email', body, options)
-            .subscribe(
-                detail => {
+                this.temppass='abcdfeiqurshjcoauspwtydiagdrtsqplskj';
+                let start=Math.floor(Math.random()*(this.temppass.length-5));
+                let end=start+5;
+                this.temppass=this.temppass.slice(start,end);
+                console.log(this.temppass);
+                let sms_body = JSON.stringify({
+                  number: this.items.contact_no,
+                  text: 'Hi '+user.name+' your new password is: '+this.temppass
+                  });
+                  console.log('sent');
           let alerts = this.alertCtrl.create({
           title: 'Success',
           subTitle: 'New Password has been sent to your Phone Number.',
           buttons: ['OK']
         });
         
+        let pass=JSON.stringify({
+          password:this.temppass,
+          id:user.user_id                          
+        
+        });
+        console.log('3');
+        this.http.put('http://forehotels.com:3000/api/forgot_password',pass,options)
+        .subscribe(
+          data=>{
+            console.log('4');
+            console.log('success');
+  
+        }
+        
+            ,
+          err=>console.log('error')
+        );
+        console.log('5');
           alerts.present();
            setTimeout(() => {
            this.navCtrl.push(LoginPage);
           }, 2000);
-                  });
                 }
               else{
                 let alerts = this.alertCtrl.create({
