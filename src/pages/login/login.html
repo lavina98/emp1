@@ -75,32 +75,38 @@
                 <ion-input class="inputs" type="password" placeholder="Password" name="password" formControlName="password" required></ion-input>
               </ion-list>            
             </ion-list>
-          </ion-col>
-        </ion-row>      
-  
-          <ion-list no-lines style="text-align: center;padding-left: 7%;padding-right: 7%;">           
-                <button style="height: 4.6rem;" type="submit" [disabled]="!registrationForm.valid" ion-button full round>
-                  Login              
-                </button>
+
+            <ion-list no-lines>
+                <ion-label class="inputlabel"> Password</ion-label>
+              <ion-input class="inputs" type="password" placeholder="Password" name="password" formControlName="password" required></ion-input>
+            </ion-list>            
           </ion-list>
-        <ion-list>
-      <p class="whitec" style="text-align: center;" (click)="forgotPassword()">Forgot Password </p>
-        <br>
-          <p class="whitec" style="text-align: center;" (click)="registration()">New here? Create an account</p>         
-          </ion-list>     
-      </form> 
-        
-          <ion-list style="margin-top: 60px;"> 
-        <h6 class="whitec" style="text-align:center;padding-top: 20px;">- OR -</h6>
-          <ion-row>
-            <ion-col width-50>
-              <button ion-button icon-left full (click)="doFbLogin()" round style="background-color: #3b5998;margin-bottom:5px;height: 2.8em;"><ion-icon name="logo-facebook"></ion-icon>Login</button>
-            </ion-col>
-            <ion-col width-50>
-              <button ion-button icon-left full color="danger" (click)="doGoogleLogin()" round style="height: 2.8em;"><ion-icon name="logo-google"></ion-icon>Login</button>
-            </ion-col>
-          </ion-row>
-          </ion-list> 
-    <div class="bgimg">
-    </div>
-  </ion-content>
+        </ion-col>
+      </ion-row>      
+
+        <ion-list no-lines style="text-align: center;padding-left: 7%;padding-right: 7%;">           
+              <button style="height: 4.6rem;" type="submit" [disabled]="!registrationForm.valid" ion-button full round>
+                Login              
+              </button>
+        </ion-list>
+      <ion-list>
+    <p class="whitec" style="text-align: center;" (click)="forgotPassword()">Forgot Password </p>
+      <br>
+        <p class="whitec" style="text-align: center;" (click)="registration()">New here? Create an account</p>         
+        </ion-list>     
+    </form> 
+      
+        <ion-list style="margin-top: 60px;"> 
+      <h6 class="whitec" style="text-align:center;padding-top: 20px;">- OR -</h6>
+        <ion-row>
+          <ion-col width-50>
+            <button ion-button icon-left full (click)="doFbLogin()" round style="background-color: #3b5998;margin-bottom:5px;height: 2.8em;"><ion-icon name="logo-facebook"></ion-icon>Login</button>
+          </ion-col>
+          <ion-col width-50>
+            <button ion-button icon-left full color="danger" (click)="doGoogleLogin()" round style="height: 2.8em;"><ion-icon name="logo-google"></ion-icon>Login</button>
+          </ion-col>
+        </ion-row>
+        </ion-list> -->
+  <div class="bgimg">
+  </div>
+</ion-content>

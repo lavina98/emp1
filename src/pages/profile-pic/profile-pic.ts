@@ -26,6 +26,7 @@ export class ProfilePicPage {
   hash:any;
   social_pic:any;
   drive_name:any;
+  image:any;
   constructor(private loadingCtrl: LoadingController, 
               http: Http, 
               public network: NetworkServiceProvider,
@@ -39,7 +40,7 @@ export class ProfilePicPage {
               public navParams: NavParams, 
               private alertCtrl: AlertController, 
               private ga: GoogleAnalytics,
-              public events: Events
+              public events: Events,
               ) {           
             this.http = http;    
     }
@@ -69,6 +70,7 @@ export class ProfilePicPage {
             });  
           }
       }
+   
   getDetails(x, loader){
      let headers = new Headers({
       'Content-Type': 'application/json',
@@ -78,6 +80,7 @@ export class ProfilePicPage {
             this.http.get(x, options)
             .subscribe(data =>{
              this.items=JSON.parse(data._body).Users;
+             this.image= 'https://www.forehotels.com/public/emp/avatar/'+this.items["0"].profile_pic;
              let img = this.items["0"].profile_pic.split("/")
              this.drive_name = this.items["0"].email.split('@')
              if(img.length > 1){
@@ -92,10 +95,12 @@ export class ProfilePicPage {
     this.filechooser.open()
       .then(
         uri => {
-          let DrivePicpath = uri.split("/") 
+          let DrivePicpath = uri.split("/");
+          console.log(JSON.stringify(uri));
           if(DrivePicpath[0] == 'content:'){
               let fileTransfer: FileTransferObject = this.filetransfer.create();
-                      fileTransfer.download(uri, "file:///storage/emulated/0/Download/" +this.drive_name[0]+'.jpg').then((entry) => {                        
+                      fileTransfer.download(uri, "file:///storage/emulated/0/Download/" +this.drive_name[0]+'.jpg').then((entry) => { 
+                                            
                         let tourl = entry.toURL()
                         this.profilePicUpload(tourl)
                       }, (error) => {
@@ -109,9 +114,8 @@ export class ProfilePicPage {
         }
       });
   }
-  stateChange() {
-    setTimeout('', 3000);
-  }
+ 
+  
   profilePicUpload(x){
     if(this.network.noConnection()){
         this.network.showNetworkAlert()
@@ -160,15 +164,16 @@ export class ProfilePicPage {
       fileTransfer.upload(x, encodeURI("http://forehotels.com:3000/api/upload_employee_image"), this.options, true)
       .then((data) => {
         this.progress=null;
-        this.completed=true;
         let loader = this.loadingCtrl.create({
           content: "Fetching your Account Details. Kindly wait...",
         });
         loader.present();
         let url="http://www.forehotels.com:3000/api/employee/"+this.id;
-        this.getDetails(url,loader);
-        this.navCtrl.pop();
-        this.navCtrl.push(ProfilePicPage);
+        setTimeout(this.getDetails(url, loader),3000);
+        this.completed=true;
+       
+        
+       
       }, (err) => {
         let alert = this.alertCtrl.create({
               title: err.text(),
