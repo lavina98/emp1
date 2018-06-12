@@ -83,7 +83,7 @@
 						
 			</div>
 			<div class="item-avatar" (click)="updateProfilePic()" style="position: absolute;z-index: 999;width:100%;text-align:center">
-				<img class="customavtar" *ngIf="this.social_pic == false" src="https://www.forehotels.com/public/emp/avatar/{{this.picss}}" onError="this.src='https://www.forehotels.com/public/assets/img/male.png';">
+				<img class="customavtar" *ngIf="this.social_pic == false" [src]="img" onError="this.src='https://www.forehotels.com/public/assets/img/male.png';">
 				<img class="customavtar" *ngIf="this.social_pic == true" src="{{this.picss}}" onError="this.src='https://www.forehotels.com/public/assets/img/male.png';">
 			</div> 
 		</div>
@@ -118,9 +118,9 @@
 		<ion-fab left top>
 			<ion-icon (click)="Openmenu()" style="font-size:2.4em;color:#ffffff !important" name="menu"></ion-icon>
 		</ion-fab>
-		<ion-fab right top>
+		<!-- <ion-fab right top>
 			<ion-icon (click)="search()" style="font-size:2.4em;color:#ffffff !important" name="search"></ion-icon>
-		</ion-fab>
+		</ion-fab> -->
 		<!-- <ion-fab right middle style="top:30%;right:0%" (click)="Opennotifications()">
 			<button style="background-color:#86ccea!important;border-radius:10%;width:48px;height:48px" ion-fab>
 				<ion-icon style="color:#1396e2;font-size:3.8rem!important" name="md-information-circle">
