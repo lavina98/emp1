@@ -18,7 +18,7 @@
 <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
 <!-- <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav> -->
 
-<ion-menu *ngIf="this.loggedIn != false" id="myMenu" [content]="content">
+<ion-menu *ngIf="this.loggedIn != false" (ionOpen)="click()" id="myMenu" [content]="content">
 <div class="menu">
 
   <div class="info" padding-left *ngFor="let item of items">

@@ -66,6 +66,7 @@ import { AboutUsPage } from '../pages/about-us/about-us';
 import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy';
 import { TermsConditionsPage } from '../pages/terms-conditions/terms-conditions';
 import { MymanagerPage } from "../pages/mymanager/mymanager";
+import { UpdateDesignationPage } from "../pages/update-designation/update-designation";
 @NgModule({
   declarations: [
     MyApp,
@@ -105,6 +106,7 @@ import { MymanagerPage } from "../pages/mymanager/mymanager";
     UrgentNeedPage,
     PopoverPageExp,
     MymanagerPage,
+    UpdateDesignationPage
   ],
   imports: [
     BrowserModule,
@@ -151,6 +153,7 @@ import { MymanagerPage } from "../pages/mymanager/mymanager";
     ResumeBuilderPage,
     UrgentNeedPage,
     MymanagerPage,
+    UpdateDesignationPage
   ],
   providers: [
               Toast,

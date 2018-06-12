@@ -259,7 +259,10 @@ app_id = "a8874a29-22e2-486f-b4b3-b3d09e8167a5";
    this.menu.close();
     this.nav.push(page.component);
   }
-
+  click(){
+    console.log('11');
+    this.events.subscribe('user:designation',(des)=>console.log(des));
+  }
   dashboard(){
     this.menu.close();
     this.nav.setRoot(DashboardPage);
@@ -273,26 +276,26 @@ app_id = "a8874a29-22e2-486f-b4b3-b3d09e8167a5";
     });
   }
 
-  updateApp(){
-    let alert = this.alertCtrl.create({
-       title: 'Update',
-       message: 'Please update your app to enjoy better features',
-       buttons: [
-         {
-           text: 'Cancel',
-           role: 'cancel',
-           handler: () => {
-           }
-         },
-         {
-           text: 'Update',
-           handler: () => {
-             let browser = this.iab.create('https://play.google.com/store/apps/details?id=com.fore.v100','_system')
-             browser.show();
-           }
-         }
-       ]
-     });
-     alert.present();
-  }
+  // updateApp(){
+  //   let alert = this.alertCtrl.create({
+  //      title: 'Update',
+  //      message: 'Please update your app to enjoy better features',
+  //      buttons: [
+  //        {
+  //          text: 'Cancel',
+  //          role: 'cancel',
+  //          handler: () => {
+  //          }
+  //        },
+  //        {
+  //          text: 'Update',
+  //          handler: () => {
+  //            let browser = this.iab.create('https://play.google.com/store/apps/details?id=com.fore.v100','_system')
+  //            browser.show();
+  //          }
+  //        }
+  //      ]
+  //    });
+  //    alert.present();
+  // }
 }

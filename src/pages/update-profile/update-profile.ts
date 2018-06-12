@@ -12,15 +12,19 @@ import { ProfilePicPage } from '../profile-pic/profile-pic';
 import { FormBuilder, Validators } from '@angular/forms';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
-
+import {UpdateDesignationPage} from '../update-designation/update-designation';
 @Component({
   selector: 'page-update-profile',
   templateUrl: 'update-profile.html'
 })
-export class UpdateProfilePage{
+export class UpdateProfilePage implements OnInit{
    ionViewDidEnter(){
      this.loadData()
     }    
+    ionViewDidLoad(){
+      console.log('1234');
+      this.loadData();
+    }
   items:any;
   http:any;
   location:boolean;
@@ -41,6 +45,7 @@ export class UpdateProfilePage{
   social_pic:boolean;
   password:any;
   drive_name: any;
+  designationarr:any;
   constructor(private ngZone: NgZone, 
               public modalCtrl: ModalController,
               public storage: Storage,
@@ -58,6 +63,8 @@ export class UpdateProfilePage{
               public events: Events) {
               this.http = http;
   }  
+  ngOnInit(){
+  }
   
 loadData(){
         if(this.network.noConnection()){
@@ -127,30 +134,61 @@ getUserCities(){
     }
 /************Update-Education-Function-Start***********/
 education() {
-      let prompt = this.alertCtrl.create({
-        title: 'Education',
-        inputs: [
-          {
-            value: this.items["0"].qualification
-          },
-        ],
-        buttons: [
-          {
-            text: 'Cancel',
-            handler: data => {
-              console.log('Cancel clicked');
-            }
-          },
-          {
-            text: 'Save',
-            handler: s_data => {              
-              this.items["0"].qualification = s_data["0"];
-              this.callAPI("qualification", s_data["0"])
-            }
-          }
-        ]
-      });
-      prompt.present();    
+  let alert = this.alertCtrl.create({
+    title: 'Lightsaber color',
+    inputs: [
+      {
+        type: 'checkbox',
+        value: 'Below 10th',
+        label:'Below 10th'
+      },
+      {
+        type: 'checkbox',
+        value: '10th',
+        label:' 10th'
+      },
+      {
+        type: 'checkbox',
+        value: '12th',
+        label:'12th'
+      },
+      {
+        type: 'checkbox',
+        value:'Below 12th',
+        label:'Below 12th'
+      },
+      {
+        type: 'checkbox',
+        value: 'Degree in Hotel Management',
+        label:'Degree in Hotel Management'
+      },
+      {
+        type: 'checkbox',
+        value: 'BSc. in Hotel Management',
+        label:'BSc. in Hotel Management'
+      },
+      {
+        type: 'checkbox',
+        value: 'Other',
+        label:'Other'
+      }
+    ],
+    buttons : [
+      {
+        text: 'Cancel'
+      },
+      {
+        text: 'Ok',
+        handler: (data: any) => {
+          console.log('check box data:', data);
+          this.callAPI("qualification",data);
+          this.loadData();
+        }
+      }
+    ]
+  });
+ 
+  alert.present();
 }
 /************Update-Education-Function-End***********/
 
@@ -208,27 +246,29 @@ exp() {
 
 /************Update-Designation-Function-Start***********/
 designation() {
-        let prompt = this.alertCtrl.create({
-        title: 'Designation',
-        inputs: [{
-            value: this.items["0"].designation
-          },],
-        buttons: [{
-            text: 'Cancel',
-            handler: data => {
-              console.log('Cancel clicked');
-            }
-          },
-          {
-            text: 'Save',
-            handler: designation_data => {
-              console.log('Saved clicked');
-              this.items["0"].designation = designation_data["0"];
-              this.callAPI("designation", designation_data["0"])
-            }
-          }]
-      });
-      prompt.present();        
+
+        this.navCtrl.push(UpdateDesignationPage);
+      //   let prompt = this.alertCtrl.create({
+      //   title: 'Designation',
+      //   inputs: [{
+      //       value: this.items["0"].designation
+      //     },],
+      //   buttons: [{
+      //       text: 'Cancel',
+      //       handler: data => {
+      //         console.log('Cancel clicked');
+      //       }
+      //     },
+      //     {
+      //       text: 'Save',
+      //       handler: designation_data => {
+      //         console.log('Saved clicked');
+      //         this.items["0"].designation = designation_data["0"];
+      //         this.callAPI("designation", designation_data["0"])
+      //       }
+      //     }]
+      // });
+      // prompt.present();        
   }
 /************Update-Designation-Function-End***********/
 

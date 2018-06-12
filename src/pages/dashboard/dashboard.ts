@@ -30,6 +30,10 @@ export class DashboardPage implements OnInit {
   {
     this.loadData();
   }
+  ionViewWillEnter()
+  {
+    this.loadData();
+  }
  
 view:boolean
 profile:any;

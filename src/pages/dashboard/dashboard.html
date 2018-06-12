@@ -107,7 +107,7 @@
 
 		<ion-grid style="background-color: black;padding: 3.1% 0% 0% 0%;margin-top: -14.9%">          
 			<ion-row *ngFor="let i of rows">
-				<ion-col style="text-align: center;border-right: 0.3px solid #a2a9b4;padding-top:0px;" *ngFor="let p of pages2 | slice:(i*3):(i+1)*3" (click)="openPage(p)">
+				<ion-col style="text-align: center;border-right: 0.3px solid #a2a9b4;padding-top:12px;" *ngFor="let p of pages2 | slice:(i*3):(i+1)*3" (click)="openPage(p)">
 				 <img  height="48px" width="48px" src="assets/icon/{{p.icon}}"/> 
 				 <span *ngIf="p.count!==0" class="badge badge-assertive1">{{p.count}}</span> 
 					<p style="color:#ffffff;font-size: 12px;white-space: initial;">{{p.title}}</p>
