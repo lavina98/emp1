@@ -57,7 +57,8 @@ pages2: Array<{title:String,icon:any;component:any,count:any}>
 rows:any
 notifications:any
 myDate: any;
-interviews=[]
+interviews=[];
+img:any;
   constructor(
               public datepipe:DatePipe,
               private platform:Platform, 
@@ -176,6 +177,7 @@ interviews=[]
               .subscribe(data =>{
               this.profile=JSON.parse(data._body).Users;
               this.picss =this.profile["0"].profile_pic
+              this.img='https://www.forehotels.com/public/emp/avatar/'+this.picss;
                this.storage.set('user', {
                  name: this.profile["0"].name,
                  contact_no: this.profile["0"].contact_no,

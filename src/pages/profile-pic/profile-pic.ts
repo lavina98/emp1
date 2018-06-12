@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, AlertController, LoadingController, Platform, Events } from 'ionic-angular';
+import { NavController, NavParams, AlertController, LoadingController, Platform, Events, ToastController } from 'ionic-angular';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
@@ -12,9 +12,12 @@ import { NetworkServiceProvider } from '../../providers/network-service/network-
   selector: 'page-profile-pic',
   templateUrl: 'profile-pic.html'
 })
-export class ProfilePicPage {    
-  ionViewDidEnter(){
+export class ProfilePicPage implements OnInit {    
+  ionViewDidLoad(){
      this.loadData()
+  }
+  ngOnInit(){
+    this.loadData();
   }
   profilePicForm:any;
   items:any;
@@ -41,6 +44,7 @@ export class ProfilePicPage {
               private alertCtrl: AlertController, 
               private ga: GoogleAnalytics,
               public events: Events,
+              public toast:ToastController
               ) {           
             this.http = http;    
     }
@@ -161,17 +165,35 @@ export class ProfilePicPage {
     }
       this.completed = false;
       fileTransfer.onProgress(onProgress)
-      fileTransfer.upload(x, encodeURI("http://forehotels.com:3000/api/upload_employee_image"), this.options, true)
+      fileTransfer.upload(x, encodeURI("http://forehotels.com:3000/api/upload_employee_image"), this.options)
       .then((data) => {
         this.progress=null;
         let loader = this.loadingCtrl.create({
           content: "Fetching your Account Details. Kindly wait...",
         });
-        loader.present();
-        let url="http://www.forehotels.com:3000/api/employee/"+this.id;
-        setTimeout(this.getDetails(url, loader),3000);
-        this.completed=true;
-       
+        //  this.http.get(x, options)
+        //     .subscribe(data =>{
+        //      this.items=JSON.parse(data._body).Users;
+      //   let imgtemp='https://www.forehotels.com/public/emp/avatar/'+this.items["0"].profile_pic;
+      //  this.events.publish('user:profilepic',imgtemp);
+        // loader.present();
+        // let url="http://www.forehotels.com:3000/api/employee/"+this.id;
+        // setTimeout(this.getDetails(url, loader),3000);
+        // this.events.subscribe('user:profilepic',(imgtemp)=>{
+        //   this.image=imgtemp;
+        // })
+        let t=this.toast.create(
+          {
+            message:'loadingggg',
+            duration:3000,
+            position:'middle'
+          }
+        );
+        setTimeout(()=>{
+          this.navCtrl.pop();
+          this.navCtrl.push(ProfilePicPage)
+        },3000);
+        t.present();
         
        
       }, (err) => {
@@ -182,9 +204,42 @@ export class ProfilePicPage {
             });
             alert.present();
       });
-      }
+      this.completed=true;
+      this.storage.get('id').then((id) =>{
+        let headers = new Headers({
+          'Content-Type': 'application/json',
+          'Authorization': this.hash
+        });
+        let options = new RequestOptions({ headers: headers });   
+        var url="http://www.forehotels.com:3000/api/employee/"+id;
+      this.http.get(url,options).subscribe(
+        (data)=>{
+          let t=this.toast.create(
+            {
+              message:JSON.parse((data._body).Users),
+              duration:3000,
+              position:'middle'
+            }
+          );
+          this.image=
+          t.present();
+        },
+        (err)=>{
+          let t=this.toast.create(
+            {
+              message:'error',
+              duration:3000,
+              position:'middle'
+            }
+          );
+          t.present();
+        }
+      );
+
+      });
+      // this.navCtrl.push(ProfilePicPage);
     }
   }
 }
-
+}
 

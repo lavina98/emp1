@@ -58,7 +58,7 @@ export class MymanagerPage {
       }
     );
 
-     this.navCtrl.push(PaymentOptionsPage,{val:1000})
+     this.navCtrl.push(PaymentOptionsPage,{val:1500})
       });
   });
   }
