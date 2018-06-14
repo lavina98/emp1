@@ -8,6 +8,7 @@ import { NgZone } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
+import { DashboardPage } from '../dashboard/dashboard';
 @Component({
   selector: 'page-profile-pic',
   templateUrl: 'profile-pic.html'
@@ -19,6 +20,7 @@ export class ProfilePicPage implements OnInit {
   ngOnInit(){
     this.loadData();
   }
+  load:any;
   profilePicForm:any;
   items:any;
   options:any;
@@ -30,6 +32,8 @@ export class ProfilePicPage implements OnInit {
   social_pic:any;
   drive_name:any;
   image:any;
+  imagefinal:any;
+  c:number;
   constructor(private loadingCtrl: LoadingController, 
               http: Http, 
               public network: NetworkServiceProvider,
@@ -44,7 +48,7 @@ export class ProfilePicPage implements OnInit {
               private alertCtrl: AlertController, 
               private ga: GoogleAnalytics,
               public events: Events,
-              public toast:ToastController
+              public toast:ToastController,
               ) {           
             this.http = http;    
     }
@@ -58,7 +62,7 @@ export class ProfilePicPage implements OnInit {
     });
         
         this.social_pic = false
-        loader.present();
+        // loader.present();
         this.storage.get('user').then((id) =>{
                 this.ga.trackEvent("Update Profile Pic Page", "Opened", "", id.id)
                 this.ga.trackView("Update Profile Pic")
@@ -86,11 +90,12 @@ export class ProfilePicPage implements OnInit {
              this.items=JSON.parse(data._body).Users;
              this.image= 'https://www.forehotels.com/public/emp/avatar/'+this.items["0"].profile_pic;
              let img = this.items["0"].profile_pic.split("/")
+            //  this.imagefinal=this.items["0"].profile_pic;
              this.drive_name = this.items["0"].email.split('@')
              if(img.length > 1){
                this.social_pic = true;
              }
-             loader.dismiss();
+            //  loader.dismiss();
             },error=>{
                 console.log(error);
             } );
@@ -141,10 +146,12 @@ export class ProfilePicPage implements OnInit {
             alert.present();
       }
       else{
+        this.storage.get("counter").then((count)=>{this.c=count;
+          file='emp_'+this.id+this.c+'.'+filebits[1];
         let fileTransfer: FileTransferObject = this.filetransfer.create();
       this.options = {
         fileKey: 'img',
-        fileName: x,
+        fileName: file,
         mimeType: "multipart/form-data",
         headers: {
           authorization : 'e36051cb8ca82ee0Lolzippu123456*='
@@ -170,31 +177,52 @@ export class ProfilePicPage implements OnInit {
         this.progress=null;
         let loader = this.loadingCtrl.create({
           content: "Fetching your Account Details. Kindly wait...",
+        
         });
-        //  this.http.get(x, options)
-        //     .subscribe(data =>{
-        //      this.items=JSON.parse(data._body).Users;
-      //   let imgtemp='https://www.forehotels.com/public/emp/avatar/'+this.items["0"].profile_pic;
-      //  this.events.publish('user:profilepic',imgtemp);
         // loader.present();
-        // let url="http://www.forehotels.com:3000/api/employee/"+this.id;
-        // setTimeout(this.getDetails(url, loader),3000);
-        // this.events.subscribe('user:profilepic',(imgtemp)=>{
-        //   this.image=imgtemp;
-        // })
-        let t=this.toast.create(
-          {
-            message:'loadingggg',
-            duration:3000,
-            position:'middle'
+        this.completed=true;
+        // this.events.publish('user:profilepic','profile pic');
+        this.storage.get('id').then((id) =>{
+          let headers = new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': this.hash
+          });
+          let options = new RequestOptions({ headers: headers });   
+          var url="http://www.forehotels.com:3000/api/employee/"+id;
+        this.http.get(url,options).subscribe(
+          (data)=>{
+            let u=JSON.parse((data._body).Users);
+            console.log(u); 
+            this.imagefinal=u["0"].profile_pic;
+            // let t=this.toast.create(
+            //   {
+            //     message:'hereee',
+            //     duration:3000,
+            //     position:'middle'
+            //   }
+            // );
+            // t.present();
+
+            // this.navCtrl.push(DashboardPage);
+            let l=this.alertCtrl.create({
+              title:'done updated',
+              buttons:['OK']
+            });
+            l.present();
+          },
+          (err)=>{
+            let t=this.toast.create(
+              {
+                message:'error',
+                duration:3000,
+                position:'middle'
+              }
+            );
+            t.present();
           }
         );
-        setTimeout(()=>{
-          this.navCtrl.pop();
-          this.navCtrl.push(ProfilePicPage)
-        },3000);
-        t.present();
-        
+
+  });
        
       }, (err) => {
         let alert = this.alertCtrl.create({
@@ -204,41 +232,54 @@ export class ProfilePicPage implements OnInit {
             });
             alert.present();
       });
-      this.completed=true;
-      this.storage.get('id').then((id) =>{
-        let headers = new Headers({
-          'Content-Type': 'application/json',
-          'Authorization': this.hash
-        });
-        let options = new RequestOptions({ headers: headers });   
-        var url="http://www.forehotels.com:3000/api/employee/"+id;
-      this.http.get(url,options).subscribe(
-        (data)=>{
-          let t=this.toast.create(
-            {
-              message:JSON.parse((data._body).Users),
-              duration:3000,
-              position:'middle'
-            }
-          );
-          this.image=
-          t.present();
-        },
-        (err)=>{
-          let t=this.toast.create(
-            {
-              message:'error',
-              duration:3000,
-              position:'middle'
-            }
-          );
-          t.present();
-        }
-      );
+      if(this.completed)
+      {
+            this.events.publish('user:profilepic','profile pic');
+            this.storage.get('id').then((id) =>{
+              let headers = new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': this.hash
+              });
+              let options = new RequestOptions({ headers: headers });   
+              var url="http://www.forehotels.com:3000/api/employee/"+id;
+            this.http.get(url,options).subscribe(
+              (data)=>{
+                let t=this.toast.create(
+                  {
+                    message:'hereee',
+                    duration:3000,
+                    position:'middle'
+                  }
+                );
+                t.present();
+              },
+              (err)=>{
+                let t=this.toast.create(
+                  {
+                    message:'error',
+                    duration:3000,
+                    position:'middle'
+                  }
+                );
+                t.present();
+              }
+            );
 
       });
-      // this.navCtrl.push(ProfilePicPage);
     }
+    this.c+=1;
+    this.storage.set("counter",this.c).then(()=>
+    {
+      let a=this.alertCtrl.create({
+      title:'Profile Pic Updated Successfully',
+      buttons:['OK']});
+      a.present();
+      this.events.publish('user:profilepic','doone');
+      this.navCtrl.push(DashboardPage);
+    });
+      // this.navCtrl.push(ProfilePicPage);
+    });
+  }
   }
 }
 }
