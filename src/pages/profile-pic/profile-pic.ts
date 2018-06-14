@@ -33,6 +33,7 @@ export class ProfilePicPage implements OnInit {
   drive_name:any;
   image:any;
   imagefinal:any;
+  c:number;
   constructor(private loadingCtrl: LoadingController, 
               http: Http, 
               public network: NetworkServiceProvider,
@@ -61,7 +62,7 @@ export class ProfilePicPage implements OnInit {
     });
         
         this.social_pic = false
-        loader.present();
+        // loader.present();
         this.storage.get('user').then((id) =>{
                 this.ga.trackEvent("Update Profile Pic Page", "Opened", "", id.id)
                 this.ga.trackView("Update Profile Pic")
@@ -89,12 +90,12 @@ export class ProfilePicPage implements OnInit {
              this.items=JSON.parse(data._body).Users;
              this.image= 'https://www.forehotels.com/public/emp/avatar/'+this.items["0"].profile_pic;
              let img = this.items["0"].profile_pic.split("/")
-             this.imagefinal=this.items["0"].profile_pic;
+            //  this.imagefinal=this.items["0"].profile_pic;
              this.drive_name = this.items["0"].email.split('@')
              if(img.length > 1){
                this.social_pic = true;
              }
-             loader.dismiss();
+            //  loader.dismiss();
             },error=>{
                 console.log(error);
             } );
@@ -145,10 +146,12 @@ export class ProfilePicPage implements OnInit {
             alert.present();
       }
       else{
+        this.storage.get("counter").then((count)=>{this.c=count;
+          file='emp_'+this.id+this.c+'.'+filebits[1];
         let fileTransfer: FileTransferObject = this.filetransfer.create();
       this.options = {
         fileKey: 'img',
-        fileName: x,
+        fileName: file,
         mimeType: "multipart/form-data",
         headers: {
           authorization : 'e36051cb8ca82ee0Lolzippu123456*='
@@ -176,8 +179,9 @@ export class ProfilePicPage implements OnInit {
           content: "Fetching your Account Details. Kindly wait...",
         
         });
+        // loader.present();
         this.completed=true;
-        this.events.publish('user:profilepic','profile pic');
+        // this.events.publish('user:profilepic','profile pic');
         this.storage.get('id').then((id) =>{
           let headers = new Headers({
             'Content-Type': 'application/json',
@@ -190,14 +194,14 @@ export class ProfilePicPage implements OnInit {
             let u=JSON.parse((data._body).Users);
             console.log(u); 
             this.imagefinal=u["0"].profile_pic;
-            let t=this.toast.create(
-              {
-                message:'hereee',
-                duration:3000,
-                position:'middle'
-              }
-            );
-            t.present();
+            // let t=this.toast.create(
+            //   {
+            //     message:'hereee',
+            //     duration:3000,
+            //     position:'middle'
+            //   }
+            // );
+            // t.present();
 
             // this.navCtrl.push(DashboardPage);
             let l=this.alertCtrl.create({
@@ -263,8 +267,19 @@ export class ProfilePicPage implements OnInit {
 
       });
     }
+    this.c+=1;
+    this.storage.set("counter",this.c).then(()=>
+    {
+      let a=this.alertCtrl.create({
+      title:'Profile Pic Updated Successfully',
+      buttons:['OK']});
+      a.present();
+      this.events.publish('user:profilepic','doone');
+      this.navCtrl.push(DashboardPage);
+    });
       // this.navCtrl.push(ProfilePicPage);
-    }
+    });
+  }
   }
 }
 }
