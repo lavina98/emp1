@@ -153,6 +153,20 @@ app_id = "a8874a29-22e2-486f-b4b3-b3d09e8167a5";
           nav.pop();          
           }
       });
+       this.events.subscribe('user:designation',(des)=>{
+         console.log(des);
+         console.log('234');
+          this.storage.get('id').then((id)=>{console.log(id);
+                                            this.getDetails(id);
+                                          });
+         });
+         this.events.subscribe('user:profilepic',(data)=>{
+          console.log(data);
+          console.log('profile pic event subscriber');
+           this.storage.get('id').then((id)=>{console.log(id);
+                                             this.getDetails(id);
+                                           });
+          });
 		  // let contact: Contact = this.contacts.create();
 
 			// contact.name = new ContactName(null, '- Job Search', 'Forehotels');
@@ -261,7 +275,8 @@ app_id = "a8874a29-22e2-486f-b4b3-b3d09e8167a5";
   }
   click(){
     console.log('11');
-    this.events.subscribe('user:designation',(des)=>console.log(des));
+    this.events.subscribe('user:designation',(des)=>{console.log(des);
+                                                    console.log('234');});
   }
   dashboard(){
     this.menu.close();

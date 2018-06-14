@@ -71,8 +71,9 @@ export class UpdateDesignationPage implements OnInit {
         .map(res => res.json())
         .subscribe(
             data => {
+              console.log('ckpt1');
               this.events.publish('user:designation', des);
-              
+              console.log('ckpt2');
               console.log(data);
               let alert = this.alertCtrl.create({
                 title: 'Designation Update',
