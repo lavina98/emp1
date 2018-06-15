@@ -13,10 +13,13 @@ import { NetworkServiceProvider } from '../../providers/network-service/network-
   templateUrl: 'profile-pic.html'
 })
 export class ProfilePicPage implements OnInit {    
-  ionViewDidLoad(){
-     this.loadData()
+  ngOnInit() {
+    this.loadData();
   }
-  ngOnInit(){
+  ionViewDidLoad() {
+    this.loadData();
+  }
+  ionViewWillEnter() {
     this.loadData();
   }
   profilePicForm:any;
@@ -30,6 +33,9 @@ export class ProfilePicPage implements OnInit {
   social_pic:any;
   drive_name:any;
   image:any;
+  newImage: any;
+  name: any;
+  profile: any;
   constructor(private loadingCtrl: LoadingController, 
               http: Http, 
               public network: NetworkServiceProvider,
@@ -56,11 +62,11 @@ export class ProfilePicPage implements OnInit {
       let loader = this.loadingCtrl.create({
       content: "Fetching your Account Details. Kindly wait...",
     });
-        
+        this.completed = false;
         this.social_pic = false
         loader.present();
         this.storage.get('user').then((id) =>{
-                this.ga.trackEvent("Update Profile Pic Page", "Opened", "", id.id)
+                this.ga.trackEvent("Update Profile Pic Page", "Opened", "", id)
                 this.ga.trackView("Update Profile Pic")
               });
         this.storage.get('Hash').then((hash) => {
@@ -84,7 +90,8 @@ export class ProfilePicPage implements OnInit {
             this.http.get(x, options)
             .subscribe(data =>{
              this.items=JSON.parse(data._body).Users;
-             this.image= 'https://www.forehotels.com/public/emp/avatar/'+this.items["0"].profile_pic;
+             this.image = 'https://www.forehotels.com/public/emp/avatar/'+this.items['0'].profile_pic;
+             this.name = this.items["0"].name;
              let img = this.items["0"].profile_pic.split("/")
              this.drive_name = this.items["0"].email.split('@')
              if(img.length > 1){
@@ -103,8 +110,7 @@ export class ProfilePicPage implements OnInit {
           console.log(JSON.stringify(uri));
           if(DrivePicpath[0] == 'content:'){
               let fileTransfer: FileTransferObject = this.filetransfer.create();
-                      fileTransfer.download(uri, "file:///storage/emulated/0/Download/" +this.drive_name[0]+'.jpg').then((entry) => { 
-                                            
+                      fileTransfer.download(uri, "file:///storage/emulated/0/Download/" +this.drive_name[0]+'.jpg').then((entry) => {             
                         let tourl = entry.toURL()
                         this.profilePicUpload(tourl)
                       }, (error) => {
@@ -112,7 +118,7 @@ export class ProfilePicPage implements OnInit {
                       });
           }else{
             this.filePath.resolveNativePath(uri)
-            .then(filePath => {                 
+            .then(filePath => {                
               this.profilePicUpload(filePath);
             });
         }
@@ -122,122 +128,73 @@ export class ProfilePicPage implements OnInit {
   
   profilePicUpload(x){
     if(this.network.noConnection()){
-        this.network.showNetworkAlert()
-    }
-      else{
-      this.completed=false;
-      var fileArray = x.split("/");
-      let len = fileArray.length;
-      let file = fileArray[len - 1];
-      var filebits = file.split(".");
-      var f = filebits[1];
+      this.network.showNetworkAlert()
+  }
+    else{
+    this.completed=false;
+    var fileArray = x.split("/");
+    let len = fileArray.length;
+    let file = fileArray[len - 1];
+    var filebits = file.split(".");
+    var f = filebits[1];
 
-      if((f != "jpg") && (f != "png") && (f != "jpeg")){
-        let alert = this.alertCtrl.create({
-              title: "Invalid File Format",
-              subTitle: "Allowed File extensions are JPG, JPEG and PNG only",
-              buttons: ['Dismiss'],
-            });
-            alert.present();
-      }
-      else{
-        let fileTransfer: FileTransferObject = this.filetransfer.create();
-      this.options = {
-        fileKey: 'img',
-        fileName: x,
-        mimeType: "multipart/form-data",
-        headers: {
-          authorization : 'e36051cb8ca82ee0Lolzippu123456*='
-        },
-        params: {
-          name: file,
-          id: this.id
-        }
-      }
-      
-       let onProgress =  (progressEvent: ProgressEvent) : void => {
-        this.ngZone.run(() => {
-            if (progressEvent.lengthComputable) {
-                let progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-                this.progress = progress    
-            }
-        });
+    if((f != "jpg") && (f != "png") && (f != "jpeg")){
+      let alert = this.alertCtrl.create({
+            title: "Invalid File Format",
+            subTitle: "Allowed File extensions are JPG, JPEG and PNG only",
+            buttons: ['Dismiss'],
+          });
+          alert.present();
     }
-      this.completed = false;
-      fileTransfer.onProgress(onProgress)
-      fileTransfer.upload(x, encodeURI("http://forehotels.com:3000/api/upload_employee_image"), this.options)
-      .then((data) => {
-        this.progress=null;
-        let loader = this.loadingCtrl.create({
-          content: "Fetching your Account Details. Kindly wait...",
-        });
-        //  this.http.get(x, options)
-        //     .subscribe(data =>{
-        //      this.items=JSON.parse(data._body).Users;
-      //   let imgtemp='https://www.forehotels.com/public/emp/avatar/'+this.items["0"].profile_pic;
-      //  this.events.publish('user:profilepic',imgtemp);
-        // loader.present();
-        // let url="http://www.forehotels.com:3000/api/employee/"+this.id;
-        // setTimeout(this.getDetails(url, loader),3000);
-        // this.events.subscribe('user:profilepic',(imgtemp)=>{
-        //   this.image=imgtemp;
-        // })
-        let t=this.toast.create(
-          {
-            message:'loadingggg',
-            duration:3000,
-            position:'middle'
+    else{
+      let fileTransfer: FileTransferObject = this.filetransfer.create();
+    this.options = {
+      fileKey: 'img',
+      fileName: x,
+      mimeType: "multipart/form-data",
+      headers: {
+        authorization : 'e36051cb8ca82ee0Lolzippu123456*='
+      },
+      params: {
+        name: file,
+        id: this.id
+      }
+    }
+    
+     let onProgress =  (progressEvent: ProgressEvent) : void => {
+      this.ngZone.run(() => {
+          if (progressEvent.lengthComputable) {
+              let progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+              this.progress = progress    
           }
-        );
-        setTimeout(()=>{
-          this.navCtrl.pop();
-          this.navCtrl.push(ProfilePicPage)
-        },3000);
-        t.present();
-        
-       
-      }, (err) => {
-        let alert = this.alertCtrl.create({
-              title: err.text(),
-              subTitle: err.json(),
-              buttons: ['Dismiss'],
-            });
-            alert.present();
       });
+  }
+    this.completed = false;
+    fileTransfer.onProgress(onProgress)
+    fileTransfer.upload(x, encodeURI("http://forehotels.com:3000/api/upload_employee_image"), this.options, true)
+    .then((data) => {
+      this.progress=null;
       this.completed=true;
-      this.storage.get('id').then((id) =>{
-        let headers = new Headers({
-          'Content-Type': 'application/json',
-          'Authorization': this.hash
-        });
-        let options = new RequestOptions({ headers: headers });   
-        var url="http://www.forehotels.com:3000/api/employee/"+id;
-      this.http.get(url,options).subscribe(
-        (data)=>{
-          let t=this.toast.create(
-            {
-              message:JSON.parse((data._body).Users),
-              duration:3000,
-              position:'middle'
-            }
-          );
-          this.image=
-          t.present();
-        },
-        (err)=>{
-          let t=this.toast.create(
-            {
-              message:'error',
-              duration:3000,
-              position:'middle'
-            }
-          );
-          t.present();
-        }
-      );
-
+      let headers = new Headers({
+        'Content-Type': 'application/json',
+        'Authorization': this.hash
       });
-      // this.navCtrl.push(ProfilePicPage);
+      let options = new RequestOptions({ headers: headers });
+      this.http.get("http://www.forehotels.com:3000/api/employee/"+this.id,options) 
+      .subscribe(data =>{
+        this.items=JSON.parse(data._body).Users;
+        this.newImage = 'https://www.forehotels.com/public/emp/avatar/'+this.items['0'].profile_pic;
+      });
+    }, (err) => {
+      let alert = this.alertCtrl.create({
+            title: err.text(),
+            subTitle: err.json(),
+            buttons: ['Dismiss'],
+          });
+          alert.present();
+    });
+      this.navCtrl.pop();
+      this.navCtrl.push(ProfilePicPage);
     }
   }
 }
