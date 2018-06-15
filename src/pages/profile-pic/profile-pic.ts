@@ -8,6 +8,7 @@ import { NgZone } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
+import { DashboardPage } from '../dashboard/dashboard';
 @Component({
   selector: 'page-profile-pic',
   templateUrl: 'profile-pic.html'
@@ -22,6 +23,7 @@ export class ProfilePicPage implements OnInit {
   ionViewWillEnter() {
     this.loadData();
   }
+  load:any;
   profilePicForm:any;
   items:any;
   options:any;
@@ -33,9 +35,8 @@ export class ProfilePicPage implements OnInit {
   social_pic:any;
   drive_name:any;
   image:any;
-  newImage: any;
-  name: any;
-  profile: any;
+  imagefinal:any;
+  c:number;
   constructor(private loadingCtrl: LoadingController, 
               http: Http, 
               public network: NetworkServiceProvider,
@@ -50,7 +51,7 @@ export class ProfilePicPage implements OnInit {
               private alertCtrl: AlertController, 
               private ga: GoogleAnalytics,
               public events: Events,
-              public toast:ToastController
+              public toast:ToastController,
               ) {           
             this.http = http;    
     }
@@ -64,7 +65,7 @@ export class ProfilePicPage implements OnInit {
     });
         this.completed = false;
         this.social_pic = false
-        loader.present();
+        // loader.present();
         this.storage.get('user').then((id) =>{
                 this.ga.trackEvent("Update Profile Pic Page", "Opened", "", id)
                 this.ga.trackView("Update Profile Pic")
@@ -93,11 +94,12 @@ export class ProfilePicPage implements OnInit {
              this.image = 'https://www.forehotels.com/public/emp/avatar/'+this.items['0'].profile_pic;
              this.name = this.items["0"].name;
              let img = this.items["0"].profile_pic.split("/")
+            //  this.imagefinal=this.items["0"].profile_pic;
              this.drive_name = this.items["0"].email.split('@')
              if(img.length > 1){
                this.social_pic = true;
              }
-             loader.dismiss();
+            //  loader.dismiss();
             },error=>{
                 console.log(error);
             } );
@@ -138,64 +140,141 @@ export class ProfilePicPage implements OnInit {
     var filebits = file.split(".");
     var f = filebits[1];
 
-    if((f != "jpg") && (f != "png") && (f != "jpeg")){
-      let alert = this.alertCtrl.create({
-            title: "Invalid File Format",
-            subTitle: "Allowed File extensions are JPG, JPEG and PNG only",
-            buttons: ['Dismiss'],
-          });
-          alert.present();
-    }
-    else{
-      let fileTransfer: FileTransferObject = this.filetransfer.create();
-    this.options = {
-      fileKey: 'img',
-      fileName: x,
-      mimeType: "multipart/form-data",
-      headers: {
-        authorization : 'e36051cb8ca82ee0Lolzippu123456*='
-      },
-      params: {
-        name: file,
-        id: this.id
+      if((f != "jpg") && (f != "png") && (f != "jpeg")){
+        let alert = this.alertCtrl.create({
+              title: "Invalid File Format",
+              subTitle: "Allowed File extensions are JPG, JPEG and PNG only",
+              buttons: ['Dismiss'],
+            });
+            alert.present();
+      }
+      else{
+        this.storage.get("counter").then((count)=>{this.c=count;
+          file='emp_'+this.id+this.c+'.'+filebits[1];
+        let fileTransfer: FileTransferObject = this.filetransfer.create();
+      this.options = {
+        fileKey: 'img',
+        fileName: file,
+        mimeType: "multipart/form-data",
+        headers: {
+          authorization : 'e36051cb8ca82ee0Lolzippu123456*='
+        },
+        params: {
+          name: file,
+          id: this.id
+        }
       }
     }
-    
-     let onProgress =  (progressEvent: ProgressEvent) : void => {
-      this.ngZone.run(() => {
-          if (progressEvent.lengthComputable) {
-              let progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-              this.progress = progress    
-          }
-      });
-  }
-    this.completed = false;
-    fileTransfer.onProgress(onProgress)
-    fileTransfer.upload(x, encodeURI("http://forehotels.com:3000/api/upload_employee_image"), this.options, true)
-    .then((data) => {
-      this.progress=null;
-      this.completed=true;
-      let headers = new Headers({
-        'Content-Type': 'application/json',
-        'Authorization': this.hash
-      });
-      let options = new RequestOptions({ headers: headers });
-      this.http.get("http://www.forehotels.com:3000/api/employee/"+this.id,options) 
-      .subscribe(data =>{
-        this.items=JSON.parse(data._body).Users;
-        this.newImage = 'https://www.forehotels.com/public/emp/avatar/'+this.items['0'].profile_pic;
-      });
-    }, (err) => {
-      let alert = this.alertCtrl.create({
-            title: err.text(),
-            subTitle: err.json(),
-            buttons: ['Dismiss'],
+      this.completed = false;
+      fileTransfer.onProgress(onProgress)
+      fileTransfer.upload(x, encodeURI("http://forehotels.com:3000/api/upload_employee_image"), this.options)
+      .then((data) => {
+        this.progress=null;
+        let loader = this.loadingCtrl.create({
+          content: "Fetching your Account Details. Kindly wait...",
+        
+        });
+        // loader.present();
+        this.completed=true;
+        // this.events.publish('user:profilepic','profile pic');
+        this.storage.get('id').then((id) =>{
+          let headers = new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': this.hash
           });
-          alert.present();
-    });
-      this.navCtrl.pop();
-      this.navCtrl.push(ProfilePicPage);
+          let options = new RequestOptions({ headers: headers });   
+          var url="http://www.forehotels.com:3000/api/employee/"+id;
+        this.http.get(url,options).subscribe(
+          (data)=>{
+            let u=JSON.parse((data._body).Users);
+            console.log(u); 
+            this.imagefinal=u["0"].profile_pic;
+            // let t=this.toast.create(
+            //   {
+            //     message:'hereee',
+            //     duration:3000,
+            //     position:'middle'
+            //   }
+            // );
+            // t.present();
+
+            // this.navCtrl.push(DashboardPage);
+            let l=this.alertCtrl.create({
+              title:'done updated',
+              buttons:['OK']
+            });
+            l.present();
+          },
+          (err)=>{
+            let t=this.toast.create(
+              {
+                message:'error',
+                duration:3000,
+                position:'middle'
+              }
+            );
+            t.present();
+          }
+        );
+
+  });
+       
+      }, (err) => {
+        let alert = this.alertCtrl.create({
+              title: err.text(),
+              subTitle: err.json(),
+              buttons: ['Dismiss'],
+            });
+            alert.present();
+      });
+      if(this.completed)
+      {
+            this.events.publish('user:profilepic','profile pic');
+            this.storage.get('id').then((id) =>{
+              let headers = new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': this.hash
+              });
+              let options = new RequestOptions({ headers: headers });   
+              var url="http://www.forehotels.com:3000/api/employee/"+id;
+            this.http.get(url,options).subscribe(
+              (data)=>{
+                let t=this.toast.create(
+                  {
+                    message:'hereee',
+                    duration:3000,
+                    position:'middle'
+                  }
+                );
+                t.present();
+              },
+              (err)=>{
+                let t=this.toast.create(
+                  {
+                    message:'error',
+                    duration:3000,
+                    position:'middle'
+                  }
+                );
+                t.present();
+              }
+            );
+
+      });
     }
+    this.c+=1;
+    this.storage.set("counter",this.c).then(()=>
+    {
+      let a=this.alertCtrl.create({
+      title:'Profile Pic Updated Successfully',
+      buttons:['OK']});
+      a.present();
+      this.events.publish('user:profilepic','doone');
+      this.navCtrl.push(DashboardPage);
+    });
+      // this.navCtrl.push(ProfilePicPage);
+    });
+  }
   }
 }
 }

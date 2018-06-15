@@ -20,8 +20,8 @@
       <div *ngIf="this.completed == true">
         <br><h2 style="text-align:center">Successfully Uploaded Image!</h2>
       </div>
-      <img *ngIf="this.completed == false" [src]="this.image" onError="this.src='https://www.forehotels.com/public/assets/img/male.png';" height="300"/>
-      <img *ngIf="this.completed == true" [src]="this.newImage" onError="this.src='https://www.forehotels.com/public/assets/img/male.png';" height="300"/>
+      <img *ngIf="this.social_pic == false" [src]="image" onError="this.src='https://www.forehotels.com/public/assets/img/male.png';" height="300"/>
+      <img *ngIf="this.social_pic == true" [src]="imagefinal" onError="this.src='https://www.forehotels.com/public/assets/img/male.png';" height="300"/>
     <ion-fab top right (click)="findProfilePic()">
         <button ion-fab><ion-icon name="md-create"></ion-icon></button>    
       </ion-fab>

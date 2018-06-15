@@ -40,6 +40,7 @@ backPressed:boolean=true
 start_time:number;
 key:String = "e36051cb8ca82ee0Lolzippu123456*=";
 app_id = "a8874a29-22e2-486f-b4b3-b3d09e8167a5";
+image:any;
   // rootPage:any;
   social_pic:boolean;
   pages: Array<{title: string, component: any, icon:any}>;
@@ -81,11 +82,9 @@ app_id = "a8874a29-22e2-486f-b4b3-b3d09e8167a5";
      { title:'Refer and Earn', component: ReferAFriendPage , icon : this.icons["4"]},
      { title:'About Us', component: AboutUsPage, icon : this.icons["5"]}
     ];
-    events.subscribe('user:profilepic', () => {
-      this.storage.get('id').then((id) => {
-        this.getprofile(id);
-      });
-    });
+    // events.subscribe('user:profilepic', () => {
+     
+    // });
   }
 
     initializeApp() {
@@ -153,21 +152,35 @@ app_id = "a8874a29-22e2-486f-b4b3-b3d09e8167a5";
           nav.pop();          
           }
       });
-      this.events.subscribe('user:designation',(des)=>{
-        console.log(des);
-        console.log('234');
-         this.storage.get('id').then((id)=>{console.log(id);
-                                           this.getDetails(id);
-                                         });
-        });
-        this.events.subscribe('user:profilepic',(data)=>{
-         console.log(data);
-         console.log('profile pic event subscriber');
+       this.events.subscribe('user:designation',(des)=>{
+         console.log(des);
+         console.log('234');
           this.storage.get('id').then((id)=>{console.log(id);
                                             this.getDetails(id);
                                           });
          });
-
+         this.events.subscribe('user:profilepic',(data)=>{
+          console.log(data);
+          console.log('profile pic event subscriber');
+           this.storage.get('id').then((id)=>{
+            let headers = new Headers({
+              'Content-Type': 'application/json',
+              'Authorization': this.key
+            });
+            let options = new RequestOptions({ headers: headers });
+             console.log(id);
+            this.getDetails(id);
+            this.http.get("http://forehotels.com:3000/api/employee/"+id, options)
+            .subscribe(data =>{
+             this.items=JSON.parse(data._body).Users;
+            this.social_pic=true;
+          });
+                                           
+          
+          
+          
+          });
+          });
 		  // let contact: Contact = this.contacts.create();
 
 			// contact.name = new ContactName(null, '- Job Search', 'Forehotels');
@@ -276,7 +289,8 @@ app_id = "a8874a29-22e2-486f-b4b3-b3d09e8167a5";
   }
   click(){
     console.log('11');
-    this.events.subscribe('user:designation',(des)=>console.log(des));
+    this.events.subscribe('user:designation',(des)=>{console.log(des);
+                                                    console.log('234');});
   }
   dashboard(){
     this.menu.close();

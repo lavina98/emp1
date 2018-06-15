@@ -31,6 +31,8 @@ export class RegisterPage implements OnInit{
   http:any
   googleemail='';
   googlename=' ';
+  invalid:boolean;
+  invalid2:boolean;
   validation_messages:Array<{type:any,message:any}>
   validation_Email:Array<{type:any,message:any}>
   validation_Number:Array<{type:any,message:any}>
@@ -101,6 +103,78 @@ this.email=this.navParams.get('googleemail');
    console.log('hey');
    console.log(f);
  }
+ checkEmail(emailid)
+ {
+     console.log(emailid);
+     console.log('chkpt1');
+     return new Promise(resolve => {
+  
+     //   this.debouncer = setTimeout(() => {
+         this.storage.get("Hash").then((hash)=>{           
+           let headers = new Headers({
+             'Content-Type': 'application/json',
+             'Authorization': hash
+           });
+           console.log('chkpt2');
+           let options = new RequestOptions({ headers: headers });
+         //   this.http.get("http://www.forehotels.com:3000/api/hotel_category",options)
+         //               .subscribe(data =>{
+         //               console.log(data);
+         //               });
+           this.http.get('http://www.forehotels.com:3000/api/email/'+emailid,options)
+           .map((data: any) => data.json())
+           .subscribe(
+             (data: any) => {
+                 console.log(data);
+                 console.log(data.Error);
+                 this.invalid2=data.Error;
+                 console.log('this.invalid-->'+this.invalid2);
+                 console.log( this.registrationForm);
+                 console.log('chkpt3');
+             },
+             err => {console.log(err)
+               console.log('chkpt4');} // error
+         );
+             });
+             // }, 1000);     
+  
+     });
+ }
+ checkNumber(no:number) {
+   
+  // console.log(this.debouncer);
+  // clearTimeout(this.debouncer);
+    console.log('chkpt1');
+  return new Promise(resolve => {
+
+  //   this.debouncer = setTimeout(() => {
+      this.storage.get("Hash").then((hash)=>{           
+        let headers = new Headers({
+          'Content-Type': 'application/json',
+          'Authorization': hash
+        });
+        console.log('chkpt2');
+        let options = new RequestOptions({ headers: headers });
+      //   this.http.get("http://www.forehotels.com:3000/api/hotel_category",options)
+      //               .subscribe(data =>{
+      //               console.log(data);
+      //               });
+        this.http.get('http://www.forehotels.com:3000/api/empnumber/'+no,options)
+        .map((data: any) => data.json())
+        .subscribe(
+          (data: any) => {
+              console.log(data.Error);
+              this.invalid=data.Error;
+              console.log('chkpt3');
+          },
+          err => {console.log(err)
+            console.log('chkpt4');} // error
+      );
+          });
+          // }, 1000);     
+
+  });
+}
 doGoogleLogin(){
   if(this.network.noConnection()){
         this.network.showNetworkAlert()
