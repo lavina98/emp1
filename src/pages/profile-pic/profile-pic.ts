@@ -36,6 +36,7 @@ export class ProfilePicPage implements OnInit {
   drive_name:any;
   image:any;
   imagefinal:any;
+  name:any;
   c:number;
   constructor(private loadingCtrl: LoadingController, 
               http: Http, 
@@ -164,9 +165,8 @@ export class ProfilePicPage implements OnInit {
           id: this.id
         }
       }
-    }
       this.completed = false;
-      fileTransfer.onProgress(onProgress)
+      fileTransfer.onProgress(onprogress)
       fileTransfer.upload(x, encodeURI("http://forehotels.com:3000/api/upload_employee_image"), this.options)
       .then((data) => {
         this.progress=null;
@@ -189,16 +189,6 @@ export class ProfilePicPage implements OnInit {
             let u=JSON.parse((data._body).Users);
             console.log(u); 
             this.imagefinal=u["0"].profile_pic;
-            // let t=this.toast.create(
-            //   {
-            //     message:'hereee',
-            //     duration:3000,
-            //     position:'middle'
-            //   }
-            // );
-            // t.present();
-
-            // this.navCtrl.push(DashboardPage);
             let l=this.alertCtrl.create({
               title:'done updated',
               buttons:['OK']
