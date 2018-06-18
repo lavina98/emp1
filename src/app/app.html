@@ -22,8 +22,8 @@
 <div class="menu">
 
   <div class="info" padding-left *ngFor="let item of items">
-    <img *ngIf="this.social_pic == true" [src]="'https://www.forehotels.com/public/emp/avatar/'+item.profile_pic" onError="this.src='https://www.forehotels.com/public/assets/img/male.png';" style="max-width:50px !important;margin-top:6%;border-radius:50px;max-height:300px">
-    <img *ngIf="this.social_pic == false" [src]="item.profile_pic" onError="this.src='https://www.forehotels.com/public/assets/img/male.png';" style="max-width:50px !important;margin-top:6%;border-radius:50px;max-height:300px"><br>
+    <!-- <img *ngIf="this.social_pic == true" [src]="'https://www.forehotels.com/public/emp/avatar/'+item.profile_pic" onError="this.src='https://www.forehotels.com/public/assets/img/male.png';" style="max-width:50px !important;margin-top:6%;border-radius:50px;max-height:300px"> -->
+    <img  [src]="profile"  style="max-width:50px !important;margin-top:6%;border-radius:50px;max-height:300px"><br>
 
     <h1 style="color:#e2e1e1">{{item.name}}</h1>
     <h3 style="color:#e2e1e1">{{item.designation}}</h3>
