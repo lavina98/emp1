@@ -283,12 +283,8 @@ export class LoginPage {
     loading.present();
     this.googlePlus.login({
       'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
-<<<<<<< HEAD
       // 'webClientId':'1040945361550-od0us71pl5b6fbt722414j04hnpi77ml.apps.googleusercontent.com' ,//'1040945361550-od0us71pl5b6fbt722414j04hnpi77ml.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
       'webClientId':'',
-=======
-      'webClientId':'',//'1040945361550-od0us71pl5b6fbt722414j04hnpi77ml.apps.googleusercontent.com' ,//'1040945361550-od0us71pl5b6fbt722414j04hnpi77ml.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
->>>>>>> 586b212776adb7246b5a439326786f32d1b150c9
       'offline': true
     })
     .then(function (user) {
