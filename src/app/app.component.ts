@@ -159,6 +159,7 @@ image:any;
                                             this.getDetails(id);
                                           });
          });
+         
          this.events.subscribe('user:profilepic',(data)=>{
           console.log(data);
           console.log('profile pic event subscriber');
@@ -281,7 +282,7 @@ image:any;
          this.items=JSON.parse(data._body).Users; //Bind data to items object
          this.storage.set("user_name",this.items["0"].name)
          let img = this.items["0"].profile_pic.split("/")
-         if(img.length > 1){
+         if(this.items["0"].profile_pic!=''){
           this.profile='https://www.forehotels.com/public/emp/avatar/'+this.items["0"].profile_pic;
          }
          else
@@ -297,8 +298,27 @@ image:any;
   }
   click(){
     console.log('11');
-    this.events.subscribe('user:designation',(des)=>{console.log(des);
-                                                    console.log('234');});
+    this.storage.get('id').then((id)=>{
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': this.key
+    });
+    let options = new RequestOptions({ headers: headers });
+
+     this.http.get("http://forehotels.com:3000/api/employee/"+id, options)
+        .subscribe(data =>{
+         this.items=JSON.parse(data._body).Users; //Bind data to items object
+         this.storage.set("user_name",this.items["0"].name)
+         let img = this.items["0"].profile_pic.split("/")
+         if(this.items["0"].profile_pic!=""){
+          this.profile='https://www.forehotels.com/public/emp/avatar/'+this.items["0"].profile_pic;
+         }
+         else
+         this.profile='https://www.forehotels.com/public/assets/img/male.png';
+        });
+      });
+    // this.events.subscribe('user:designation',(des)=>{console.log(des);
+    //                                                 console.log('234');});
   }
   dashboard(){
     this.menu.close();

@@ -255,6 +255,7 @@ export class ProfilePicPage implements OnInit {
     this.c+=1;
     this.storage.set("counter",this.c).then(()=>
     {
+      this.events.publish('user:profilepic','profile pic');
       let a=this.alertCtrl.create({
       title:'Profile Pic Updated Successfully',
       buttons:['OK']});
