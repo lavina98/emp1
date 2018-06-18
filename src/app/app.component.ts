@@ -31,7 +31,7 @@ export class MyApp {
 
   rootPage: any = HomePage;
   // pages: Array<{title: string, component: any}>;
-
+profile:any;
   http:any;
 items:any;
 icons:any;
@@ -173,7 +173,10 @@ image:any;
             this.http.get("http://forehotels.com:3000/api/employee/"+id, options)
             .subscribe(data =>{
              this.items=JSON.parse(data._body).Users;
-            this.social_pic=true;
+              if(this.items["0"].profile_pic="")
+                  this.profile='https://www.forehotels.com/public/assets/img/male.png';
+              else 
+                  this.profile='https://www.forehotels.com/public/emp/avatar/'+this.items["0"].profile_pic;
           });
                                            
           
@@ -255,9 +258,12 @@ image:any;
           this.items=JSON.parse(data._body).Users; //Bind data to items object
           this.storage.set("user_name",this.items["0"].name)
           let img = this.items["0"].profile_pic.split("/")
-          if(img.length > 1){
-            this.social_pic = true;
+          if(this.items["0"].profile_pic==''){
+            this.profile='https://www.forehotels.com/public/assets/img/male.png';
+            // this.social_pic = true;
           }
+          else
+                 this.profile='https://www.forehotels.com/public/emp/avatar/'+this.items["0"].profile_pic;
           this.loggedIn = true;
          },error=>{
          this.loggedIn = false;
@@ -276,8 +282,10 @@ image:any;
          this.storage.set("user_name",this.items["0"].name)
          let img = this.items["0"].profile_pic.split("/")
          if(img.length > 1){
-           this.social_pic = true;
+          this.profile='https://www.forehotels.com/public/emp/avatar/'+this.items["0"].profile_pic;
          }
+         else
+         this.profile='https://www.forehotels.com/public/assets/img/male.png';
         });
   }
   openPage(page) {
