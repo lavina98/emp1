@@ -30,7 +30,6 @@ modal:any;
 hash: any;
 dataempty: any;
 view: boolean;
-
 constructor(private storage:Storage,
               public toast: Toast, 
               public modalCtrl: ModalController,
@@ -43,8 +42,45 @@ constructor(private storage:Storage,
               private ga: GoogleAnalytics) {
               this.http = http;
               this.items= []
-              this.loadData(this.dataempty)
+              this.loadData(this.dataempty);
     }
+  //   loadData()
+  //   {
+  //     if(this.network.noConnection()){
+  //                     this.network.showNetworkAlert()
+  //                 }
+  //     else{              
+  //            let loader = this.loadingCtrl.create({
+  //                        spinner: 'bubbles',
+  //                       content: `Please Wait...`,
+  //                      });
+  //            this.storage.get('id').then((id) => {
+  //                       this.platform.ready().then(() => {
+  //                         this.ga.trackEvent("Jobs", "Opened", "New Session Started", id, true)
+  //                         this.ga.setAllowIDFACollection(true)
+  //                         this.ga.setUserId(id)
+  //                         this.ga.trackView("Jobs")
+  //                       });
+  //                   });
+  //             this.storage.get('Hash').then((hash) => {
+  //                     this.hash = hash;
+  //                     loader.present();
+  //                     let body=JSON.stringify({
+  //                       des:"Captian"
+  //                     });
+  //                     let headers = new Headers({
+  //                                     'Content-Type': 'application/json',
+  //                                     'Authorization': this.hash });
+                                    
+  //                     let options = new RequestOptions({ headers: headers });
+  //                     this.http.post('http://localhost:3000/api/jobshotel',body,options).subscribe(
+  //                       (data)=>{
+  //                         this.items=JSON.parse(data)
+  //                       }
+  //                     )
+  //   }
+  // }
+// }
 
 loadData(data){
     if(this.network.noConnection()){
@@ -61,35 +97,29 @@ loadData(data){
                   this.ga.setUserId(id)
                   this.ga.trackView("Jobs")
                 });
-            });
+         
             this.storage.get('Hash').then((hash) => {
               this.hash = hash;
               loader.present();
-              let body
-              if(data == undefined || data == null){
-                    body ={/*pass nothing*/}
-                    console.log('body ',body)
-              }else{
-                  body ={
-                  pname: data.job,
-                  city: data.city,
-                  tips: data.tips,
-                  incentives: data.incentives,
-                  services: data.services,
-                  staff_room: data.staff_room,
-                  pf: data.pf,
-                  cat: data.cat,
-                  exp:data.exp,
-                  salary: data.salary }     
-                  console.log('Body ',body)
-            }
+              let body;
+              // body=JSON.stringify({
+              //   pname:""
+              // })
               let headers = new Headers({
               'Content-Type': 'application/json',
               'Authorization': this.hash });
             
               let options = new RequestOptions({ headers: headers });
+              this.http.get('http://www.forehotels.com:3000/api/employee/'+id,options).subscribe(
+                (data)=>{
+                  let i=JSON.parse(data._body).Users;
+                  let post=i["0"].designation;
+                  let body=JSON.stringify({
+                    pname:post
+                  });
+           
               this.http
-                .post('http://forehotels.com:3000/api/jobs', body, options)
+                .post('http://www.forehotels.com:3000/api/jobshotel', body, options)
                 .subscribe(
                     data => {
                       this.resitems = JSON.parse(data._body).Jobs;
@@ -114,9 +144,11 @@ loadData(data){
                       console.log("ERROR!: ", err);
                     });
           });
-        }
+        });
   this.view = true;
-  }
+  });
+}
+}
 
 presentProfileModal() {
   if(this.network.noConnection()){

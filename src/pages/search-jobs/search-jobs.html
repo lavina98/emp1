@@ -30,7 +30,7 @@ p{
     <h2 style="white-space:pre-wrap; font-size:1.8rem">{{item.pname}}</h2>
     <h3 style="white-space:pre-wrap">{{item.name}}</h3>
     <div *ngIf="!item.salary"><p><ion-icon name="md-cash"></ion-icon>  <i class="fa fa-inr" aria-hidden="true"></i> {{item.salary_range}}</p></div>
-    <div *ngIf="item.salary"><p><ion-icon name="md-cash"></ion-icon>   <i class="fa fa-inr" aria-hidden="true"></i> {{item.salary}} / Day</p></div>
+    <!-- <div *ngIf="item.salary"><p><ion-icon name="md-cash"></ion-icon>   <i class="fa fa-inr" aria-hidden="true"></i> {{item.salary}} / Day</p></div> -->
     <p><ion-icon name="briefcase"></ion-icon>  {{item.min_experience}}-{{item.max_experience}} Years Of Experience</p>
     <p><ion-icon name="pin"></ion-icon>  {{item.city_name}}<p>
     <button ion-button full style="border-radius:50px"  (click)="jobdetail(item.hj_id)">Read More</button>

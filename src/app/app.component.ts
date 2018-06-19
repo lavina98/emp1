@@ -161,6 +161,7 @@ image:any;
          });
          
          this.events.subscribe('user:profilepic',(data)=>{
+           this.click();
           console.log(data);
           console.log('profile pic event subscriber');
            this.storage.get('id').then((id)=>{
