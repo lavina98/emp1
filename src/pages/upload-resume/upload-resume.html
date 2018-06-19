@@ -23,5 +23,11 @@
     box-shadow: 1px 1px 1px 1px #1396e2;
     padding: 2%;" (click)="buildResume()">Click Here to create CV</h5>  
 </ion-list>
-<button ion-button full style="font-size: 2rem" (click)="clickRegister()">Register</button>
+<form #f="ngForm">
+  <input type="checkbox" name="ckbox" required ngModel >
+  <label>I agree to the <label style="color: blue ; text-decoration: underline" (click)="ok()">Terms&Conditions </label> Specified by Forehotels</label>
+ 
+</form>
+<p *ngIf="!f.valid&&f.touched" style="color:#f53d3d">Please agree to the above terms and conditions</p>
+<button ion-button full style="font-size: 2rem" [disabled]="!f.valid" (click)="clickRegister(f)">Register</button>
 </ion-content>

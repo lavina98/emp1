@@ -11,6 +11,7 @@ import { ResumeBuilderPage } from '../resume-builder/resume-builder';
 import { Toast } from '@ionic-native/toast';
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
 import { Diagnostic } from '@ionic-native/diagnostic';
+import { TermsConditionsPage } from '../terms-conditions/terms-conditions';
 
 @Component({
   selector: 'page-upload-resume',
@@ -51,6 +52,7 @@ export class UploadResumePage implements OnInit {
   fbpic:any
   picpath: any;
   drive_name:any;
+  showinvalidity:any;
   constructor(public toast: Toast,
               public transfer: FileTransfer,
               private fp: FilePath,
@@ -87,6 +89,7 @@ export class UploadResumePage implements OnInit {
             this.internship = navParams.get('internship')
             this.total_exp = navParams.get('total_exp')
             this.org = navParams.get('org')
+            this.resume=navParams.get('resume')
             loader.dismiss()            
             this.http = http;
             this.hash = 'e36051cb8ca82ee0Lolzippu123456*=';
@@ -108,6 +111,24 @@ export class UploadResumePage implements OnInit {
        console.log(this.internship); 
        console.log(this.catering); 
        console.log(this.referrer); 
+       this.showinvalidity=false;
+  }
+  ionViewDidLoad()
+  {
+    console.log('ion view of upload resume');
+    console.log(this.name);
+    console.log(this.email);
+    console.log(this.gender);
+    console.log(this.number);
+    console.log(this.password);
+    console.log(this.picture);
+    console.log(this.total_exp);
+    console.log(this.designation);
+    console.log(this.education); 
+    console.log(this.org); 
+    console.log(this.internship); 
+    console.log(this.catering); 
+    console.log(this.referrer); 
   }
   buildResume(){
        if(this.network.noConnection()){
@@ -141,8 +162,40 @@ export class UploadResumePage implements OnInit {
                   }
             }
     }        
-    
-    clickRegister(){
+    // clickRegiter(f)
+    // {
+    //   console.log(f);
+    // }
+    // change()
+    // {
+    //   this.showinvalidity=!this.showinvalidity;
+    // }
+    ok()
+    {
+      // this.navCtrl.push(TermsConditionsPage,{
+      //       name : this.name,
+      //       email:this.email,
+      //       gender:this.gender, 
+      //       number:this.number,
+      //       password:this.password,           
+      //       picture:this.picture,
+      //       // this.fbpic = this.picture.split('/')
+      //       experience:this.experience, 
+      //       city:this.city,
+      //       designation:this.designation,
+      //       education:this.education,
+      //       reference:this.referrer,
+      //       catering:this.catering,
+      //       internship:this.internship,
+      //       total_exp:this.total_exp,
+      //       org:this.org,
+      //       resume:this.resume
+
+      // });
+      this.navCtrl.push(TermsConditionsPage);
+    }
+    clickRegister(f){
+      console.log(f);
       if(this.network.noConnection()){
             this.network.showNetworkAlert()
             console.log('eroorro');

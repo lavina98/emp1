@@ -118,7 +118,8 @@ total_exp
                 org:this.org,
                 reference:this.reference,
                 catering:this.catering,
-                internship:this.internship
+                internship:this.internship,
+                resume:'null'
             });
         }
   }  
