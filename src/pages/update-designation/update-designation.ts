@@ -77,7 +77,7 @@ export class UpdateDesignationPage implements OnInit {
               console.log(data);
               let alert = this.alertCtrl.create({
                 title: 'Designation Update',
-                subTitle: 'Congratulations your designation has been updated to'+des,
+                subTitle: 'Congratulations your designation has been updated to  '+des,
                 buttons: ['Dismiss']
               });
               alert.present();

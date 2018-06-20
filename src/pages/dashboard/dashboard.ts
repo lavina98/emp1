@@ -176,10 +176,10 @@ img:any;
                     })
                 });
 
-        this.http.get("http://forehotels.com:3000/api/applied_jobscount/"+id, options)
+        this.http.get("http://forehotels.com:3000/api/applied/"+id, options)
               .subscribe(data =>{
-              this.acounts = data.json();
-              this.applied_jobs = this.acounts.Applied_Jobs["0"].count;
+              this.acounts =JSON.parse(data._body).Users_Applied;
+              this.applied_jobs = this.acounts.length;
               },error => {});
 
         

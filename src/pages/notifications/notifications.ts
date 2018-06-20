@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, Platform } from 'ionic-angular';
 import { ScheduleInterviewPage } from '../schedule-interview/schedule-interview';
+import { ReferAFriendPage } from '../refer-a-friend/refer-a-friend';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { JobDetailPage } from '../job-detail/job-detail';
 import { Storage } from '@ionic/storage';
@@ -21,6 +22,7 @@ type1:any;
 type2:any;
 hash:any;
 color: any;
+nodata:boolean;
   constructor(public storage: Storage,
               http: Http,
               public network: NetworkServiceProvider,
@@ -30,6 +32,7 @@ color: any;
               private iab:InAppBrowser,
               private ga: GoogleAnalytics) {
               this.http = http;
+              this.nodata=false;
   }
   loadData(){
     if(this.network.noConnection()){
@@ -56,7 +59,13 @@ color: any;
               });
        this.http.post("http://forehotels.com:3000/api/users_notification/", body, options)
             .subscribe(data =>{
+
              this.notifications=JSON.parse(data._body).notification;
+              console.log(this.notifications);
+              if(this.notifications.length==0)
+              {
+                this.nodata=true;
+              }
              },error=>{
                 console.log(error);
               });
@@ -115,6 +124,11 @@ color: any;
      })
    }
    if(item.type == 3){
+    this.navCtrl.push(ReferAFriendPage,{
+      ref: item.data
+    });
+  }
+   if(item.type == 4){
      let browser = this.iab.create(item.data, '_blank', "location=no, clearsessioncache=yes, clearcache=yes, hidden=yes");
      }
     }  
