@@ -21,6 +21,7 @@ type1:any;
 type2:any;
 hash:any;
 color: any;
+nodata:boolean;
   constructor(public storage: Storage,
               http: Http,
               public network: NetworkServiceProvider,
@@ -30,6 +31,7 @@ color: any;
               private iab:InAppBrowser,
               private ga: GoogleAnalytics) {
               this.http = http;
+              this.nodata=false;
   }
   loadData(){
     if(this.network.noConnection()){
@@ -56,7 +58,13 @@ color: any;
               });
        this.http.post("http://forehotels.com:3000/api/users_notification/", body, options)
             .subscribe(data =>{
+
              this.notifications=JSON.parse(data._body).notification;
+              console.log(this.notifications);
+              if(this.notifications.length==0)
+              {
+                this.nodata=true;
+              }
              },error=>{
                 console.log(error);
               });
