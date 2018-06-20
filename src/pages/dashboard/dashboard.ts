@@ -154,11 +154,27 @@ img:any;
         user_id: id,
         });
 
-        this.http.get("http://forehotels.com:3000/api/jobscount", options)
-              .subscribe(data =>{
-              this.counts = data.json(); 
-              this.jobs = this.counts.Jobs["0"].count;
-              },error => {});
+        // this.http.get("http://forehotels.com:3000/api/jobscount", options)
+        //       .subscribe(data =>{
+        //       this.counts = data.json(); 
+        //       this.jobs = this.counts.Jobs["0"].count;
+        //       },error => {});
+        this.http.get('http://www.forehotels.com:3000/api/employee/'+id,options).subscribe(
+                (data)=>{
+                  let i=JSON.parse(data._body).Users;
+                  let post=i["0"].designation;
+                  let body=JSON.stringify({
+                    pname:post
+                  });
+           
+              this.http
+                .post('http://www.forehotels.com:3000/api/jobshotel', body, options)
+                .subscribe(
+                    data => {
+                      let i=JSON.parse(data._body).Jobs;
+                      this.jobs=i.length;
+                    })
+                });
 
         this.http.get("http://forehotels.com:3000/api/applied_jobscount/"+id, options)
               .subscribe(data =>{

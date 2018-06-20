@@ -89,7 +89,6 @@ export class UploadResumePage implements OnInit {
             this.internship = navParams.get('internship')
             this.total_exp = navParams.get('total_exp')
             this.org = navParams.get('org')
-            this.resume=navParams.get('resume')
             loader.dismiss()            
             this.http = http;
             this.hash = 'e36051cb8ca82ee0Lolzippu123456*=';
