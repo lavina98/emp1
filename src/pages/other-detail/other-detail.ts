@@ -119,7 +119,6 @@ total_exp
                 reference:this.reference,
                 catering:this.catering,
                 internship:this.internship,
-                resume:'null'
             });
         }
   }  
