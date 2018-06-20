@@ -16,6 +16,7 @@
 </ion-header>
 
 <ion-content>
+  <p *ngIf="nodata">No notifications available currently</p>
     <ion-list class="customcard" *ngFor="let item of notifications">
     <ion-item-sliding>
     <ion-item>

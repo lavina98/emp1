@@ -450,6 +450,12 @@ loginForm(f:any){
          Proceed             
         </button> 
   </form>
+  <ion-card>
+  <ion-item>
+  <p>*Note</p>
+  <p style="white-space:pre-wrap">OTP will be sent to your mobile number.</p>
+</ion-item>
+</ion-card>
 </ion-content>
 `
 })  
@@ -496,6 +502,7 @@ export class OtpPage implements OnInit {
               // this.OTPForm = this.from.group({
               //   "OtpNumber":[this.otp,Validators.required],
               // })
+              this.http=http;
   }
 
 success(f:NgForm){
@@ -527,7 +534,7 @@ success(f:NgForm){
                     let val=Math.floor(100000 + Math.random() * 900000);
                     let body = JSON.stringify({
                       number: this.number,
-                      text: "Welcome "+this.items.name+", Your OTP is "+val+ ". Please Verify to register on ForeHotels"
+                      text: "Welcome "+this.name+", Your OTP is "+val+ ". Please Verify to register on ForeHotels"
                       })
           
                       let headers = new Headers({
@@ -537,6 +544,7 @@ success(f:NgForm){
                       let options = new RequestOptions({ headers: headers });
                       this.http.post("http://forehotels.com:3000/api/send_sms", body, options)
                             .subscribe(data =>{
+                              console.log('otp');
                     });
                     this.navCtrl.push(OtpPage,{
                       name:this.name,
@@ -549,10 +557,18 @@ success(f:NgForm){
                     },{animate:true,animation:'transition',duration:500,direction:'forward'})
                   }
                   },
-                  { text: 'Go To Login',
+                  { text: 'Retry',
+                    role: 'cancel',
                     handler: () => {
-                    this.navCtrl.push(LoginPage,{           
-                    },{animate:true,animation:'transition',duration:500,direction:'forward'})
+                      this.navCtrl.push(OtpPage,{
+                        name:this.name,
+                        email:this.email,
+                        number:this.number,
+                        gender:this.gender,
+                        password:this.password,
+                        picture:this.picture,
+                        otp:this.otp,     
+                      },{animate:true,animation:'transition',duration:500,direction:'forward'});
                     }
               }]
             });
