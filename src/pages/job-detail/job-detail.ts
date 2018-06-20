@@ -158,7 +158,7 @@ view:boolean = true;
                   .subscribe(detail => {
                       let alert = this.alertCtrl.create({
                         title: 'Success!',
-                        subTitle: 'Job application successfull.',
+                        subTitle: 'Job application successfull. You CV has been sent to '+this.items["0"].name,
                         buttons: [{
                             text: 'OK',
                             handler: data => {

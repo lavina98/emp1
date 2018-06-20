@@ -185,7 +185,7 @@ export class EducationPage{
         this.exp = navParams.get('exp')
         this.city = navParams.get('data')
         this.designation = navParams.get('designation')
-        console.log('Eduacation  page');
+        console.log('Education  page');
         console.log(this.name);
        console.log(this.email);
        console.log(this.gender);

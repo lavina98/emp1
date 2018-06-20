@@ -30,6 +30,7 @@ modal:any;
 hash: any;
 dataempty: any;
 view: boolean;
+post:any;
 constructor(private storage:Storage,
               public toast: Toast, 
               public modalCtrl: ModalController,
@@ -42,7 +43,11 @@ constructor(private storage:Storage,
               private ga: GoogleAnalytics) {
               this.http = http;
               this.items= []
-              this.loadData(this.dataempty);
+              this.data=this.dataempty
+              this.loadData(this.data);
+    }
+    ionViewDidLoad(){
+      this.loadData(this.data);
     }
   //   loadData()
   //   {
@@ -83,72 +88,131 @@ constructor(private storage:Storage,
 // }
 
 loadData(data){
-    if(this.network.noConnection()){
-              this.network.showNetworkAlert()
-          }else{              
-              let loader = this.loadingCtrl.create({
-              spinner: 'bubbles',
-              content: `Please Wait...`,
-            });
-            this.storage.get('id').then((id) => {
-                this.platform.ready().then(() => {
-                  this.ga.trackEvent("Jobs", "Opened", "New Session Started", id, true)
-                  this.ga.setAllowIDFACollection(true)
-                  this.ga.setUserId(id)
-                  this.ga.trackView("Jobs")
-                });
-         
-            this.storage.get('Hash').then((hash) => {
-              this.hash = hash;
-              loader.present();
-              let body;
-              // body=JSON.stringify({
-              //   pname:""
-              // })
-              let headers = new Headers({
+  if(this.network.noConnection()){
+            this.network.showNetworkAlert()
+        }else{              
+            let loader = this.loadingCtrl.create({
+            spinner: 'bubbles',
+            content: `Please Wait...`,
+          });
+          this.storage.get('id').then((id) => {
+              this.platform.ready().then(() => {
+                this.ga.trackEvent("Jobs", "Opened", "New Session Started", id, true)
+                this.ga.setAllowIDFACollection(true)
+                this.ga.setUserId(id)
+                this.ga.trackView("Jobs")
+              });
+          this.storage.get('Hash').then((hash) => {
+            this.hash = hash;
+            let headers = new Headers({
               'Content-Type': 'application/json',
               'Authorization': this.hash });
             
               let options = new RequestOptions({ headers: headers });
-              this.http.get('http://www.forehotels.com:3000/api/employee/'+id,options).subscribe(
-                (data)=>{
-                  let i=JSON.parse(data._body).Users;
-                  let post=i["0"].designation;
-                  let body=JSON.stringify({
-                    pname:post
-                  });
-           
-              this.http
-                .post('http://www.forehotels.com:3000/api/jobshotel', body, options)
-                .subscribe(
-                    data => {
-                      this.resitems = JSON.parse(data._body).Jobs;
-                      this.count = this.resitems.length;
-                      if(this.count == 0){
-                        this.view = false;
-                        this.items.splice(0,this.items.length)
-                      //  this.items.push({})                        
-                      }else{
-                      for(let i of this.resitems){
-                        let temp = i.salary_range.split(",");
-                        let range = temp[0]+" - "+temp[1]+" / Month";
-                        i.salary_range = range;
+            loader.present();
+            this.http.get('http://www.forehotels.com:3000/api/employee/'+id,options).subscribe(
+                    (data2)=>{
+                      let i=JSON.parse(data2._body).Users;
+                      this.post=i["0"].designation;
+                      console.log('employee data-->');
+                      console.log(data2);
+                      console.log('post------->'+this.post);
+
+                      let body
+                        if(data == undefined || data == null){
+                              body ={
+                                pname:this.post,
+                                city: '',
+                                tips:'',
+                                incentives:'',
+                                services:'',
+                                staff_room:'',
+                                pf: '',
+                                cat:'',
+                                exp:'',
+                                salary: ''
+                              
+                              
+                              }
+                              console.log('data null ');
+                              console.log(body);
+                        }else{
+                            body ={
+                            pname: data.job,
+                            city: data.city,
+                            tips: data.tips,
+                            incentives: data.incentives,
+                            services: data.services,
+                            staff_room: data.staff_room,
+                            pf: data.pf,
+                            cat: data.cat,
+                            exp:data.exp,
+                            salary: data.salary };   
+                            console.log('filetered data ');
+                            console.log(body);
                       }
-                      for (let i = 0; i < this.count; i++) {
-                        this.items.push( this.resitems[i] );
-                      }
-                    }
-                      loader.dismiss()
-                },
-                    err => {
-                      console.log("ERROR!: ", err);
-                    });
-          });
+                       
+                        this.http
+                          .post('http://forehotels.com:3000/api/jobs', body, options)
+                          .subscribe(
+                              data => {
+                                this.resitems = JSON.parse(data._body).Jobs;
+                                this.count = this.resitems.length;
+                                if(this.count == 0){
+                                  this.view = false;
+                                  this.items.splice(0,this.items.length)
+                                //  this.items.push({})                        
+                                }else{
+                                for(let i of this.resitems){
+                                  let temp = i.salary_range.split(",");
+                                  let range = temp[0]+" - "+temp[1]+" / Month";
+                                  i.salary_range = range;
+                                }
+                                for (let i = 0; i < this.count; i++) {
+                                  this.items.push( this.resitems[i] );
+                                }
+                              }
+                                loader.dismiss()
+                          },
+                              err => {
+                                console.log("ERROR!: ", err);
+                              });
+         
         });
-  this.view = true;
-  });
+      });
+      });
+      }
+this.view = true;
 }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 presentProfileModal() {
   if(this.network.noConnection()){

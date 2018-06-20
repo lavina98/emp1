@@ -133,15 +133,15 @@ export class UploadResumePage implements OnInit {
        if(this.network.noConnection()){
               this.network.showNetworkAlert()
               }else{
-                if(this.picture == null){
-                let alert = this.alertCtrl.create({
-                          title: 'Error!',
-                          subTitle: 'Kindly upload your Profile Picture to Create CV',
-                          buttons: ['OK']
-                          });
-                          alert.present();
-              }
-              else if(this.picture != null){
+              //   if(this.picture == null){
+              //   let alert = this.alertCtrl.create({
+              //             title: 'Error!',
+              //             subTitle: 'Kindly upload your Profile Picture to Create CV',
+              //             buttons: ['OK']
+              //             });
+              //             alert.present();
+              // }
+              //  if(this.picture != null){
                 this.navCtrl.push(ResumeBuilderPage, {
                         total_exp: this.total_exp,
                         education:this.education,
@@ -158,7 +158,7 @@ export class UploadResumePage implements OnInit {
                         city: this.city,
                         picture: this.picture
                       });
-                  }
+                  // }
             }
     }        
     // clickRegiter(f)
@@ -208,19 +208,21 @@ export class UploadResumePage implements OnInit {
                         });
                         alert.present();
             }
-            if(this.picture == null){
-              let alert = this.alertCtrl.create({
-                        title: 'Error!',
-                        subTitle: 'Kindly upload your Profile Picture to Register',
-                        buttons: ['OK']
-                        });
-                        alert.present();
-            }
-            if((this.picture != null) && (this.resume != null)){
-              let loading = this.loadingCtrl.create({
-                spinner: 'bubbles',
-                content: 'Creating your account...'
-              });
+            // if(this.picture == null){
+            //   let alert = this.alertCtrl.create({
+            //             title: 'Error!',
+            //             subTitle: 'Kindly upload your Profile Picture to Register',
+            //             buttons: ['OK']
+            //             });
+            //             alert.present();
+            // }
+            // if((this.picture != null) && (this.resume != null)){
+              if(this.resume!=null)
+              {
+                let loading = this.loadingCtrl.create({
+                  spinner: 'bubbles',
+                  content: 'Creating your account...'
+                });
               loading.present();
             let body = JSON.stringify({
                 name: this.name,
