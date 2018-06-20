@@ -23,6 +23,8 @@
         <ion-icon *ngIf="item.type == 1 && item.is_read == '0'" style="color:#000000" name="megaphone">       Job Notifications</ion-icon>
         <ion-icon *ngIf="item.type == 2 && item.is_read == '1'" style="color:#888888" name="megaphone">       Schedule Interview</ion-icon>
         <ion-icon *ngIf="item.type == 2 && item.is_read == '0'" style="color:#000000" name="megaphone">       Schedule Interview</ion-icon>
+        <ion-icon *ngIf="item.type == 3 && item.is_read == '1'" style="color:#888888" name="megaphone">       Refer and Earn</ion-icon>
+        <ion-icon *ngIf="item.type == 3 && item.is_read == '0'" style="color:#000000" name="megaphone">       Refer and Earn</ion-icon>
        <ion-card-content *ngIf="item.is_read == '1'" style="color:#888888;white-space:initial">
               {{item.message}}
         </ion-card-content>

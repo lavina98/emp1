@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, Platform } from 'ionic-angular';
 import { ScheduleInterviewPage } from '../schedule-interview/schedule-interview';
+import { ReferAFriendPage } from '../refer-a-friend/refer-a-friend';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { JobDetailPage } from '../job-detail/job-detail';
 import { Storage } from '@ionic/storage';
@@ -115,6 +116,11 @@ color: any;
      })
    }
    if(item.type == 3){
+    this.navCtrl.push(ReferAFriendPage,{
+      ref: item.data
+    });
+  }
+   if(item.type == 4){
      let browser = this.iab.create(item.data, '_blank', "location=no, clearsessioncache=yes, clearcache=yes, hidden=yes");
      }
     }  
