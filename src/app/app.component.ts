@@ -94,33 +94,33 @@ image:any;
     this.storage.set('Hash', this.key);
     this.rootPage = IntroPage;
     this.storage.get('loggedIn').then((id) => {
-      //  if(id == true){
-      //    this.rootPage = DashboardPage;
-      //    let datewa = new Date().toISOString()
+       if(id == true){
+         this.rootPage = DashboardPage;
+         let datewa = new Date().toISOString()
          
-      //    console.log('Date '+datewa)
-      //    this.storage.get('id').then((id) => {
-      //    this.getDetails(id)
-      //    let body = JSON.stringify({
-      //      current_date: datewa,
-      //      user_id: id
-      //    })
-      //    let headers = new Headers({
-      //     'Content-Type': 'application/json',
-      //     'Authorization': this.key
-      //   });
-      //   let options = new RequestOptions({ headers: headers });
+         console.log('Date '+datewa)
+         this.storage.get('id').then((id) => {
+         this.getDetails(id)
+         let body = JSON.stringify({
+           current_date: datewa,
+           user_id: id
+         })
+         let headers = new Headers({
+          'Content-Type': 'application/json',
+          'Authorization': this.key
+        });
+        let options = new RequestOptions({ headers: headers });
    
-      //    this.http.put("http://forehotels.com:3000/api/recent_login",body, options)
-      //       .subscribe(data =>{
-      //        let response=JSON.parse(data._body); //Bind data to items object
-      //           console.log(JSON.stringify(response))
-      //       },error=>{});
-      //   });
-      //  }
-      //  else{
+         this.http.put("http://forehotels.com:3000/api/recent_login",body, options)
+            .subscribe(data =>{
+             let response=JSON.parse(data._body); //Bind data to items object
+                console.log(JSON.stringify(response))
+            },error=>{});
+        });
+       }
+       else{
          this.rootPage = IntroPage;
-      //  }
+       }
           
      })
         this.platform.ready().then(() => {

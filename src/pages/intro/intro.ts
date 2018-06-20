@@ -31,7 +31,7 @@ export class IntroPage {
     {
       title: "Get Noticed",
       description: "Increase your chances of being <b>noticed</b> by your dream <b>Hotels</b>.",
-      image: "assets/img/intro11.jpg",
+      image: "assets/img/intro111.jpg",
     },
 
     {
