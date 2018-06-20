@@ -450,6 +450,12 @@ loginForm(f:any){
          Proceed             
         </button> 
   </form>
+  <ion-card>
+  <ion-item>
+  <p>*Note</p>
+  <p style="white-space:pre-wrap">OTP will be sent to your mobile number.</p>
+</ion-item>
+</ion-card>
 </ion-content>
 `
 })  
