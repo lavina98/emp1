@@ -8,6 +8,10 @@
     -webkit-box-shadow: 0 4px 10px rgba(19, 150, 226, 0.6);
     box-shadow: 0 4px 10px rgba(19, 150, 226, 0.6);
   }
+  .ndata{
+    align-content: center;
+
+  }
   </style>
 <ion-header>
   <ion-navbar>
@@ -16,7 +20,7 @@
 </ion-header>
 
 <ion-content>
-  <p *ngIf="nodata">No notifications available currently</p>
+  <p *ngIf="nodata" class="ndata">No notifications available currently</p>
     <ion-list class="customcard" *ngFor="let item of notifications">
     <ion-item-sliding>
     <ion-item>
@@ -43,5 +47,10 @@
           <button ion-button  color="danger" (click)="delete(item)">Delete</button>
         </ion-item-options>
           </ion-item-sliding>
+      </ion-list>
+      <ion-list *ngFor="let item of refernearn">
+        <ion-card-content>
+              {{item.name}} used your refferal code for registration
+        </ion-card-content>
       </ion-list>
     </ion-content>

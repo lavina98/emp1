@@ -534,7 +534,7 @@ success(f:NgForm){
                     let val=Math.floor(100000 + Math.random() * 900000);
                     let body = JSON.stringify({
                       number: this.number,
-                      text: "Welcome "+this.name+", Your OTP is "+val+ ". Please Verify to register on ForeHotels"
+                      text: "Welcome "+this.name+", Your OTP is "+this.otp+ ". Please Verify to register on ForeHotels"
                       })
           
                       let headers = new Headers({
@@ -559,17 +559,17 @@ success(f:NgForm){
                   },
                   { text: 'Retry',
                     role: 'cancel',
-                    handler: () => {
-                      this.navCtrl.push(OtpPage,{
-                        name:this.name,
-                        email:this.email,
-                        number:this.number,
-                        gender:this.gender,
-                        password:this.password,
-                        picture:this.picture,
-                        otp:this.otp,     
-                      },{animate:true,animation:'transition',duration:500,direction:'forward'});
-                    }
+                    // handler: () => {
+                    //   this.navCtrl.push(OtpPage,{
+                    //     name:this.name,
+                    //     email:this.email,
+                    //     number:this.number,
+                    //     gender:this.gender,
+                    //     password:this.password,
+                    //     picture:this.picture,
+                    //     otp:this.otp,     
+                    //   },{animate:true,animation:'transition',duration:500,direction:'forward'});
+                    // }
               }]
             });
           alert.present();
