@@ -72,11 +72,20 @@
     border: 3px solid #ffffff;
     width: 130px;
 }
+#main_wrapper{
+    background-image: url('assets/img/back2.jpg');
+    width: 100%;
+    height: auto;
+	max-width: 1920px;
+	background-size:cover;
+}
+
+
 </style>
 
 <ion-content>
 	<div class="cont">
-		<div style="background-color: #1e90ff;;height: 30%;">				
+		<div style="height: 30%;" id="main_wrapper">				
 			<div  *ngFor="let item of profile">
 				<h1 style="text-align:center;padding-top: 15%;margin-top:0%;color:white">{{item.name}}</h1>
 				<p style="text-align:center;color:#ffffff">{{item.designation}}</p>
@@ -109,7 +118,7 @@
 			<ion-row *ngFor="let i of rows">
 				<ion-col style="text-align: center;border-right: 0.3px solid #a2a9b4;padding-top:12px;" *ngFor="let p of pages2 | slice:(i*3):(i+1)*3" (click)="openPage(p)">
 				 <img  height="48px" width="48px" src="assets/icon/{{p.icon}}"/> 
-				 <span *ngIf="p.count!==0" class="badge badge-assertive1">{{this.notif_count}</span> 
+				 <span *ngIf="p.count!==0" class="badge badge-assertive1">{{this.notif_count}}</span> 
 					<p style="color:#ffffff;font-size: 12px;white-space: initial;">{{p.title}}</p>
 				</ion-col>
 			</ion-row>
