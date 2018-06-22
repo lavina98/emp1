@@ -59,6 +59,7 @@ notifications:any
 myDate: any;
 interviews=[];
 img:any;
+i:any;
   constructor(
               public datepipe:DatePipe,
               private platform:Platform, 
@@ -171,8 +172,8 @@ img:any;
                 .post('http://www.forehotels.com:3000/api/jobshotel', body, options)
                 .subscribe(
                     data => {
-                      let i=JSON.parse(data._body).Jobs;
-                      this.jobs=i.length;
+                       this.i=JSON.parse(data._body).Jobs;
+                      this.jobs=this.i.length;
                     })
                 });
 
@@ -187,6 +188,11 @@ img:any;
               .subscribe(data =>{
               let count = data.json();
               this.notif_count = count.count["0"].count;
+               this.http.get("http://forehotels.com:3000/api/referral/"+id, options)
+              .subscribe(data =>{
+               let refernearn=JSON.parse(data._body).Users;
+               this.notif_count+=refernearn.length;
+              });
               },error => {});
 
         this.http.get("http://forehotels.com:3000/api/employee/"+id, options)

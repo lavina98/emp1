@@ -291,6 +291,10 @@ export class UploadResumePage implements OnInit {
                                                        
                             });
                             this.success();
+
+
+
+
                       },
                       err => {
                         let alert = this.alertCtrl.create({

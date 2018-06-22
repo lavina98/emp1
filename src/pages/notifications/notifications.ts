@@ -23,6 +23,7 @@ type2:any;
 hash:any;
 color: any;
 nodata:boolean;
+refernearn:any;
   constructor(public storage: Storage,
               http: Http,
               public network: NetworkServiceProvider,
@@ -61,14 +62,28 @@ nodata:boolean;
             .subscribe(data =>{
 
              this.notifications=JSON.parse(data._body).notification;
+             console.log('notifications-->')
               console.log(this.notifications);
-              if(this.notifications.length==0)
+              this.http.get("http://forehotels.com:3000/api/referral/"+id, options)
+              .subscribe(data =>{
+               this.refernearn=JSON.parse(data._body).Users;
+               console.log('refernearn-->')
+               console.log(this.refernearn);
+               if(this.notifications.length==0&&this.refernearn.length==0)
               {
                 this.nodata=true;
               }
+               },error=>{
+                  console.log(error);
+                 
+              } );
+              
              },error=>{
                 console.log(error);
               });
+             
+
+              
           });
         });
     }

@@ -119,7 +119,9 @@ constructor(public storage: Storage,public navCtrl: NavController,http: Http,pub
       let options = new RequestOptions({ headers: headers });
        this.http.get("http://forehotels.com:3000/api/referral/"+this.referral_id, options)
                .subscribe(data =>{
+                 console.log('refer n earn page');
                 this.items=JSON.parse(data._body).Users;
+                console.log(this.items);
                 },error=>{
                    console.log(error);
                } );
