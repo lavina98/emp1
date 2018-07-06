@@ -10,7 +10,7 @@ import { Storage } from '@ionic/storage';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-mymanager',
   templateUrl: 'mymanager.html',

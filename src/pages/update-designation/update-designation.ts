@@ -11,7 +11,7 @@ import { Events } from 'ionic-angular';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-update-designation',
   templateUrl: 'update-designation.html',
