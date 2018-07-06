@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.emp1.test" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.fore.v100" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Forehotels-Hotels,FnB Jobs</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
@@ -83,7 +83,6 @@
     <plugin name="cordova-plugin-ionic-keyboard" spec="2.0.5" />
     <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
     <plugin name="onesignal-cordova-plugin" spec="^2.4.1" />
-    <plugin name="cordova-plugin-google-analytics" spec="^1.8.3" />
     <plugin name="cordova-plugin-app-version" spec="^0.1.9" />
     <plugin name="cordova-plugin-network-information" spec="^2.0.1" />
     <plugin name="cordova-plugin-contacts" spec="^3.0.1" />
@@ -109,4 +108,6 @@
     <plugin name="cordova-plugin-googleplus" spec="^5.3.0">
         <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.638112745534-kfl95m0o49351ooqnb0gp99l579nok6v" />
     </plugin>
+    <engine name="android" spec="7.0.0" />
+    <plugin name="cordova-plugin-google-analytics" spec="^1.8.3" />
 </widget>

@@ -362,48 +362,11 @@ doFbLogin(){
  
  
  facebookSingup(facebookName,facebookGender,facebookEmail,picture){
-      let loader = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: 'Please Wait...'
-    })
-     loader.present()
-      var email_checker = false;
-     this.storage.get("Hash").then((hash)=>{   
-       let headers = new Headers({
-       'Content-Type': 'application/json',
-       'Authorization': hash
-     });     
-     let options = new RequestOptions({ headers: headers });
-     this.http.get("http://forehotels.com:3000/api/employee", options)
-             .subscribe(data =>{
-             this.checkusers=JSON.parse(data._body).Users;//Bind data to items object
-             for(let item of this.checkusers ){
-                 if(item.email == facebookEmail){
-                 email_checker = true;
-                 }
-               }
-             if(email_checker == true){
-                 loader.dismiss()
-                   let alert = this.alerCtrl.create({
-                   message: 'This email already exists',
-                   buttons: [{
-                       text: 'Go to Login',
-                       handler: () => {
-                         this.navCtrl.push(LoginPage)
-                       }
-                     }]
-                 });
-                   alert.present();
-               }else{
-                   loader.dismiss()
                    this.name =  facebookName
                    this.gender = facebookGender
                    this.email = facebookEmail
                    this.picture = picture
-                   this.view = true;  
-               }  
-             }); 
-     });
+                   this.view = true;    
  }
 
 loginForm(f:any){
