@@ -9,6 +9,7 @@ import { Storage } from '@ionic/storage';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { NetworkServiceProvider } from '../../providers/network-service/network-service';
 import { DashboardPage } from '../dashboard/dashboard';
+import { Diagnostic } from '@ionic-native/diagnostic';
 @Component({
   selector: 'page-profile-pic',
   templateUrl: 'profile-pic.html'
@@ -53,6 +54,7 @@ export class ProfilePicPage implements OnInit {
               private ga: GoogleAnalytics,
               public events: Events,
               public toast:ToastController,
+              public diagnostic: Diagnostic,
               ) {           
             this.http = http;    
     }
@@ -106,6 +108,18 @@ export class ProfilePicPage implements OnInit {
             } );
    }
   findProfilePic(){
+    this.diagnostic.getExternalStorageAuthorizationStatus().then(
+      (status)=>{
+        let t=this.toast.create({
+          message: status,
+          duration:3000
+        });
+        // t.present();
+  
+      }
+    );
+   
+    this.diagnostic.requestExternalStorageAuthorization().then((status)=>{
     this.filechooser.open()
       .then(
         uri => {
@@ -126,6 +140,7 @@ export class ProfilePicPage implements OnInit {
             });
         }
       });
+    });
   }
  
   
