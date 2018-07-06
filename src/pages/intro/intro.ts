@@ -31,18 +31,18 @@ export class IntroPage {
     {
       title: "Get Noticed",
       description: "Increase your chances of being <b>noticed</b> by your dream <b>Hotels</b>.",
-      image: "assets/img/intro111.jpg",
+      image: "assets/img/noticed.jpg",
     },
 
     {
       title: "International Placement",
       description: "If you want to apply for <b>International Placement</b> we are here to help you.",
-      image: "assets/img/intro22.jpg",
+      image: "assets/img/international.jpg",
     },
     {
       title: "Catering Leads",
       description: "Search and apply for <b>freelance catering jobs</b> online in your near by area..",
-      image: "assets/img/intro33.jpg",
+      image: "assets/img/catering.jpg",
     }
   ];
   }
