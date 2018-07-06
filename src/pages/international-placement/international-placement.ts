@@ -45,7 +45,7 @@ export class InternationalPlacementPage {
       this.hash = hash;
     let headers = new Headers({
       'Content-Type': 'application/json',
-      'Authorization': hash
+      'Authorization': this.hash
     });
     let options = new RequestOptions({ headers: headers });
 

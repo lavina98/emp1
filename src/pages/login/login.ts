@@ -33,6 +33,8 @@ export class LoginPage {
   device_details:any;
   hash:any;
   http:any;
+  passwordType: string = 'password';
+  passwordIcon: string = 'eye-off';
   constructor(private events: Events,
               private fb: Facebook,
               private googlePlus: GooglePlus,
@@ -65,6 +67,9 @@ export class LoginPage {
     .then((hash) => {
       this.hash = hash
     });
+  }
+ 
+  ionViewDidLoad() {
   }
   registration(){
     this.navCtrl.push(RegisterPage);
@@ -369,4 +374,8 @@ export class LoginPage {
     console.log('last checkpt');
    }
   }
+  hideShowPassword() {
+    this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
+    this.passwordIcon = this.passwordIcon === 'eye-off' ? 'eye' : 'eye-off';
+}
 }
