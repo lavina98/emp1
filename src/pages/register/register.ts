@@ -184,13 +184,13 @@ doGoogleLogin(){
         let env = this;
         let loading = this.loadingCtrl.create({
           spinner:'bubbles',
-          content: 'Please wait...'
+          content: 'Please wait...1'
         });
         loading.present();
         console.log('1-------------');
         this.googleplus.login({
           'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
-          'webClientId':'' ,//'638112745534-kfl95m0o49351ooqnb0gp99l579nok6v.apps.googleusercontent.com ', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+          'webClientId':'',//638112745534-kfl95m0o49351ooqnb0gp99l579nok6v.apps.googleusercontent.com ', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
           'offline': true
         })
       .then((res) =>{ console.log(JSON.stringify(res));
@@ -198,7 +198,12 @@ doGoogleLogin(){
         this.name=res.displayName;
         console.log( res.displayName+'  '+res.email)
         u=res;
-        loading.dismiss();
+        let loading = this.loadingCtrl.create({
+          spinner:'bubbles',
+          content: res.displayName+'  '+res.email
+        });
+        loading.present();
+        // loading.dismiss();
         env.nativestorage.setItem('user', {
               name: res.displayName,
               email: res.email
@@ -213,11 +218,19 @@ doGoogleLogin(){
           
           error => console.error('Error storing item', error)
         );  
-      }
-    )
-      .catch((err) => {console.error(err)
-                      loading.dismiss();}
-              );
+      });
+    })
+    .catch((err)=>{
+     let loading = this.loadingCtrl.create({
+       content: 'promise unresolved'
+     });
+     loading.present();
+    });
+   }
+    // )
+    //   .catch((err) => {console.error(err)
+    //                   loading.dismiss();}
+    //           );
         // this.googleplus.login({
           // 'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
           // 'webClientId': '1040945361550-od0us71pl5b6fbt722414j04hnpi77ml.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
@@ -263,11 +276,7 @@ doGoogleLogin(){
                   // );
                   // tst.present();
         // });
- }
  
- 
- 
-      )};
 }
 googlesingup(googleName,googleEmail,picture){
    let loader = this.loadingCtrl.create({
