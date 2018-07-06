@@ -66,11 +66,6 @@ export class LoginPage {
       this.hash = hash
     });
   }
-  ionViewDidLoad() {
-  }
-  showHide() {
-    console.log('hi');
-  }
   registration(){
     this.navCtrl.push(RegisterPage);
   }

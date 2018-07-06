@@ -48,3 +48,18 @@ ion-icon {
     display: inline-block;
   }
 }
+ @include rtl() {
+    &[aria-label^="arrow"]::before,
+    &[flip-rtl]::before {
+      transform: scaleX(-1);
+    }
+
+    &[unflip-rtl]::before {
+      transform: scaleX(1);
+    }
+  }
+
+  &::before {
+    display: inline-block;
+  }
+}
