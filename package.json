@@ -12,7 +12,7 @@
     "ionic:serve": "ionic-app-scripts serve"
   },
   "config": {
-    "ionic_source_map_type": "eval"
+    "ionic_source_map_type": "source-map"
   },
   "dependencies": {
     "@angular/animations": "5.2.10",

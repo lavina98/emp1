@@ -23,7 +23,7 @@ import { HeaderColor } from '@ionic-native/header-color';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { HomePage } from '../pages/home/home';
 import { UploadResumePage } from '../pages/upload-resume/upload-resume';
-
+import { MymanagerPage } from "../pages/mymanager/mymanager";
 @Component({
   templateUrl: 'app.html'
 })
