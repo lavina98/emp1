@@ -343,7 +343,7 @@ uploadResume(){
     }
   );
     this.diagnostic.requestExternalStorageAuthorization().then((status)=>{
-    // if(status == "GRANTED"){
+          // if(status == "GRANTED"){
              this.filemanager()             
           // }else{
           //    let alert = this.alertCtrl.create({                              
@@ -400,6 +400,7 @@ uploadResume(){
                       else{
                         this.resume = x
                         this.view_resume = file
+                        this.resumeUpload(this.resume);
                       }
                     });
   }
@@ -510,7 +511,7 @@ uploadResume(){
               this.completed=true;
               this.uploaded++
               loading.dismiss()       
-              this.success()
+             // this.success()
             }, (err) => {
             let alert = this.alertCtrl.create({
                     title: 'Sorry Something went wrong :(',

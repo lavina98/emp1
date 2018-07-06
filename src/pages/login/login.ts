@@ -68,6 +68,9 @@ export class LoginPage {
   }
   ionViewDidLoad() {
   }
+  showHide() {
+    console.log('hi');
+  }
   registration(){
     this.navCtrl.push(RegisterPage);
   }
