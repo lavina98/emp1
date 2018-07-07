@@ -20,7 +20,7 @@
 </ion-header>
 
 <ion-content>
-  <p *ngIf="nodata" class="ndata">No notifications available currently</p>
+  <h1 style="text-align: center" *ngIf="nodata" class="ndata">No notifications available currently</h1>
     <ion-list class="customcard" *ngFor="let item of notifications">
     <ion-item-sliding>
     <ion-item>
