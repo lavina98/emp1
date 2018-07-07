@@ -422,12 +422,14 @@ loginForm(f:any){
          Proceed             
         </button> 
   </form>
+  <button ion-button full   color="secondary" round type="submit" (click)="resendOtp()">Resend otp</button>
   <ion-card>
   <ion-item>
   <p>*Note</p>
   <p style="white-space:pre-wrap">OTP will be sent to your mobile number.</p>
 </ion-item>
 </ion-card>
+
 </ion-content>
 `
 })  
@@ -476,7 +478,39 @@ export class OtpPage implements OnInit {
               // })
               this.http=http;
   }
+resendOtp()
+{
+  let val=Math.floor(100000 + Math.random() * 900000);
+  this.otp=val;
+  let body = JSON.stringify({
+    number: this.number,
+    text: "Welcome , Your OTP is "+val+ ". Please Verify to register on ForeHotels"
+    })
 
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': "e36051cb8ca82ee0Lolzippu123456*="
+    });
+    let options = new RequestOptions({ headers: headers });
+    this.http.post("http://forehotels.com:3000/api/send_sms", body, options)
+          .subscribe(data =>{
+            console.log('otp'+val);
+            let alert = this.alertCtrl.create({
+                title: 'OTP resent',
+                subTitle:'New Otp has been successfully send to your no',
+                buttons: ['Dismiss']
+                // buttons: [{
+                //         text: 'Retry',
+                //         role: 'cancel',
+                //         handler: () => {
+                //         console.log('Cancel clicked');         
+                //         }
+                //     }],
+                    });
+                alert.present();
+  });
+  
+}
 success(f:NgForm){
     if(this.network.noConnection()){
         this.network.showNetworkAlert()
@@ -498,37 +532,7 @@ success(f:NgForm){
                 title: 'Ooops.. :(',
                 subTitle: 'Sorry! This is Not Valid OTP',
                 //buttons: ['Dismiss']
-                buttons: [{
-                  text: 'Resend',
-                  role: 'cancel',
-                  handler: () => {
-                    console.log('Cancel clicked');
-                    let val=Math.floor(100000 + Math.random() * 900000);
-                    let body = JSON.stringify({
-                      number: this.number,
-                      text: "Welcome "+this.name+", Your OTP is "+this.otp+ ". Please Verify to register on ForeHotels"
-                      })
-          
-                      let headers = new Headers({
-                        'Content-Type': 'application/json',
-                        'Authorization': "e36051cb8ca82ee0Lolzippu123456*="
-                      });
-                      let options = new RequestOptions({ headers: headers });
-                      this.http.post("http://forehotels.com:3000/api/send_sms", body, options)
-                            .subscribe(data =>{
-                              console.log('otp');
-                    });
-                    this.navCtrl.push(OtpPage,{
-                      name:this.name,
-                      email:this.email,
-                      number:this.number,
-                      gender:this.gender,
-                      password:this.password,
-                      picture:this.picture,
-                      otp: val,     
-                    },{animate:true,animation:'transition',duration:500,direction:'forward'})
-                  }
-                  },
+                buttons: [
                   { text: 'Retry',
                     role: 'cancel',
                     // handler: () => {
