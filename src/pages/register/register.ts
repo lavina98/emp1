@@ -240,17 +240,26 @@ doGoogleLogin(){
         let env = this;
         let loading = this.loadingCtrl.create({
           spinner:'bubbles',
-          content: 'Please wait...'
+          content: 'Please wait...1'
         });
         loading.present();
         console.log('1-------------');
         this.googleplus.login({
-          'webClientId': environment.clientID,
+          'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
+          'webClientId':'',//638112745534-kfl95m0o49351ooqnb0gp99l579nok6v.apps.googleusercontent.com ', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
           'offline': true
-        }).then(res => { console.log(JSON.stringify(res));
-          this.email=res.email;
-          this.name=res.displayName;
-        loading.dismiss();
+        })
+      .then((res) =>{ console.log(JSON.stringify(res));
+        this.email=res.email;
+        this.name=res.displayName;
+        console.log( res.displayName+'  '+res.email)
+        u=res;
+        let loading = this.loadingCtrl.create({
+          spinner:'bubbles',
+          content: res.displayName+'  '+res.email
+        });
+        loading.present();
+        // loading.dismiss();
         env.nativestorage.setItem('user', {
               name: res.displayName,
               email: res.email
@@ -265,11 +274,19 @@ doGoogleLogin(){
           
           error => console.error('Error storing item', error)
         );  
-      }
-    )
-      .catch((err) => {console.error(err)
-                      loading.dismiss();}
-              );
+      });
+    })
+    .catch((err)=>{
+     let loading = this.loadingCtrl.create({
+       content: 'promise unresolved'
+     });
+     loading.present();
+    });
+   }
+    // )
+    //   .catch((err) => {console.error(err)
+    //                   loading.dismiss();}
+    //           );
         // this.googleplus.login({
           // 'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
           // 'webClientId': '1040945361550-od0us71pl5b6fbt722414j04hnpi77ml.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
@@ -315,11 +332,7 @@ doGoogleLogin(){
                   // );
                   // tst.present();
         // });
- }
  
- 
- 
-      )};
 }
 googlesingup(googleName,googleEmail,picture){
                 this.name =  googleName
@@ -427,12 +440,14 @@ loginForm(f:any){
          Proceed             
         </button> 
   </form>
+  <button ion-button full   color="secondary" round type="submit" (click)="resendOtp()">Resend otp</button>
   <ion-card>
   <ion-item>
   <p>*Note</p>
   <p style="white-space:pre-wrap">OTP will be sent to your mobile number.</p>
 </ion-item>
 </ion-card>
+
 </ion-content>
 `
 })  
@@ -481,7 +496,39 @@ export class OtpPage implements OnInit {
               // })
               this.http=http;
   }
+resendOtp()
+{
+  let val=Math.floor(100000 + Math.random() * 900000);
+  this.otp=val;
+  let body = JSON.stringify({
+    number: this.number,
+    text: "Welcome , Your OTP is "+val+ ". Please Verify to register on ForeHotels"
+    })
 
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': "e36051cb8ca82ee0Lolzippu123456*="
+    });
+    let options = new RequestOptions({ headers: headers });
+    this.http.post("http://forehotels.com:3000/api/send_sms", body, options)
+          .subscribe(data =>{
+            console.log('otp'+val);
+            let alert = this.alertCtrl.create({
+                title: 'OTP resent',
+                subTitle:'New Otp has been successfully send to your no',
+                buttons: ['Dismiss']
+                // buttons: [{
+                //         text: 'Retry',
+                //         role: 'cancel',
+                //         handler: () => {
+                //         console.log('Cancel clicked');         
+                //         }
+                //     }],
+                    });
+                alert.present();
+  });
+  
+}
 success(f:NgForm){
     if(this.network.noConnection()){
         this.network.showNetworkAlert()
@@ -503,37 +550,7 @@ success(f:NgForm){
                 title: 'Ooops.. :(',
                 subTitle: 'Sorry! This is Not Valid OTP',
                 //buttons: ['Dismiss']
-                buttons: [{
-                  text: 'Resend',
-                  role: 'cancel',
-                  handler: () => {
-                    console.log('Cancel clicked');
-                    let val=Math.floor(100000 + Math.random() * 900000);
-                    let body = JSON.stringify({
-                      number: this.number,
-                      text: "Welcome "+this.name+", Your OTP is "+this.otp+ ". Please Verify to register on ForeHotels"
-                      })
-          
-                      let headers = new Headers({
-                        'Content-Type': 'application/json',
-                        'Authorization': "e36051cb8ca82ee0Lolzippu123456*="
-                      });
-                      let options = new RequestOptions({ headers: headers });
-                      this.http.post("http://forehotels.com:3000/api/send_sms", body, options)
-                            .subscribe(data =>{
-                              console.log('otp');
-                    });
-                    this.navCtrl.push(OtpPage,{
-                      name:this.name,
-                      email:this.email,
-                      number:this.number,
-                      gender:this.gender,
-                      password:this.password,
-                      picture:this.picture,
-                      otp: val,     
-                    },{animate:true,animation:'transition',duration:500,direction:'forward'})
-                  }
-                  },
+                buttons: [
                   { text: 'Retry',
                     role: 'cancel',
                     // handler: () => {

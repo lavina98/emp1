@@ -67,14 +67,15 @@
           <ion-list inset>
             <ion-list no-lines>
               <ion-label class="inputlabel"> Email</ion-label>
-              <ion-input class="inputs" type="email" placeholder="Email" name="email" formControlName="email" required></ion-input>     
+              <ion-input class="inputs" type="email" placeholder="Email" name="email" formControlName="email"  required></ion-input>     
             </ion-list>
 
                   
 
             <ion-list no-lines>
-              <ion-label class="inputlabel"> Password</ion-label>
-              <ion-input class="inputs" type="password" placeholder="Password" name="password" formControlName="password" required></ion-input>
+              <ion-label  class="inputlabel">Password &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ion-icon item-end [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()' style="font-size:32px;"></ion-icon> </ion-label>
+              <ion-input class="inputs" type="password" [type]="passwordType" placeholder="Password" name="password" formControlName="password" required></ion-input>
+              
             </ion-list>            
           </ion-list>
         </ion-col>
