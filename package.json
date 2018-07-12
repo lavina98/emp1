@@ -35,7 +35,7 @@
     "@ionic-native/file-transfer": "^4.7.0",
     "@ionic-native/geolocation": "^4.7.0",
     "@ionic-native/google-analytics": "^4.7.0",
-    "@ionic-native/google-plus": "^4.7.0",
+    "@ionic-native/google-plus": "^4.9.0",
     "@ionic-native/header-color": "^4.7.0",
     "@ionic-native/in-app-browser": "^4.7.0",
     "@ionic-native/native-storage": "^4.7.0",
@@ -47,6 +47,7 @@
     "@ionic-native/toast": "^4.7.0",
     "@ionic/pro": "1.0.20",
     "@ionic/storage": "2.1.3",
+    "angularfire2": "^5.0.0-rc.11",
     "cordova-android": "7.0.0",
     "cordova-plugin-app-version": "^0.1.9",
     "cordova-plugin-calendar": "^5.1.0",
@@ -72,6 +73,7 @@
     "cordova-plugin-x-toast": "^2.6.2",
     "cordova.plugins.diagnostic": "^4.0.7",
     "es6-promise-plugin": "^4.2.2",
+    "firebase": "^5.2.0",
     "ionic-angular": "3.9.2",
     "ionicons": "3.0.0",
     "onesignal-cordova-plugin": "^2.4.1",
@@ -116,7 +118,7 @@
         "ANDROID_SDK_VERSION": "4.+"
       },
       "cordova-plugin-googleplus": {
-        "REVERSED_CLIENT_ID": "com.googleusercontent.apps.638112745534-kfl95m0o49351ooqnb0gp99l579nok6v"
+        "REVERSED_CLIENT_ID": "com.googleusercontent.apps.1000316070734-31bhska7opr87lm5j9gc109n7584g6tl"
       }
     },
     "platforms": [

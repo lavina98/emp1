@@ -67,6 +67,7 @@ import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy';
 import { TermsConditionsPage } from '../pages/terms-conditions/terms-conditions';
 import { MymanagerPage } from "../pages/mymanager/mymanager";
 import { UpdateDesignationPage } from "../pages/update-designation/update-designation";
+import { AuthProvider } from '../providers/auth/auth';
 @NgModule({
   declarations: [
     MyApp,
@@ -182,6 +183,7 @@ import { UpdateDesignationPage } from "../pages/update-designation/update-design
       HeaderColor,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     BackButtonProvider,
+    AuthProvider,
    
 
   ]

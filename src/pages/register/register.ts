@@ -1,8 +1,10 @@
+import { environment } from './../../environment/example.environment';
 import { Component, OnInit } from '@angular/core';
 import { NavController, LoadingController, NavParams, AlertController, Platform, ToastController } from 'ionic-angular';
 import { Validators, FormBuilder, NgForm } from '@angular/forms';
 import { Storage } from '@ionic/storage';
-import { LoginPage } from '../login/login'
+import { LoginPage } from '../login/login';
+import firebase from 'firebase';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { WorkExperiencePage } from '../work-experience/work-experience';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
@@ -29,6 +31,7 @@ export class RegisterPage implements OnInit{
   otp:any;
   checkusers:any
   http:any
+  userProfile:any;
   googleemail='';
   googlename=' ';
   invalid:boolean;
@@ -53,6 +56,13 @@ export class RegisterPage implements OnInit{
               private t:ToastController,
               private facebook: Facebook
              ) {
+              firebase.auth().onAuthStateChanged( user => {
+                if (user){
+                  this.userProfile = user;
+                } else { 
+                    this.userProfile = null;
+                }
+              });
               this.http = http  
   this.registrationForm = this.form.group({
         "name":["", Validators.compose([Validators.maxLength(30),Validators.minLength(5),Validators.pattern('[a-zA-Z ]*'),Validators.required])],
@@ -175,6 +185,52 @@ this.email=this.navParams.get('googleemail');
 
   });
 }
+googleLogin(): Promise<any> {
+  return new Promise((resolve, reject) => { 
+    let loading = this.loadingCtrl.create({
+      spinner:'bubbles',
+      content: 'Please wait...'
+    });
+    loading.present();
+      this.googleplus.login({
+        'webClientId': '1000316070734-31bhska7opr87lm5j9gc109n7584g6tl.apps.googleusercontent.com',
+        'offline': true
+      }).then( res => {
+              const googleCredential = firebase.auth.GoogleAuthProvider
+                  .credential(res.idToken);
+
+              firebase.auth().signInWithCredential(googleCredential)
+            .then( response => {
+                console.log("Firebase success: " + JSON.stringify(response));
+                let env = this;
+                loading.dismiss();
+                this.email=res.email;
+                this.name=res.displayName;
+                env.nativestorage.setItem('user', {
+                  name: res.displayName,
+                  email: res.email
+                })
+                .then(
+                  () => {console.log('Stored item!');
+                    env.storage.get('user').then((user)=>{
+                      console.log(user.name+' '+user.email);
+                      this.navCtrl.push(RegisterPage,{googlename:this.name,googleemail:this.email})
+                    },
+                    error => console.error('Error storing item', error)
+                    );  
+                  }
+                )
+                .catch((err) => {console.error(err)
+                  loading.dismiss();}
+                );
+                resolve(response)
+            });
+      }, err => {
+          console.error("Error: ", err)
+          reject(err);
+      });
+    });
+    }
 doGoogleLogin(){
   if(this.network.noConnection()){
         this.network.showNetworkAlert()
@@ -189,15 +245,11 @@ doGoogleLogin(){
         loading.present();
         console.log('1-------------');
         this.googleplus.login({
-          'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
-          'webClientId':'' ,//'638112745534-kfl95m0o49351ooqnb0gp99l579nok6v.apps.googleusercontent.com ', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+          'webClientId': environment.clientID,
           'offline': true
-        })
-      .then((res) =>{ console.log(JSON.stringify(res));
-        this.email=res.email;
-        this.name=res.displayName;
-        console.log( res.displayName+'  '+res.email)
-        u=res;
+        }).then(res => { console.log(JSON.stringify(res));
+          this.email=res.email;
+          this.name=res.displayName;
         loading.dismiss();
         env.nativestorage.setItem('user', {
               name: res.displayName,
@@ -270,48 +322,10 @@ doGoogleLogin(){
       )};
 }
 googlesingup(googleName,googleEmail,picture){
-   let loader = this.loadingCtrl.create({
-     spinner: 'bubbles',
-     content: 'Please Wait...'
-   })
-    loader.present()
-   var email_checker = false;
-    this.storage.get("Hash").then((hash)=>{   
-      let headers = new Headers({
-      'Content-Type': 'application/json',
-      'Authorization': hash
-    });     
-    let options = new RequestOptions({ headers: headers });
-    this.http.get("http://forehotels.com:3000/api/employee", options)
-            .subscribe(data =>{
-            this.checkusers=JSON.parse(data._body).Users;//Bind data to items object
-            for(let item of this.checkusers ){
-                if(item.email == googleEmail){
-                email_checker = true;
-                }
-              }
-              if(email_checker == true){
-                loader.dismiss()
-                let alert = this.alerCtrl.create({
-                message: 'This email already exists',
-                buttons: [{
-                    text: 'Go to Login',
-                    handler: () => {
-                      this.navCtrl.push(LoginPage)
-                    }
-                  }]
-              });
-                alert.present();
-              }
-              else{
-                loader.dismiss()
                 this.name =  googleName
                 this.email = googleEmail
                 this.picture = picture
                 this.view = true;  
-              }  
-            }); 
-    });     
 }
 
 doFbLogin(){
