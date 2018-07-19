@@ -95,7 +95,7 @@ image:any;
     this.rootPage = IntroPage;
     this.storage.get('loggedIn').then((id) => {
        if(id == true){
-         this.rootPage = IntroPage;
+         this.rootPage = DashboardPage;
          let datewa = new Date().toISOString()
          
          console.log('Date '+datewa)

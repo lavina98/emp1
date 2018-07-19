@@ -185,15 +185,11 @@ this.email=this.navParams.get('googleemail');
 
   });
 }
+
 googleLogin(): Promise<any> {
   return new Promise((resolve, reject) => { 
-    let loading = this.loadingCtrl.create({
-      spinner:'bubbles',
-      content: 'Please wait...'
-    });
-    loading.present();
       this.googleplus.login({
-        'webClientId': '1000316070734-31bhska7opr87lm5j9gc109n7584g6tl.apps.googleusercontent.com',
+        'webClientId': '731531002628-3dn3agrnhv5858guq3vflbkeuo2hk0mj.apps.googleusercontent.com',
         'offline': true
       }).then( res => {
               const googleCredential = firebase.auth.GoogleAuthProvider
@@ -202,27 +198,24 @@ googleLogin(): Promise<any> {
               firebase.auth().signInWithCredential(googleCredential)
             .then( response => {
                 console.log("Firebase success: " + JSON.stringify(response));
-                let env = this;
-                loading.dismiss();
                 this.email=res.email;
                 this.name=res.displayName;
+                let env = this;
                 env.nativestorage.setItem('user', {
                   name: res.displayName,
                   email: res.email
+                }).then(function(){    
+                  let tst=this.t.create(
+                        {
+                            message:'login '+res.displayName,
+                            duration:3000
+                        }
+                      );
+                      tst.present();     
+                  this.navCtrl.push(RegisterPage,{googlename:this.name,googleemail:this.email})
+                }, function (error) {
+                  console.log(error);
                 })
-                .then(
-                  () => {console.log('Stored item!');
-                    env.storage.get('user').then((user)=>{
-                      console.log(user.name+' '+user.email);
-                      this.navCtrl.push(RegisterPage,{googlename:this.name,googleemail:this.email})
-                    },
-                    error => console.error('Error storing item', error)
-                    );  
-                  }
-                )
-                .catch((err) => {console.error(err)
-                  loading.dismiss();}
-                );
                 resolve(response)
             });
       }, err => {
@@ -231,6 +224,7 @@ googleLogin(): Promise<any> {
       });
     });
     }
+
 doGoogleLogin(){
   if(this.network.noConnection()){
         this.network.showNetworkAlert()
@@ -246,7 +240,7 @@ doGoogleLogin(){
         console.log('1-------------');
         this.googleplus.login({
           'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
-          'webClientId':'',//638112745534-kfl95m0o49351ooqnb0gp99l579nok6v.apps.googleusercontent.com ', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+          'webClientId':'731531002628-q1gcj76us2tp3nb92e8r8lrrsa8jglpp.apps.googleusercontent.com',//638112745534-kfl95m0o49351ooqnb0gp99l579nok6v.apps.googleusercontent.com ', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
           'offline': true
         })
       .then((res) =>{ console.log(JSON.stringify(res));
@@ -332,15 +326,68 @@ doGoogleLogin(){
                   // );
                   // tst.present();
         // });
- 
+  
+}
+newGoogle(){
+  let nav = this.navCtrl;
+        let env = this;
+        let loading = this.loadingCtrl.create({
+          spinner:'bubbles',
+          content: 'Please wait...1'
+        });
+  //731531002628-q1gcj76us2tp3nb92e8r8lrrsa8jglpp
+  //731531002628-t924e8d204kgsne043lbnt93iqrs745h.apps.googleusercontent.com
+  this.googleplus.login({
+          'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
+          'webClientId': '731531002628-q1gcj76us2tp3nb92e8r8lrrsa8jglpp.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+          'offline': true
+        })
+        .then(function (user) {
+          loading.dismiss();
+          let l1= this.loadingCtrl.create({
+            spinner:'bubbles',
+            content: user
+          });
+         l1.present();
+          env.nativestorage.setItem('user', {
+            name: user.displayName,
+            email: user.email,
+            picture: user.imageUrl
+          })
+          .then(
+            ()=>{
+            env.googlesingup(user.displayName,user.email,user.imageUrl)
+          },
+            (error) =>{
+            console.log(error);
+          })
+        }, 
+        (error)=> {
+          let tst=this.t.create(
+            {
+                message:'no login1 ----->'+error,
+                duration:3000
+            }
+          );
+          tst.present();
+        })
+        .catch((err)=>{
+                  console.log(err);
+                  let tst=this.t.create(
+                    {
+                        message:'no login2 ----->'+err,
+                        duration:3000
+                    }
+                  );
+                  tst.present();
+        });
 }
 googlesingup(googleName,googleEmail,picture){
                 this.name =  googleName
                 this.email = googleEmail
                 this.picture = picture
-                this.view = true;  
+                this.view = true;      
 }
-
 doFbLogin(){
   if(this.network.noConnection()){
          this.network.showNetworkAlert()

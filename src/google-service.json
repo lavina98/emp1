@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "731531002628",
+    "firebase_url": "https://forehotels-hotel-1528104126895.firebaseio.com",
+    "project_id": "forehotels-hotel-1528104126895",
+    "storage_bucket": "forehotels-hotel-1528104126895.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:731531002628:android:b2513486b7458efa",
+        "android_client_info": {
+          "package_name": "com.fore.v100"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "731531002628-htahs1v5g4l9h5kftihu0k7fnmvo2jca.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fore.v100",
+            "certificate_hash": "3ac15c3d6636e66f3eb88111e2373bf28631d730"
+          }
+        },
+        {
+          "client_id": "731531002628-3dn3agrnhv5858guq3vflbkeuo2hk0mj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8lPF_2cwknab1CHLGX58rsdYKZ3WD_QU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "731531002628-3dn3agrnhv5858guq3vflbkeuo2hk0mj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
